@@ -1,422 +1,451 @@
-# Data Model: miniRT Ray Tracing
+# Data Model: CI/CD Pipeline Entities
 
-**Date**: 2025-12-15  
-**Feature**: miniRT - Ray Tracing 3D Renderer  
-**Purpose**: Define core entities, structures, and relationships
+**Feature**: CI/CD Pipeline 구축 및 GitHub 워크플로우 개선
+**Date**: 2025-12-15
 
-## Core Entities
+## Overview
 
-### 1. Vector (t_vec3)
-
-**Purpose**: Fundamental 3D coordinate and direction representation
-
-**Fields**:
-- `x` (double): X-axis component
-- `y` (double): Y-axis component  
-- `z` (double): Z-axis component
-
-**Validation Rules**:
-- No range restrictions for position vectors
-- Direction/normal vectors MUST be normalized (magnitude = 1.0, tolerance ±0.01)
-
-**Operations**:
-- Addition, subtraction, scalar multiplication
-- Dot product, cross product
-- Normalization, magnitude calculation
-
-**Relationships**:
-- Used by: Camera, Light, Sphere, Plane, Cylinder, Ray
-- Basis for all spatial calculations
+This document defines the data structures and entities that comprise the CI/CD pipeline system for miniRT. These entities represent workflow configurations, test artifacts, and validation rules.
 
 ---
 
-### 2. Color (t_color)
+## Entity 1: GitHub Actions Workflow
 
-**Purpose**: RGB color representation in integer format
+Represents a CI/CD workflow executed by GitHub Actions.
 
-**Fields**:
-- `r` (int): Red channel [0-255]
-- `g` (int): Green channel [0-255]
-- `b` (int): Blue channel [0-255]
+### Attributes
 
-**Validation Rules**:
-- Each channel MUST be in range [0, 255]
-- Invalid values trigger parse error
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `name` | string | Yes | Workflow display name | Non-empty, alphanumeric with spaces |
+| `on` | object | Yes | Trigger events | Valid GitHub event types |
+| `jobs` | map<string, Job> | Yes | Named jobs to execute | At least 1 job |
+| `env` | map<string, string> | No | Global environment variables | Key-value pairs |
+| `permissions` | object | No | GitHub token permissions | Valid permission scopes |
 
-**Operations**:
-- Convert to floating point for lighting calculations
-- Multiply by lighting intensity
-- Clamp to valid range after calculations
+### Example
+```yaml
+name: CI Pipeline
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make
+```
 
-**Relationships**:
-- Used by: Ambient light, Point light, all geometric objects
+### State Transitions
+```
+Created → Queued → In Progress → Completed (Success/Failure/Cancelled)
+```
+
+### Relationships
+- Workflow **contains many** Jobs
+- Workflow **triggered by** GitHub Events
+- Workflow **produces** Artifacts
 
 ---
 
-### 3. Ambient Light (t_ambient)
+## Entity 2: Job
 
-**Purpose**: Global base illumination for entire scene
+Represents a single job within a workflow, running on a specific runner.
 
-**Fields**:
-- `ratio` (double): Brightness multiplier [0.0-1.0]
-- `color` (t_color): RGB color of ambient light
+### Attributes
 
-**Validation Rules**:
-- Ratio MUST be in range [0.0, 1.0]
-- MUST appear exactly once in scene file
-- Color channels MUST be [0-255]
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `runs-on` | string | Yes | Runner type | Valid runner label (ubuntu-latest, etc.) |
+| `steps` | array<Step> | Yes | Sequential steps to execute | At least 1 step |
+| `needs` | array<string> | No | Job dependencies | Must reference existing job names |
+| `if` | string | No | Conditional execution | Valid GitHub expression |
+| `timeout-minutes` | integer | No | Max execution time | 1-360, default 360 |
+| `strategy` | object | No | Matrix strategy | Valid matrix configuration |
 
-**Scene File Format**:
+### Example
+```yaml
+build:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: make
+    - name: Test
+      run: make test
 ```
-A  <ratio>  <R,G,B>
-Example: A  0.2  255,255,255
-```
 
-**State Transitions**: None (static after parsing)
+### Validation Rules
+- Job name must be unique within workflow
+- If `needs` specified, referenced jobs must exist
+- Total job execution time < 6 hours
+- Steps execute sequentially; failure stops job unless `continue-on-error: true`
 
-**Relationships**:
-- One per scene (singleton)
-- Applied to all rendered surfaces
+### Relationships
+- Job **belongs to** Workflow
+- Job **contains many** Steps
+- Job **may depend on** other Jobs
 
 ---
 
-### 4. Camera (t_camera)
+## Entity 3: Step
 
-**Purpose**: Defines viewpoint and projection parameters
+Represents a single executable step within a job.
 
-**Fields**:
-- `position` (t_vec3): Camera position in 3D space
-- `orientation` (t_vec3): Normalized viewing direction vector
-- `fov` (double): Horizontal field of view in degrees [0-180]
+### Attributes
 
-**Validation Rules**:
-- Orientation vector MUST be normalized
-- FOV MUST be in range [0, 180]
-- MUST appear exactly once in scene file
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `name` | string | No | Step display name | Human-readable identifier |
+| `uses` | string | Conditional | Pre-built action to run | Valid action reference (owner/repo@version) |
+| `run` | string | Conditional | Shell command(s) to execute | Non-empty string if `uses` not present |
+| `with` | map<string, string> | No | Action input parameters | Required inputs for specified action |
+| `env` | map<string, string> | No | Environment variables | Overrides job/workflow env |
+| `if` | string | No | Conditional execution | Valid GitHub expression |
+| `continue-on-error` | boolean | No | Allow failure | Default false |
 
-**Scene File Format**:
+### Validation Rules
+- Must specify exactly one of `uses` or `run` (mutually exclusive)
+- If `uses` specified, `with` may be required per action documentation
+- Shell commands in `run` must use valid bash syntax
+- Environment variables accessible via `${{ env.VAR_NAME }}`
+
+### Example
+```yaml
+- name: Install norminette
+  run: pip3 install norminette
+
+- name: Checkout code
+  uses: actions/checkout@v3
+  with:
+    fetch-depth: 0
 ```
-C  <x,y,z>  <norm_x,norm_y,norm_z>  <fov>
-Example: C  0,0,0  0,0,1  90
-```
 
-**Derived Properties**:
-- Viewport dimensions calculated from FOV
-- Camera coordinate system (up, right vectors) derived from orientation
-
-**State Transitions**: None (static after parsing)
-
-**Relationships**:
-- One per scene (singleton)
-- Used by rendering engine to generate rays
+### Relationships
+- Step **belongs to** Job
+- Step **may use** GitHub Action
+- Step **produces** Logs and Artifacts
 
 ---
 
-### 5. Point Light (t_light)
+## Entity 4: Issue Template
 
-**Purpose**: Directional light source with position and intensity
+Represents a structured form for creating GitHub issues.
 
-**Fields**:
-- `position` (t_vec3): Light position in 3D space
-- `brightness` (double): Light intensity ratio [0.0-1.0]
-- `color` (t_color): RGB color of light
+### Attributes
 
-**Validation Rules**:
-- Brightness MUST be in range [0.0, 1.0]
-- MUST appear exactly once in scene file (mandatory part)
-- Color channels MUST be [0-255]
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `name` | string | Yes | Template display name | Non-empty, displayed in issue creation UI |
+| `about` | string | Yes | Template description | Brief explanation of when to use |
+| `title` | string | No | Default issue title | Prefix like "[BUG]" or "[FEATURE]" |
+| `labels` | array<string> | No | Auto-applied labels | Must match existing labels in repo |
+| `assignees` | array<string> | No | Auto-assigned users | Must be valid GitHub usernames |
+| `body` | string | Yes | Template markdown content | Must include sections for required info |
 
-**Scene File Format**:
+### Example
+```markdown
+---
+name: Bug Report
+about: 버그를 제보해주세요
+title: '[BUG] '
+labels: [bug]
+assignees: []
+---
+
+## 버그 설명
+[Description here]
+
+## 재현 단계
+1. Step 1
+2. Step 2
+
+## 환경
+- OS:
+- Compiler:
 ```
-L  <x,y,z>  <brightness>  <R,G,B>
-Example: L  -40,50,0  0.6  255,255,255
-```
 
-**State Transitions**: None (static after parsing)
+### Validation Rules
+- Template file must be named with `.md` extension
+- Must be placed in `.github/ISSUE_TEMPLATE/` directory
+- Front matter (between `---`) must be valid YAML
+- Body must provide clear sections for user input
 
-**Relationships**:
-- One per scene (mandatory part)
-- Used for diffuse lighting and shadow calculations
+### Relationships
+- Issue Template **creates** GitHub Issue
+- Issue Template **applies** Labels automatically
+- Issue Template **assigns** Users automatically
 
 ---
 
-### 6. Sphere (t_sphere)
+## Entity 5: Pull Request Template
 
-**Purpose**: Spherical geometric object
+Represents a structured form for creating pull requests.
 
-**Fields**:
-- `center` (t_vec3): Center position in 3D space
-- `diameter` (double): Sphere diameter (must be positive)
-- `color` (t_color): Surface RGB color
+### Attributes
 
-**Validation Rules**:
-- Diameter MUST be > 0
-- Color channels MUST be [0-255]
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `body` | string | Yes | Template markdown content | Must include checklist and description sections |
 
-**Scene File Format**:
+### Example
+```markdown
+## 변경사항 / Changes
+[Description of changes]
+
+## 관련 이슈 / Related Issues
+Closes #123
+
+## 체크리스트 / Checklist
+- [ ] Norminette passes
+- [ ] Tests pass
+- [ ] Documentation updated
 ```
-sp  <x,y,z>  <diameter>  <R,G,B>
-Example: sp  0,0,20  20  255,0,0
-```
 
-**Derived Properties**:
-- Radius = diameter / 2.0
+### Validation Rules
+- Must be named `PULL_REQUEST_TEMPLATE.md`
+- Must be placed in `.github/` or `.github/PULL_REQUEST_TEMPLATE/`
+- Should include checklist with `- [ ]` syntax
+- Should reference related issues with `Closes #` or `Fixes #`
 
-**Intersection Math**:
-- Quadratic equation: at² + bt + c = 0
-- Surface normal: (hit_point - center) / radius
-
-**State Transitions**: None (static after parsing)
-
-**Relationships**:
-- Multiple spheres allowed per scene
-- Part of scene object list
+### Relationships
+- PR Template **creates** Pull Request
+- Pull Request **triggers** CI Workflows
+- Pull Request **references** Issues
 
 ---
 
-### 7. Plane (t_plane)
+## Entity 6: Commit Message
 
-**Purpose**: Infinite flat surface
+Represents a structured commit message following Conventional Commits.
 
-**Fields**:
-- `point` (t_vec3): Any point on the plane
-- `normal` (t_vec3): Normalized vector perpendicular to surface
-- `color` (t_color): Surface RGB color
+### Attributes
 
-**Validation Rules**:
-- Normal vector MUST be normalized
-- Color channels MUST be [0-255]
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `type` | string | Yes | Commit type | One of: feat, fix, docs, style, refactor, test, chore |
+| `scope` | string | No | Component scope | Alphanumeric, describes affected component |
+| `subject` | string | Yes | Short description | Max 72 chars, lowercase, no period |
+| `body` | string | No | Detailed description | Multi-line, explains what/why |
+| `footer` | string | No | Issue references | Format: "Refs: #123" or "Fixes: #456" |
 
-**Scene File Format**:
+### Format
 ```
-pl  <x,y,z>  <norm_x,norm_y,norm_z>  <R,G,B>
-Example: pl  0,-10,0  0,1,0  200,200,200
-```
+<type>(<scope>): <subject>
 
-**Intersection Math**:
-- t = [(point - ray.origin) · normal] / (ray.direction · normal)
-- Surface normal: plane.normal (constant across entire plane)
+<body>
 
-**State Transitions**: None (static after parsing)
-
-**Relationships**:
-- Multiple planes allowed per scene
-- Part of scene object list
-
----
-
-### 8. Cylinder (t_cylinder)
-
-**Purpose**: Finite cylindrical object with caps
-
-**Fields**:
-- `center` (t_vec3): Center position of cylinder
-- `axis` (t_vec3): Normalized axis direction vector
-- `diameter` (double): Cylinder diameter (must be positive)
-- `height` (double): Cylinder height along axis (must be positive)
-- `color` (t_color): Surface RGB color
-
-**Validation Rules**:
-- Axis vector MUST be normalized
-- Diameter MUST be > 0
-- Height MUST be > 0
-- Color channels MUST be [0-255]
-
-**Scene File Format**:
-```
-cy  <x,y,z>  <axis_x,axis_y,axis_z>  <diameter>  <height>  <R,G,B>
-Example: cy  0,0,0  0,1,0  10  20  0,255,0
+<footer>
 ```
 
-**Derived Properties**:
-- Radius = diameter / 2.0
-- Bottom cap center: center
-- Top cap center: center + axis * height
+### Validation Rules
+- Type must match enum: `feat|fix|docs|style|refactor|test|chore`
+- Scope optional but recommended: `parser`, `render`, `math`, etc.
+- Subject must start with lowercase letter
+- Subject must not end with period
+- Subject max length: 72 characters
+- Footer must reference issue: `Refs: #\d+` or `Fixes: #\d+` or `Closes: #\d+`
 
-**Intersection Math**:
-- Cylindrical surface: quadratic equation in projected space
-- Top/bottom caps: plane intersection + radius check
-- Surface normal: varies by intersection type (body vs caps)
-
-**State Transitions**: None (static after parsing)
-
-**Relationships**:
-- Multiple cylinders allowed per scene
-- Part of scene object list
-
----
-
-### 9. Ray (t_ray)
-
-**Purpose**: Mathematical ray for tracing and intersection tests
-
-**Fields**:
-- `origin` (t_vec3): Ray starting point
-- `direction` (t_vec3): Normalized ray direction vector
-
-**Validation Rules**:
-- Direction MUST be normalized
-
-**Creation Contexts**:
-- Camera rays: generated from camera position through viewport pixels
-- Shadow rays: from surface point toward light source
-- Reflection rays: (bonus feature, not in mandatory part)
-
-**Operations**:
-- Point at distance t: origin + t * direction
-- Intersection tests with all geometric objects
-
-**State Transitions**: Created dynamically during rendering, not stored
-
-**Relationships**:
-- Used by rendering engine and intersection tests
-- Not part of scene file (runtime construct)
-
----
-
-### 10. Intersection (t_hit)
-
-**Purpose**: Result of ray-object intersection calculation
-
-**Fields**:
-- `distance` (double): Distance from ray origin to hit point (t value)
-- `point` (t_vec3): 3D coordinates of intersection point
-- `normal` (t_vec3): Surface normal at intersection (normalized)
-- `color` (t_color): Object color at intersection
-- `hit` (bool/int): Whether intersection occurred
-
-**Validation Rules**:
-- Distance MUST be positive (intersections behind camera rejected)
-- Normal MUST be normalized
-- Normal MUST face toward ray origin (for proper lighting)
-
-**State Transitions**:
-- Created during intersection test
-- Used for lighting calculation
-- Discarded after pixel color determined
-
-**Relationships**:
-- Generated by object intersection functions
-- Consumed by lighting calculation functions
-- Not stored persistently
-
----
-
-### 11. Scene (t_scene)
-
-**Purpose**: Container for all scene data
-
-**Fields**:
-- `ambient` (t_ambient): Ambient light settings
-- `camera` (t_camera): Camera configuration
-- `light` (t_light): Point light source
-- `spheres` (t_sphere[]): Dynamic array of spheres
-- `sphere_count` (int): Number of spheres
-- `planes` (t_plane[]): Dynamic array of planes
-- `plane_count` (int): Number of planes
-- `cylinders` (t_cylinder[]): Dynamic array of cylinders
-- `cylinder_count` (int): Number of cylinders
-
-**Validation Rules**:
-- Ambient, camera, light MUST each exist exactly once
-- Object arrays can be empty or contain multiple objects
-- Memory must be allocated for dynamic arrays
-
-**Construction**:
-- Built during scene file parsing
-- Validated after parsing completes
-
-**State Transitions**:
-- Parsing → Validation → Rendering → Cleanup
-
-**Relationships**:
-- Root container for entire scene graph
-- Referenced by rendering engine
-- Cleaned up on program exit
-
----
-
-### 12. Render Context (t_render)
-
-**Purpose**: Runtime rendering state and resources
-
-**Fields**:
-- `mlx` (void*): MinilibX instance pointer
-- `win` (void*): Window pointer
-- `img` (void*): Image buffer pointer
-- `img_data` (char*): Direct pixel buffer access
-- `width` (int): Window width in pixels
-- `height` (int): Window height in pixels
-- `bits_per_pixel` (int): Color depth
-- `line_length` (int): Bytes per image line
-- `endian` (int): Byte order
-
-**Validation Rules**:
-- Width and height MUST be positive
-- Pointers MUST be valid after initialization
-
-**State Transitions**:
-- Initialize → Render → Display → Event Loop → Cleanup
-
-**Relationships**:
-- Manages MinilibX resources
-- References scene data
-- Cleaned up on program exit
-
----
-
-## Entity Relationships Diagram
-
+### Example
 ```
-Scene (1)
-├── Ambient (1) ─────────────┐
-├── Camera (1) ──────────────┤
-├── Light (1) ───────────────┤
-├── Spheres (*) ─────────────┤── All use Color
-├── Planes (*) ──────────────┤── All use Vec3
-└── Cylinders (*) ───────────┘
+feat(parser): add cylinder orientation parsing
 
-Render Context (1)
-├── References Scene
-├── Manages MinilibX resources
-└── Generates Rays → Intersections → Colors
+Implements parsing of normalized axis vector for cylinder
+elements in scene files. Validates vector magnitude is 1.0.
+
+Refs: #42
+```
+
+### Relationships
+- Commit **references** Issue
+- Commit **belongs to** Branch
+- Commit **triggers** CI Workflow (when pushed)
+
+---
+
+## Entity 7: Norminette Check Result
+
+Represents the result of a norminette style check.
+
+### Attributes
+
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `file_path` | string | Yes | Path to checked file | Relative path from repo root |
+| `status` | string | Yes | Check result | "OK" or "Error" |
+| `violations` | array<Violation> | No | List of style violations | Empty if status is "OK" |
+| `total_files` | integer | Yes | Number of files checked | Positive integer |
+| `passed_files` | integer | Yes | Files with no violations | <= total_files |
+
+### Violation Sub-Entity
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `line` | integer | Yes | Line number with violation |
+| `column` | integer | Yes | Column number with violation |
+| `code` | string | Yes | Norminette error code |
+| `message` | string | Yes | Human-readable error message |
+
+### Example
+```json
+{
+  "file_path": "src/parser/parser.c",
+  "status": "Error",
+  "violations": [
+    {
+      "line": 42,
+      "column": 80,
+      "code": "TOO_MANY_LINES",
+      "message": "Function exceeds 25 lines"
+    }
+  ]
+}
+```
+
+### Validation Rules
+- Status must be "OK" or "Error"
+- If status is "Error", violations array must be non-empty
+- If status is "OK", violations array must be empty
+- passed_files <= total_files
+
+### State Transitions
+```
+Pending → Running → Completed (OK/Error)
+```
+
+### Relationships
+- Norminette Check **validates** Source File
+- Norminette Check **blocks** Pull Request (if failed)
+- Norminette Check **reports to** CI Workflow
+
+---
+
+## Entity 8: Release
+
+Represents a versioned release of the miniRT software.
+
+### Attributes
+
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `tag_name` | string | Yes | Version tag | Semantic version: v{MAJOR}.{MINOR}.{PATCH} |
+| `name` | string | Yes | Release name | Human-readable title |
+| `body` | string | Yes | Release notes | Markdown-formatted changelog |
+| `draft` | boolean | No | Draft status | Default false |
+| `prerelease` | boolean | No | Pre-release flag | Default false |
+| `assets` | array<Asset> | Yes | Attached binaries | At least miniRT executable |
+| `created_at` | timestamp | Yes | Creation timestamp | ISO 8601 format |
+| `published_at` | timestamp | No | Publication timestamp | ISO 8601 format |
+
+### Asset Sub-Entity
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Asset filename |
+| `size` | integer | Yes | File size in bytes |
+| `download_url` | string | Yes | Public download URL |
+| `content_type` | string | Yes | MIME type |
+
+### Example
+```yaml
+tag_name: v1.2.3
+name: miniRT v1.2.3 - Cylinder Caps Fix
+body: |
+  ## Features
+  - feat(render): add specular lighting support
+  
+  ## Bug Fixes
+  - fix(ray): correct cylinder cap intersection
+  
+  ## Documentation
+  - docs: update Korean implementation guide
+assets:
+  - name: miniRT
+    size: 245760
+    content_type: application/octet-stream
+```
+
+### Validation Rules
+- Tag name must match pattern: `v\d+\.\d+\.\d+`
+- Tag must not already exist in repository
+- Assets must include compiled `miniRT` binary
+- Release body should be auto-generated from commit messages
+
+### Relationships
+- Release **tagged from** Commit
+- Release **includes** Binary Assets
+- Release **generated by** Release Workflow
+
+---
+
+## Data Flow Diagrams
+
+### CI Workflow Data Flow
+```
+Push/PR Event → Workflow Triggered → Jobs Execute → Steps Run → 
+Norminette Check → Build → Test → Result (Pass/Fail) → 
+PR Status Updated → Merge Decision
+```
+
+### Release Workflow Data Flow
+```
+Version Tag Pushed → Release Workflow Triggered → 
+Clean Build → Artifacts Collected → 
+Release Created → Assets Uploaded → 
+Release Published
+```
+
+### Issue/PR Template Flow
+```
+User Clicks "New Issue" → Template Selection → 
+Form Pre-filled → User Fills Remaining Fields → 
+Issue Created → Labels/Assignees Applied → 
+CI Workflow Triggered (if PR)
 ```
 
 ---
 
-## Memory Management
+## Validation Summary
 
-**Allocation Strategy**:
-1. Parse scene file → allocate Scene structure
-2. Dynamic arrays for objects (realloc as needed)
-3. Initialize MinilibX resources
-4. Render image buffer
+All entities enforce validation at multiple levels:
 
-**Deallocation Order** (reverse allocation):
-1. Destroy MinilibX image
-2. Destroy MinilibX window
-3. Destroy/free MinilibX display
-4. Free scene object arrays
-5. Free scene structure
+1. **Schema Validation**: YAML syntax, required fields, data types
+2. **Business Logic Validation**: Semantic rules (e.g., tag naming, commit format)
+3. **Relationship Validation**: Foreign key integrity (job dependencies, issue references)
+4. **GitHub API Validation**: Final validation when creating resources via API
 
-**Ownership Rules**:
-- Scene owns all geometric objects
-- Render context owns MinilibX resources
-- Main function owns both scene and render context
-- Cleanup function handles all deallocations
+CI pipeline enforces these validations automatically, failing builds when violations detected.
 
 ---
 
-## Summary
+## Storage
 
-**Core Data Structures**: 12 entities defined
-- **Singletons**: Ambient, Camera, Light (1 per scene)
-- **Collections**: Spheres, Planes, Cylinders (0-N per scene)
-- **Computed**: Ray, Intersection (runtime only)
-- **Containers**: Scene, Render Context (lifecycle managers)
+- **Workflow Definitions**: Stored as YAML files in `.github/workflows/`
+- **Issue Templates**: Stored as Markdown files in `.github/ISSUE_TEMPLATE/`
+- **PR Template**: Stored as `PULL_REQUEST_TEMPLATE.md` in `.github/`
+- **Workflow Runs**: Stored in GitHub Actions run history (90-day retention)
+- **Releases**: Stored in GitHub Releases (permanent)
+- **Artifacts**: Stored in GitHub Actions artifacts (90-day retention unless in release)
 
-**Total Structure Count**: ~12 struct definitions
-**Validation Points**: Parsing (ranges, normalization), Pre-render (completeness)
-**Memory Model**: Explicit allocation/deallocation, no garbage collection
+---
 
-**Next Steps**: Create API contracts for rendering pipeline and scene file format
+## Performance Considerations
+
+- **Workflow Caching**: Cache MinilibX build to speed up subsequent runs
+- **Parallel Jobs**: Run norminette, build, and test in parallel where possible
+- **Incremental Builds**: Use ccache for C compilation caching
+- **Test Optimization**: Run fast unit tests before slow integration tests
+- **Resource Limits**: Stay within GitHub Actions free tier limits (2000 min/month)
+
+---
+
+## Security Considerations
+
+- **Secret Management**: No secrets required for this project (public repo)
+- **Permission Scoping**: Workflows use minimal required permissions
+- **Branch Protection**: Prevent direct pushes to main, require PR reviews
+- **Dependency Scanning**: Pin action versions (@v3) to prevent supply chain attacks
+- **Code Injection**: Avoid using `${{ github.event.issue.title }}` in shell commands

@@ -1,0 +1,499 @@
+# Pull Request Validation Contract
+
+**Workflow**: `.github/workflows/pr-validation.yml`
+**Purpose**: Additional PR-specific validations (commit format, issue linkage, PR template compliance)
+**Triggers**: Pull request opened, synchronized, or reopened
+
+---
+
+## Contract Specification
+
+### Input Events
+
+```yaml
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+```
+
+### Job: validate-commits
+
+**Purpose**: Ensure all commits in PR follow Conventional Commits format and reference issues
+
+**Steps**:
+1. Checkout PR code
+2. Fetch base branch for comparison
+3. Extract commit messages from PR
+4. Validate each commit format
+5. Verify issue references
+
+**Exit Conditions**:
+- ✅ Success: All commits valid, all reference issues
+- ❌ Failure: Invalid format or missing issue references
+
+**Contract**:
+```yaml
+validate-commits:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch full history
+        
+    - name: Fetch base branch
+      run: |
+        git fetch origin ${{ github.base_ref }}
+        
+    - name: Validate commit messages
+      run: |
+        commits=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%H")
+        failed=0
+        
+        for commit in $commits; do
+          msg=$(git log -1 --pretty=%B $commit)
+          
+          # Check Conventional Commits format
+          if ! echo "$msg" | head -1 | grep -qE '^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .+'; then
+            echo "❌ Commit $commit does not follow Conventional Commits"
+            echo "   Message: $(git log -1 --pretty=%s $commit)"
+            failed=1
+          fi
+          
+          # Check issue reference
+          if ! echo "$msg" | grep -qE '(Refs|Fixes|Closes): #[0-9]+'; then
+            echo "❌ Commit $commit does not reference an issue"
+            echo "   Message: $(git log -1 --pretty=%s $commit)"
+            failed=1
+          fi
+        done
+        
+        if [ $failed -eq 1 ]; then
+          echo ""
+          echo "Commit format guide:"
+          echo "  <type>(<scope>): <subject>"
+          echo "  "
+          echo "  <body>"
+          echo "  "
+          echo "  Refs: #<issue-number>"
+          exit 1
+        fi
+        
+        echo "✅ All commits follow Conventional Commits and reference issues"
+```
+
+**Postconditions**:
+- All commits validated
+- Clear error messages if violations found
+- PR status check updated
+
+---
+
+### Job: validate-pr-template
+
+**Purpose**: Ensure PR description follows template and includes required sections
+
+**Steps**:
+1. Extract PR body
+2. Check for required sections (변경사항, 관련 이슈, 체크리스트, 테스트 방법)
+3. Verify issue linkage in body
+4. Verify checklist present
+
+**Exit Conditions**:
+- ✅ Success: PR uses template, includes all sections
+- ❌ Failure: Missing sections or incomplete template
+
+**Contract**:
+```yaml
+validate-pr-template:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Validate PR description
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          const body = pr.body || '';
+          
+          const required = [
+            '## 변경사항',
+            '## 관련 이슈',
+            '## 체크리스트',
+            '## 테스트 방법'
+          ];
+          
+          const missing = required.filter(section => !body.includes(section));
+          
+          if (missing.length > 0) {
+            core.setFailed(`PR template incomplete. Missing sections: ${missing.join(', ')}`);
+            return;
+          }
+          
+          // Check for issue reference
+          if (!body.match(/(Closes|Fixes|Refs) #\d+/)) {
+            core.setFailed('PR must reference an issue using Closes #, Fixes #, or Refs #');
+            return;
+          }
+          
+          // Check for checklist
+          if (!body.includes('- [ ]') && !body.includes('- [x]')) {
+            core.setFailed('PR must include checklist items');
+            return;
+          }
+          
+          console.log('✅ PR template validation passed');
+```
+
+**Postconditions**:
+- PR template compliance verified
+- Issue linkage confirmed
+- Checklist presence confirmed
+
+---
+
+### Job: check-branch-name
+
+**Purpose**: Ensure feature branch follows naming convention `###-feature-name`
+
+**Steps**:
+1. Extract branch name
+2. Validate format matches pattern
+3. Verify issue number exists (optional)
+
+**Exit Conditions**:
+- ✅ Success: Branch name follows convention
+- ⚠️ Warning: Branch name non-standard (doesn't block merge)
+
+**Contract**:
+```yaml
+check-branch-name:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Validate branch name
+      run: |
+        branch="${{ github.head_ref }}"
+        
+        if echo "$branch" | grep -qE '^[0-9]{3,}-[a-z0-9-]+$'; then
+          echo "✅ Branch name follows convention: $branch"
+        else
+          echo "⚠️ Branch name does not follow recommended pattern: ###-feature-name"
+          echo "   Current: $branch"
+          echo "   Example: 001-parser-validation"
+          # Don't fail, just warn
+        fi
+```
+
+**Postconditions**:
+- Branch name validated
+- Warning logged if non-compliant (but doesn't block)
+
+---
+
+### Job: check-file-changes
+
+**Purpose**: Detect sensitive file changes that require extra review
+
+**Steps**:
+1. Get list of changed files
+2. Check for changes to critical files (Makefile, .github/workflows/)
+3. Add warning label if found
+
+**Exit Conditions**:
+- ✅ Success: No sensitive files changed, or changes acknowledged
+- ⚠️ Warning: Sensitive files changed (adds label, doesn't block)
+
+**Contract**:
+```yaml
+check-file-changes:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    - name: Check for sensitive file changes
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          const files = await github.rest.pulls.listFiles({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: pr.number
+          });
+          
+          const sensitivePatterns = [
+            /^Makefile$/,
+            /^\.github\/workflows\//,
+            /^\.specify\//,
+            /^includes\/.*\.h$/
+          ];
+          
+          const changedFiles = files.data.map(f => f.filename);
+          const sensitiveChanges = changedFiles.filter(file =>
+            sensitivePatterns.some(pattern => pattern.test(file))
+          );
+          
+          if (sensitiveChanges.length > 0) {
+            console.log('⚠️ Sensitive files changed:');
+            sensitiveChanges.forEach(f => console.log(`  - ${f}`));
+            
+            // Add label to PR
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: ['needs-careful-review']
+            });
+          } else {
+            console.log('✅ No sensitive files changed');
+          }
+```
+
+**Postconditions**:
+- Sensitive file changes detected
+- `needs-careful-review` label applied if applicable
+- Changes logged to workflow output
+
+---
+
+## Validation Rules
+
+### Conventional Commits Format
+
+**Valid Patterns**:
+```regex
+^(feat|fix|docs|style|refactor|test|chore)(\([a-z]+\))?: .{1,72}$
+```
+
+**Valid Examples**:
+```
+feat(parser): add cylinder parsing
+fix: correct shadow intersection
+docs(readme): update build instructions
+style(render): fix norminette violations
+refactor(math): simplify vector operations
+test(parser): add validation tests
+chore(ci): update workflow configuration
+```
+
+**Invalid Examples**:
+```
+Added new feature          # Missing type
+feat: Add new feature      # Capital letter
+fix(Parser): bug fix       # Capital in scope
+feat(parser): this is a very long commit message that exceeds seventy two characters  # Too long
+docs                       # Missing colon and subject
+```
+
+### Issue Reference Format
+
+**Valid Patterns**:
+```regex
+(Refs|Fixes|Closes): #\d+
+```
+
+**Valid Examples**:
+```
+Refs: #42
+Fixes: #123
+Closes: #7
+```
+
+**Multiple References**:
+```
+Refs: #42, #43
+Fixes: #100, Closes: #101
+```
+
+**Invalid Examples**:
+```
+See issue #42              # Wrong keyword
+#42                        # Missing keyword
+Issue 42                   # Missing # symbol
+Fixes: 42                  # Missing # symbol
+```
+
+### Branch Name Format
+
+**Recommended Pattern**:
+```regex
+^[0-9]{3,}-[a-z0-9-]+$
+```
+
+**Valid Examples**:
+```
+001-parser-validation
+042-cylinder-rendering
+123-fix-memory-leak
+```
+
+**Also Acceptable** (generates warning):
+```
+feature/parser             # Gitflow style
+bugfix/shadow-rays         # Gitflow style
+fix-memory-leak            # Simple descriptive
+```
+
+---
+
+## PR Template Sections
+
+### Required Sections
+
+**1. 변경사항 / Changes**
+- Must be present
+- Should contain description of what changed
+- Can be brief bullet points
+
+**2. 관련 이슈 / Related Issues**
+- Must be present
+- Must contain `Closes #X`, `Fixes #X`, or `Refs #X`
+- Links to one or more issues
+
+**3. 체크리스트 / Checklist**
+- Must be present
+- Must contain at least one checkbox: `- [ ]` or `- [x]`
+- Standard items:
+  - Norminette passes
+  - Compilation succeeds
+  - Tests pass
+  - Documentation updated
+  - No memory leaks
+
+**4. 테스트 방법 / How to Test**
+- Must be present
+- Should contain instructions for testing changes
+- Can reference test files or commands
+
+---
+
+## Error Messages
+
+### Commit Format Error
+
+```
+❌ Commit abc123 does not follow Conventional Commits
+   Message: Added new parser
+
+Commit format guide:
+  <type>(<scope>): <subject>
+  
+  <body>
+  
+  Refs: #<issue-number>
+
+Valid types: feat, fix, docs, style, refactor, test, chore
+```
+
+### Missing Issue Reference
+
+```
+❌ Commit def456 does not reference an issue
+   Message: feat(parser): add cylinder parsing
+
+Please include issue reference in commit body or footer:
+  Refs: #42
+  Fixes: #42
+  Closes: #42
+```
+
+### Template Compliance Error
+
+```
+❌ PR template incomplete. Missing sections: ## 관련 이슈, ## 체크리스트
+
+Please use the PR template and fill in all required sections.
+The template is automatically populated when you create a PR.
+```
+
+---
+
+## Bypass Mechanisms
+
+### Emergency Hotfixes
+
+For urgent hotfixes to main branch, allow bypass:
+
+```yaml
+if: |
+  !startsWith(github.head_ref, 'hotfix-')
+```
+
+Hotfix branches skip commit validation but still require PR review.
+
+### Documentation-Only PRs
+
+For doc-only changes, relax commit format requirement:
+
+```yaml
+- name: Check if docs-only PR
+  id: check_docs
+  run: |
+    if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -qvE '^docs/'; then
+      echo "not_docs_only=true" >> $GITHUB_OUTPUT
+    fi
+    
+- name: Validate commits
+  if: steps.check_docs.outputs.not_docs_only == 'true'
+  run: # ... validation logic
+```
+
+---
+
+## Integration with Main CI
+
+This workflow complements the main CI workflow:
+- **Main CI**: Build, test, norminette (technical validation)
+- **PR Validation**: Commit format, issue linkage, PR template (process validation)
+
+Both must pass for PR to be mergeable (with branch protection enabled).
+
+---
+
+## Success Criteria
+
+- ✅ All commits follow Conventional Commits format
+- ✅ All commits reference issue numbers
+- ✅ PR uses template with all required sections
+- ✅ PR references related issues
+- ✅ Sensitive file changes flagged for review
+- ✅ Clear error messages guide developers to fix issues
+
+---
+
+## Maintenance
+
+### Update Commit Types
+
+Add custom commit types if needed:
+```bash
+# Add 'perf' for performance improvements
+^(feat|fix|docs|style|refactor|test|chore|perf)
+```
+
+### Update Sensitive File Patterns
+
+Modify patterns as project evolves:
+```javascript
+const sensitivePatterns = [
+  /^Makefile$/,
+  /^\.github\/workflows\//,
+  /^\.specify\//,
+  /^includes\/.*\.h$/,
+  /^lib\/minilibx-linux\//,  // Add if MinilibX changes need review
+];
+```
+
+### Adjust Validation Strictness
+
+Make checks warnings instead of failures:
+```yaml
+- name: Validate commits
+  continue-on-error: true  # Don't block PR, just warn
+  run: # ... validation
+```
