@@ -815,29 +815,6 @@ SOFTWARE.
 
 ---
 
-## 🙏 감사의 글
-
-### 42 Seoul
-
-이 프로젝트는 **42 Seoul**의 miniRT 과제를 바탕으로 제작되었습니다. 42 Seoul의 혁신적인 교육 방식과 peer-to-peer 학습 문화에 감사드립니다.
-
-### MinilibX
-
-**MinilibX** 그래픽 라이브러리를 제공해주신 42 School에 감사드립니다. 간단하면서도 강력한 API를 통해 그래픽 프로그래밍의 기초를 배울 수 있었습니다.
-
-### 참고 자료
-
-- **Ray Tracing in One Weekend** by Peter Shirley
-- **Computer Graphics: Principles and Practice** by Foley et al.
-- **42 Docs**: 42 School 공식 문서
-- **LearnOpenGL.com**: 그래픽 프로그래밍 기초
-
-### 동료 학생들
-
-42 Seoul의 동료 학생들과의 토론과 코드 리뷰는 이 프로젝트를 완성하는 데 큰 도움이 되었습니다.
-
----
-
 ## 🔗 링크
 
 - **GitHub Repository**: https://github.com/gdtknight/miniRT_final
