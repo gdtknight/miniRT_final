@@ -1,34 +1,39 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 0.0.0 → 1.0.0
-Created: 2025-12-15
+Version Change: 1.0.0 → 1.1.0
+Updated: 2025-12-17
 
-RATIONALE FOR VERSION 1.0.0:
-- Initial constitution ratification for 42 miniRT project
-- Establishes foundational governance and development principles
+RATIONALE FOR VERSION 1.1.0:
+- MINOR version bump: New principle added (Principle VI)
+- No backward-incompatible changes to existing principles
+- Extends governance requirements with issue tracking and commit traceability
 
-PRINCIPLES DEFINED:
+PRINCIPLES DEFINED (6 total):
 1. 42 Norminette Compliance (NON-NEGOTIABLE)
 2. Readability-First Code
 3. Mandatory Unit Testing (NON-NEGOTIABLE)
 4. Bilingual Documentation
 5. Build Verification Workflow (NON-NEGOTIABLE)
+6. GitHub Issue Tracking (NON-NEGOTIABLE) ← NEW
 
 ADDED SECTIONS:
-- Core Principles (5 principles)
-- Documentation Standards
-- Quality Assurance Workflow
-- Governance
+- Principle VI: GitHub Issue Tracking
+
+MODIFIED PRINCIPLES:
+- None (all existing principles unchanged)
 
 TEMPLATES REQUIRING UPDATES:
-✅ plan-template.md - Constitution Check section references this constitution
-✅ spec-template.md - Aligned with documentation requirements
-✅ tasks-template.md - Aligned with testing and verification requirements
+✅ plan-template.md - Already references constitution check
+✅ spec-template.md - No changes needed (principle is workflow-focused)
+✅ tasks-template.md - Already compatible with issue-based workflow
+⚠ README.md - Consider documenting issue tracking workflow in contribution guidelines
+⚠ Project workflow docs - May need update to reflect mandatory issue tracking
 
 FOLLOW-UP ACTIONS:
-- None - All placeholders filled
-- All template dependencies verified
+- Update developer workflow documentation to explain issue creation before work
+- Add commit message format examples including issue numbers
+- Consider GitHub Actions or pre-commit hooks to validate issue references
 -->
 
 # 42 miniRT Constitution
@@ -102,6 +107,20 @@ Required verification steps after every change:
 **Rationale**: Continuous verification prevents integration issues, maintains project
 stability, and catches problems immediately when context is fresh.
 
+### VI. GitHub Issue Tracking (NON-NEGOTIABLE)
+
+All work requests MUST be tracked as GitHub issues, and all commits related to work
+requests MUST mark the associated issue number in the commit title.
+
+- Every work request, feature, bug fix, or enhancement MUST have a GitHub issue created
+- Issue numbers MUST be referenced in commit titles using format: `[#123] commit message`
+- Commits MUST link to their corresponding issue for complete traceability
+- Issues MUST remain open until all related work is committed and verified
+
+**Rationale**: Issue tracking ensures proper project management, provides clear work
+history, enables traceability between requirements and implementation, and facilitates
+code review by connecting changes to their motivating requirements.
+
 ## Documentation Standards
 
 **README.md Requirements**:
@@ -162,4 +181,4 @@ project. All development activity MUST comply with these principles.
 - Between non-negotiable principles, apply judgment favoring project stability and correctness
 - Document conflicts and resolutions in constitution amendments
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-15 | **Last Amended**: 2025-12-15
+**Version**: 1.1.0 | **Ratified**: 2025-12-15 | **Last Amended**: 2025-12-17
