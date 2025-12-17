@@ -1,0 +1,330 @@
+# CI Main Workflow Contract
+
+**Workflow**: `.github/workflows/ci.yml`
+**Purpose**: Main CI pipeline for build validation, norminette checks, and testing
+**Triggers**: Push to any branch, Pull requests to main/develop
+
+---
+
+## Contract Specification
+
+### Input Events
+
+```yaml
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:  # Allow manual triggering
+```
+
+### Required Environment
+
+- **Runner**: `ubuntu-latest`
+- **System Packages**:
+  - `libx11-dev` (X11 development headers)
+  - `libxext-dev` (X11 extensions)
+  - `xorg-dev` (X.Org development files)
+  - `xvfb` (Virtual framebuffer for headless testing)
+- **Build Tools**: `gcc`, `make`, `git`
+- **Python Tools**: `pip3`, `norminette` (via pip)
+
+### Job: norminette
+
+**Purpose**: Validate code style compliance with 42 norminette
+
+**Steps**:
+1. Checkout repository
+2. Install norminette via pip3
+3. Run norminette on `src/` and `includes/` directories
+4. Fail workflow if violations found
+
+**Exit Conditions**:
+- ✅ Success: All files pass norminette (exit code 0)
+- ❌ Failure: One or more violations (exit code 1)
+
+**Contract**:
+```yaml
+norminette:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install norminette
+      run: pip3 install norminette
+      
+    - name: Run norminette
+      run: |
+        echo "Checking norminette compliance..."
+        norminette src/ includes/
+```
+
+**Postconditions**:
+- Norminette output displayed in logs
+- Exit code 0 if all files compliant
+- Exit code 1 if any violations found
+
+---
+
+### Job: build
+
+**Purpose**: Compile miniRT and verify no compilation errors/warnings
+
+**Dependencies**: None (runs in parallel with norminette)
+
+**Steps**:
+1. Checkout repository
+2. Install MinilibX dependencies (X11, Xext)
+3. Build MinilibX library
+4. Compile miniRT using Makefile
+5. Verify executable created
+
+**Exit Conditions**:
+- ✅ Success: `miniRT` executable created, no warnings (exit code 0)
+- ❌ Failure: Compilation errors or warnings present (exit code 1)
+
+**Contract**:
+```yaml
+build:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libx11-dev libxext-dev xorg-dev
+        
+    - name: Build MinilibX
+      run: |
+        cd lib/minilibx-linux
+        make
+        
+    - name: Build miniRT
+      run: make
+      
+    - name: Verify executable
+      run: |
+        [ -f ./miniRT ] && echo "✅ Build successful" || exit 1
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: miniRT-binary
+        path: miniRT
+        retention-days: 7
+```
+
+**Postconditions**:
+- `miniRT` executable exists in project root
+- Executable uploaded as workflow artifact
+- All .o files created in `obj/` directory
+- MinilibX library compiled in `lib/minilibx-linux/`
+
+---
+
+### Job: test
+
+**Purpose**: Execute unit and integration tests
+
+**Dependencies**: Requires `build` job to complete successfully
+
+**Steps**:
+1. Checkout repository
+2. Download build artifact from `build` job
+3. Install X11 dependencies + Xvfb
+4. Build MinilibX (needed for test execution)
+5. Run unit tests (if exist in `/tests`)
+6. Run integration tests with Xvfb
+7. Check for memory leaks (optional, if valgrind enabled)
+
+**Exit Conditions**:
+- ✅ Success: All tests pass, no crashes (exit code 0)
+- ❌ Failure: Test failures, segfaults, or timeouts (exit code 1)
+
+**Contract**:
+```yaml
+test:
+  runs-on: ubuntu-latest
+  needs: build
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: miniRT-binary
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libx11-dev libxext-dev xorg-dev xvfb
+        
+    - name: Build MinilibX
+      run: |
+        cd lib/minilibx-linux
+        make
+        
+    - name: Make executable
+      run: chmod +x miniRT
+      
+    - name: Start Xvfb
+      run: |
+        Xvfb :99 -screen 0 1024x768x24 &
+        echo "DISPLAY=:99" >> $GITHUB_ENV
+        
+    - name: Run unit tests
+      run: |
+        if [ -d tests ] && [ -f tests/run_unit_tests.sh ]; then
+          make tests
+          ./tests/run_unit_tests.sh
+        else
+          echo "No unit tests found, skipping"
+        fi
+        
+    - name: Run integration tests
+      run: |
+        if [ -f tests/integration/test_render.sh ]; then
+          chmod +x tests/integration/test_render.sh
+          timeout 300s tests/integration/test_render.sh
+        else
+          echo "No integration tests found, skipping"
+        fi
+```
+
+**Postconditions**:
+- All unit tests executed and passed
+- Integration tests completed without timeout
+- No segmentation faults or crashes
+- Test results logged to workflow output
+
+---
+
+## Workflow Status Reporting
+
+### Success Criteria
+
+All three jobs (`norminette`, `build`, `test`) must succeed for workflow to pass.
+
+### PR Integration
+
+When workflow runs on pull request:
+- Status check appears in PR conversation
+- PR cannot be merged if any job fails (with branch protection enabled)
+- Green checkmark displayed when all jobs pass
+
+### Notifications
+
+- Workflow status visible in GitHub Actions tab
+- Commit status badge shows pass/fail
+- Email notification on failure (if enabled in user settings)
+
+---
+
+## Performance Targets
+
+| Metric | Target | Measured By |
+|--------|--------|-------------|
+| Total workflow time | < 5 minutes | End-to-end execution |
+| Norminette job | < 30 seconds | Job duration |
+| Build job | < 2 minutes | Job duration |
+| Test job | < 3 minutes | Job duration |
+| Artifact upload | < 10 seconds | Upload step |
+
+---
+
+## Error Handling
+
+### Norminette Failures
+
+```bash
+Error: src/parser/parser.c: Error!
+Error: FUNCTIONS_TOO_LONG (line 45, col 1): Function exceeds 25 lines
+```
+
+**Recovery**: Developer must fix norminette violations and re-push.
+
+### Build Failures
+
+```bash
+src/render/render.c:42:5: error: implicit declaration of function 'unknown_func'
+make: *** [obj/render/render.o] Error 1
+```
+
+**Recovery**: Developer must fix compilation errors and re-push.
+
+### Test Failures
+
+```bash
+❌ FAIL: tests/integration/scenes/test_shadows.rt
+Test timed out after 30 seconds
+```
+
+**Recovery**: Developer must investigate test failure, fix bug, and re-push.
+
+---
+
+## Caching Strategy (Optional Enhancement)
+
+```yaml
+- name: Cache MinilibX
+  uses: actions/cache@v3
+  with:
+    path: lib/minilibx-linux
+    key: ${{ runner.os }}-minilibx-${{ hashFiles('lib/minilibx-linux/**') }}
+    
+- name: Cache build objects
+  uses: actions/cache@v3
+  with:
+    path: obj/
+    key: ${{ runner.os }}-build-${{ hashFiles('src/**/*.c', 'includes/**/*.h') }}
+```
+
+**Benefits**:
+- Reduces build time by 30-50%
+- Avoids recompiling unchanged MinilibX
+- Speeds up incremental builds
+
+---
+
+## Rollback Strategy
+
+If CI workflow causes issues:
+
+1. **Immediate**: Disable workflow in `.github/workflows/ci.yml` (rename or delete)
+2. **Temporary**: Comment out problematic job
+3. **Permanent**: Revert commit that introduced breaking change
+
+---
+
+## Maintenance
+
+### Update Actions Versions
+
+Periodically update pinned action versions:
+```yaml
+# Old
+- uses: actions/checkout@v3
+
+# New
+- uses: actions/checkout@v4
+```
+
+### Update norminette Version
+
+Pin specific norminette version for consistency:
+```yaml
+- name: Install norminette
+  run: pip3 install norminette==3.3.50
+```
+
+### Monitor GitHub Actions Usage
+
+Check usage limits: Settings → Billing → Actions minutes used

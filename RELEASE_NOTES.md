@@ -38,10 +38,10 @@ miniRT는 42 School 프로젝트로 개발된 간단한 레이 트레이싱 렌�
 ## 📊 Statistics
 
 ### Code Quality
-- **소스 파일**: 13개 (.c)
+- **소스 파일**: 15개 (.c)
 - **헤더 파일**: 6개 (.h)
-- **총 코드 라인**: 961줄
-- **Norminette**: 74% 완전 통과 (14/19 files)
+- **총 코드 라인**: ~1100줄
+- **Norminette**: 100% 완전 통과 (21/21 files)
 - **컴파일 경고**: 0개
 - **런타임 에러**: 0개
 
@@ -172,17 +172,13 @@ miniRT_final/
 
 ---
 
-## 🐛 Known Issues
+## ✅ Quality Assurance
 
-### Norminette Warnings (Non-Critical)
-일부 파일에 norminette 경고가 있지만 기능에는 영향 없음:
-- **parse_objects.c**: 함수 길이 (복잡한 파싱 로직)
-- **intersections.c**: 변수 개수 (수학 계산)
-- **lighting.c**: 줄 길이 (함수 체인)
-- **render.c**: 복잡도 (렌더링 알고리즘)
-- **window.h**: MLX API (외부 라이브러리)
-
-모든 경고는 가독성과 알고리즘 명확성을 위한 의도적 선택입니다.
+### Norminette Compliance
+- **모든 파일 통과**: 21/21 files (100%)
+- **경고 없음**: 0 warnings
+- **에러 없음**: 0 errors
+- **42 School 표준 완전 준수**
 
 ---
 
@@ -242,9 +238,10 @@ norminette src includes
 - ✅ Unit tests for core functions
 
 #### Fixed
-- ✅ Norminette compliance (74%)
+- ✅ Norminette compliance (100%)
 - ✅ Memory leaks (0 bytes)
 - ✅ Compilation warnings (0)
+- ✅ CI/CD pipeline with GitHub Actions
 
 #### Documentation
 - ✅ Implementation guide

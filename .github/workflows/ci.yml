@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**', '**-**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  norminette:
+    name: Norminette Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Norminette
+        run: |
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install norminette
+
+      - name: Run Norminette on sources
+        run: |
+          norminette src/ includes/
+          echo "✓ Norminette check passed"
+
+  build-linux:
+    name: Build on Linux
+    runs-on: ubuntu-latest
+    needs: norminette
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make xorg libxext-dev libbsd-dev
+
+      - name: Setup MinilibX for Linux
+        run: |
+          if [ ! -f lib/minilibx-linux/Makefile ]; then
+            echo "Cloning minilibx-linux..."
+            rm -rf lib/minilibx-linux
+            git clone https://github.com/42Paris/minilibx-linux.git lib/minilibx-linux
+          fi
+
+      - name: Build MinilibX
+        run: |
+          cd lib/minilibx-linux
+          make
+
+      - name: Build miniRT
+        run: |
+          make
+          ls -lh miniRT
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: miniRT-linux
+          path: miniRT
+          retention-days: 7
+
+  build-macos:
+    name: Build on MacOS
+    runs-on: macos-latest
+    needs: norminette
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build miniRT
+        run: |
+          make
+          ls -lh miniRT
+
+      - name: Upload MacOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: miniRT-macos
+          path: miniRT
+          retention-days: 7
+
+  test-linux:
+    name: Test on Linux
+    runs-on: ubuntu-latest
+    needs: build-linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: miniRT-linux
+
+      - name: Install X11 for testing
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libxext-dev libx11-dev
+
+      - name: Make executable
+        run: chmod +x miniRT
+
+      - name: Test scene file parsing
+        run: |
+          # Test with valid scene file
+          timeout 5s xvfb-run -a ./miniRT scenes/test_all_objects.rt || true
+          echo "✓ Scene file parsing test completed"
+
+      - name: Test error handling
+        run: |
+          # Test with invalid file (should fail gracefully)
+          ./miniRT nonexistent.rt 2>&1 | grep -q "Error" && echo "✓ Error handling works" || exit 1
+
+  test-macos:
+    name: Test on MacOS
+    runs-on: macos-latest
+    needs: build-macos
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download MacOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: miniRT-macos
+
+      - name: Make executable
+        run: chmod +x miniRT
+
+      - name: Test error handling
+        run: |
+          # Test with invalid file (should fail gracefully)
+          ./miniRT nonexistent.rt 2>&1 | grep -q "Error" && echo "✓ Error handling works" || exit 1

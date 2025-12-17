@@ -1,418 +1,639 @@
-# Research: miniRT Ray Tracing Implementation
+# Research: CI/CD Pipeline for 42 School C Projects
 
-**Date**: 2025-12-15  
-**Feature**: miniRT - Ray Tracing 3D Renderer  
-**Purpose**: Resolve technical unknowns and establish implementation patterns
+**Feature**: CI/CD Pipeline 구축 및 GitHub 워크플로우 개선
+**Date**: 2025-12-15
+**Status**: Complete
 
-## 1. Unit Testing Framework for C
+## Executive Summary
+
+This research document consolidates findings on implementing CI/CD pipelines specifically tailored for 42 school projects, with emphasis on norminette integration, C compilation workflows, and GitHub Actions best practices.
+
+---
+
+## Research Task 1: GitHub Actions for C Projects
 
 ### Decision
-Use **Criterion** testing framework for unit tests.
+Use GitHub Actions with ubuntu-latest runners for all CI/CD workflows, including build, test, and norminette validation.
 
 ### Rationale
-- **Modern and lightweight**: Criterion is a cross-platform unit testing framework for C with automatic test registration
-- **Clear output**: Provides colored output, detailed failure messages, and test statistics
-- **Easy setup**: Simple integration with Makefile, no complex configuration
-- **42 compatible**: Does not violate norminette rules (tests are separate from source)
-- **Active maintenance**: Well-documented and actively maintained
-- **Fixtures support**: Built-in setup/teardown for test isolation
-- **Assertions**: Rich assertion macros for various comparison types
+1. **Native GitHub Integration**: Zero configuration for repository access, no external service authentication needed
+2. **Free Tier Generosity**: 2,000 minutes/month for private repos, 3,000 for public repos sufficient for this project
+3. **C Toolchain Availability**: Ubuntu runners pre-installed with gcc, make, and common build tools
+4. **Custom Tool Installation**: Simple `apt-get` commands for norminette and MinilibX dependencies
+5. **Workflow Reusability**: YAML workflows can be shared across similar projects
 
 ### Alternatives Considered
-1. **cmocka** - Good framework but more complex setup, requires mocking library
-2. **Unity** - Lightweight but lacks automatic test discovery, requires manual test registration
-3. **Custom test harness** - Simple but lacks features, would require significant development time
-4. **Google Test (C++)** - Powerful but requires C++ compilation, adds complexity to C project
+- **Travis CI**: Declining market share, inferior free tier (10,000 credits ≈ 1,000 minutes)
+- **CircleCI**: Complex configuration, overkill for C projects
+- **GitLab CI**: Would require repository migration
+- **Jenkins**: Self-hosted overhead inappropriate for student project
 
-### Implementation Approach
-- Install Criterion via package manager or compile from source
-- Create `tests/unit/` directory structure mirroring `src/`
-- Add separate Makefile target for tests: `make test`
-- Each source module gets corresponding test file (e.g., `vector.c` → `test_vector.c`)
-- Run tests as part of build verification workflow
-
----
-
-## 2. Ray-Sphere Intersection Mathematics
-
-### Decision
-Use **quadratic equation method** with discriminant calculation.
-
-### Rationale
-Ray equation: `P(t) = origin + t * direction`  
-Sphere equation: `|P - center|² = radius²`
-
-Substituting ray into sphere equation yields quadratic:
+### Implementation Details
+```yaml
+# Minimal workflow structure
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: sudo apt-get install -y libx11-dev libxext-dev
+      - name: Build project
+        run: make
 ```
-at² + bt + c = 0
-where:
-  a = direction · direction (always 1 for normalized rays)
-  b = 2 * direction · (origin - center)
-  c = (origin - center) · (origin - center) - radius²
-
-discriminant = b² - 4ac
-```
-
-- **discriminant < 0**: No intersection (ray misses sphere)
-- **discriminant = 0**: Ray tangent to sphere (one intersection)
-- **discriminant > 0**: Ray intersects sphere twice (entry and exit)
-
-For rendering, we typically want the nearest positive t value (visible surface in front of camera).
-
-### Best Practices
-- Check discriminant before computing square root (avoid unnecessary computation)
-- Reject negative t values (intersections behind camera)
-- Handle numerical precision carefully for grazing angles
-- Optimize by normalizing ray direction once, then use simplified formula
 
 ### References
-- "Ray Tracing in One Weekend" by Peter Shirley
-- Real-Time Rendering (4th Edition), Chapter 22
-- Scratchapixel.com ray-sphere intersection tutorial
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [GitHub Actions for C/C++ Projects](https://github.com/actions/starter-workflows/blob/main/ci/cmake.yml)
 
 ---
 
-## 3. Ray-Plane Intersection Mathematics
+## Research Task 2: Norminette Integration in CI/CD
 
 ### Decision
-Use **dot product method** with normal vector.
+Install norminette via pip3 in GitHub Actions workflow, run with recursive file search to fail CI on violations.
 
 ### Rationale
-Plane equation: `(P - P₀) · N = 0`  
-Where P₀ is a point on plane, N is normal vector
+1. **Zero Tolerance Policy**: 42 school requires perfect norminette compliance; CI must enforce this
+2. **Early Detection**: Catch style violations before code review, saving reviewer time
+3. **Automated Enforcement**: No manual checking needed, consistent across all contributors
+4. **Fast Execution**: Norminette typically runs in < 30 seconds for projects of this size
+5. **Clear Feedback**: norminette output shows exact line/column of violations
 
-Ray equation: `P(t) = origin + t * direction`
+### Alternatives Considered
+- **Pre-commit Hooks**: Local only, easily bypassed with `--no-verify`
+- **Manual Checks**: Error-prone, inconsistent, wastes reviewer time
+- **Linting in IDE**: Requires all devs to use same IDE/plugin configuration
+- **Custom Style Checker**: Reinventing the wheel, won't match evaluator's norminette
 
-Substituting:
+### Implementation Details
+```yaml
+- name: Install norminette
+  run: pip3 install norminette
+
+- name: Run norminette
+  run: |
+    norminette src/ includes/ || exit 1
+    echo "✅ Norminette check passed"
 ```
-(origin + t * direction - P₀) · N = 0
-t = [(P₀ - origin) · N] / (direction · N)
-```
 
-### Best Practices
-- Check if `direction · N ≈ 0` (ray parallel to plane, no intersection)
-- Reject negative t values (plane behind camera)
-- Normalize normal vector once during parsing
-- Consider two-sided vs one-sided planes (check if dot product sign matters)
-
-### Edge Cases
-- Ray exactly on plane (origin is P₀): return no intersection or t=0 depending on design
-- Ray parallel to plane: denominator approaches zero, detect and handle
-
----
-
-## 4. Ray-Cylinder Intersection Mathematics
-
-### Decision
-Use **combined approach** - intersect infinite cylinder + cap planes, then validate.
-
-### Rationale
-Cylinder defined by:
-- Center point C
-- Axis direction A (normalized)
-- Radius r
-- Height h
-
-**Step 1: Infinite cylinder intersection**
-- Project ray onto plane perpendicular to axis
-- Solve quadratic equation in 2D projection
-- Similar to sphere intersection but in reduced dimensions
-
-**Step 2: Cap intersection**
-- Caps are circular planes at C and C + h*A
-- Use plane intersection formula for each cap
-- Check if intersection point is within radius from axis
-
-**Step 3: Validation**
-- For body intersections: check if height is within [0, h]
-- For cap intersections: check if distance from axis ≤ radius
-- Return nearest valid positive t value
-
-### Best Practices
-- Pre-compute axis-aligned bounding box for early rejection
-- Handle ray parallel to cylinder axis (special case)
-- Handle ray intersecting edge between cap and body (numerical precision)
-- Consider finite cylinder vs infinite cylinder in code organization
+### Edge Cases Handled
+- **Ignore MinilibX**: Don't run norminette on `lib/minilibx-linux/` (external dependency)
+- **Exit on First Error**: Use `|| exit 1` to fail pipeline immediately
+- **Directory Pattern**: Check only `src/` and `includes/` directories
 
 ### References
-- "Ray Tracing Gems" Chapter 6
-- Graphics Gems II, Chapter on cylinder intersection
-- SIGGRAPH course notes on ray-primitive intersection
+- [norminette GitHub Repository](https://github.com/42School/norminette)
+- [42 Norminette Documentation](https://github.com/42School/norminette/blob/master/README.md)
 
 ---
 
-## 5. MinilibX Window Management Patterns
+## Research Task 3: Conventional Commits for 42 Projects
 
 ### Decision
-Use **event-driven architecture** with MinilibX hooks.
+Adopt Conventional Commits specification with mandatory issue number references in commit body or footer.
 
 ### Rationale
-MinilibX provides event loop with callback hooks:
-- `mlx_loop_hook()`: Called continuously (for animation, not needed for static rendering)
-- `mlx_key_hook()`: Keyboard events (ESC key)
-- `mlx_mouse_hook()`: Mouse events (not required for mandatory part)
-- `mlx_expose_hook()`: Window redraw events (handle minimize/restore)
-- `mlx_hook()`: Generic X11 event handler (window close button)
+1. **Automated Changelog**: Structured commits enable automatic CHANGELOG.md generation
+2. **Semantic Versioning**: Commit types (feat/fix/breaking) drive version bumps
+3. **Clear History**: Git log becomes self-documenting with consistent format
+4. **Tooling Support**: Many tools (semantic-release, conventional-changelog) work with this format
+5. **Industry Standard**: Widely adopted (Angular, Vue, React, Node.js use this)
 
-### Implementation Pattern
+### Alternatives Considered
+- **Free-form Commits**: No structure, impossible to automate or parse
+- **GitHub Issue Keywords**: Only works in PR titles, not individual commits
+- **Custom Format**: Would require custom tooling, no ecosystem support
+- **Gitmoji**: Emojis add noise, not searchable, non-standard
+
+### Implementation Details
+
+**Format**:
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Required Types**:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation only
+- `style`: Formatting, no code change (e.g., norminette fixes)
+- `refactor`: Code restructuring, no behavior change
+- `test`: Add/modify tests
+- `chore`: Maintenance (e.g., build config)
+
+**Examples**:
+```
+feat(parser): add cylinder parsing support
+
+Implements parsing for cy element in .rt files
+with diameter, height, and axis validation.
+
+Refs: #12
+```
+
+```
+fix(render): correct shadow ray intersection
+
+Shadow rays were incorrectly checking self-intersection.
+Added epsilon offset to ray origin.
+
+Fixes: #45
+```
+
+**Validation Script**:
+```bash
+#!/bin/bash
+# scripts/check-commit-format.sh
+commit_msg=$(git log -1 --pretty=%B)
+if ! echo "$commit_msg" | grep -qE '^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .+'; then
+  echo "❌ Commit message does not follow Conventional Commits format"
+  exit 1
+fi
+if ! echo "$commit_msg" | grep -qE '(Refs|Fixes|Closes): #[0-9]+'; then
+  echo "❌ Commit must reference an issue number"
+  exit 1
+fi
+```
+
+### References
+- [Conventional Commits Specification](https://www.conventionalcommits.org/)
+- [Angular Commit Guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)
+
+---
+
+## Research Task 4: Branch Strategy for Team Development
+
+### Decision
+Adopt GitHub Flow variant with protected main branch and feature branches using pattern `###-feature-name`.
+
+### Rationale
+1. **Simplicity**: Only main + feature branches, no complex gitflow hierarchy
+2. **CI Integration**: Every PR triggers full CI suite before merge
+3. **Protected Main**: Require PR reviews + passing CI to merge to main
+4. **Clear Naming**: Issue number prefix enables traceability
+5. **Single Source of Truth**: main branch always production-ready
+
+### Alternatives Considered
+- **Git Flow**: Too complex (develop/release/hotfix branches) for 2-3 person team
+- **Trunk-Based**: Feature flags required, inappropriate for school project
+- **GitLab Flow**: Environment branches unnecessary for non-deployed app
+- **No Strategy**: Chaos, merge conflicts, broken main branch
+
+### Implementation Details
+
+**Branch Types**:
+```
+main                      # Protected, always stable
+001-parser-validation     # Feature branch
+002-cylinder-rendering    # Feature branch
+hotfix-segfault-sphere    # Emergency fix (if main broken)
+```
+
+**Branch Protection Rules** (configured in GitHub):
+- ✅ Require pull request reviews before merging (1 reviewer)
+- ✅ Require status checks to pass (CI workflow)
+- ✅ Require branches to be up to date before merging
+- ✅ Include administrators (no bypass for anyone)
+- ✅ Require linear history (no merge commits, rebase preferred)
+
+**Workflow**:
+1. Create issue → assigned issue number (e.g., #15)
+2. Create branch: `git checkout -b 015-feature-name`
+3. Make commits following Conventional Commits
+4. Push branch: `git push -u origin 015-feature-name`
+5. Create PR: GitHub Actions runs CI
+6. Request review: Reviewer checks code + verifies tests pass
+7. Merge PR: Use "Squash and merge" for clean history
+
+### Merge Strategies
+- **Squash and Merge**: Default choice, keeps main history clean
+- **Rebase and Merge**: Use for multi-commit features that need history preserved
+- **Merge Commit**: Avoid (creates unnecessary merge commits)
+
+### References
+- [GitHub Flow](https://guides.github.com/introduction/flow/)
+- [Branch Protection Rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
+
+---
+
+## Research Task 5: Automated Release Management
+
+### Decision
+Use GitHub Actions to automatically create releases when version tags are pushed, including compiled binary and release notes.
+
+### Rationale
+1. **Manual Releases Error-Prone**: Forgetting to attach binary, inconsistent notes
+2. **Tag-Driven**: Tags are immutable, permanent markers in git history
+3. **Artifact Storage**: GitHub Releases provide permanent download URLs
+4. **Release Notes**: Auto-generated from commit history using Conventional Commits
+5. **Evaluator Convenience**: Evaluators can download specific version without building
+
+### Alternatives Considered
+- **Manual Releases**: Time-consuming, inconsistent, error-prone
+- **External Hosting**: S3/hosting costs, requires separate auth
+- **Git Tags Only**: No downloadable assets, evaluators must build
+- **Release Branches**: Overhead for versioning, tags sufficient
+
+### Implementation Details
+
+**Tagging Convention**:
+```bash
+# Semantic versioning: MAJOR.MINOR.PATCH
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+**Workflow Trigger**:
+```yaml
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+```
+
+**Release Creation**:
+```yaml
+- name: Build release binary
+  run: make clean && make
+
+- name: Create Release
+  uses: softprops/action-gh-release@v1
+  with:
+    files: miniRT
+    body: |
+      ## Changes in this release
+      [Auto-generated from commits since last tag]
+      
+      ## Installation
+      ```bash
+      chmod +x miniRT
+      ./miniRT scenes/example.rt
+      ```
+```
+
+### Version Numbering Strategy
+- **MAJOR**: Breaking changes (new mandatory .rt format)
+- **MINOR**: New features (new object types, bonus features)
+- **PATCH**: Bug fixes only (incorrect intersections, memory leaks)
+
+### References
+- [Semantic Versioning](https://semver.org/)
+- [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
+- [action-gh-release](https://github.com/softprops/action-gh-release)
+
+---
+
+## Research Task 6: Issue and PR Template Best Practices
+
+### Decision
+Create structured templates using GitHub's ISSUE_TEMPLATE and PULL_REQUEST_TEMPLATE features with mandatory fields.
+
+### Rationale
+1. **Consistent Information**: Every bug report includes reproduction steps
+2. **Faster Triage**: Templates ensure all necessary info provided upfront
+3. **Better Collaboration**: Clear expectations for what to include
+4. **Reduced Back-and-Forth**: Fewer "please provide more details" comments
+5. **Searchable**: Structured issues easier to search and categorize
+
+### Alternatives Considered
+- **No Templates**: Inconsistent reports, missing critical info
+- **Wiki Instructions**: Often ignored, not enforced
+- **Single Generic Template**: Doesn't adapt to issue type
+- **Over-Complicated Forms**: Too many required fields discourages reporting
+
+### Implementation Details
+
+**Bug Report Template Structure**:
+```markdown
+---
+name: Bug Report
+about: 버그를 제보해주세요 / Report a bug
+title: '[BUG] '
+labels: bug
+assignees: ''
+---
+
+## 버그 설명 / Bug Description
+<!-- 버그에 대한 명확하고 간결한 설명 -->
+A clear description of what the bug is.
+
+## 재현 단계 / Steps to Reproduce
+1. 명령어 실행: `./miniRT [file.rt]`
+2. 관찰된 동작...
+
+## 예상 동작 / Expected Behavior
+<!-- 예상했던 동작 설명 -->
+
+## 실제 동작 / Actual Behavior
+<!-- 실제로 발생한 동작 설명 -->
+
+## 환경 / Environment
+- OS: [e.g., Ubuntu 22.04]
+- Compiler: [e.g., gcc 11.4.0]
+- Norminette version: [e.g., 3.3.50]
+
+## 추가 정보 / Additional Context
+<!-- 스크린샷, 에러 로그 등 -->
+```
+
+**Feature Request Template**:
+```markdown
+---
+name: Feature Request
+about: 새로운 기능을 제안해주세요 / Suggest a new feature
+title: '[FEATURE] '
+labels: enhancement
+assignees: ''
+---
+
+## 기능 설명 / Feature Description
+<!-- 원하는 기능에 대한 설명 -->
+
+## 동기 / Motivation
+<!-- 왜 이 기능이 필요한가요? -->
+<!-- 어떤 문제를 해결하나요? -->
+
+## 제안된 구현 / Proposed Implementation
+<!-- 이 기능을 어떻게 구현할 수 있을지 아이디어가 있다면 -->
+
+## 대안 / Alternatives
+<!-- 고려한 다른 대안들 -->
+```
+
+**Pull Request Template**:
+```markdown
+## 변경사항 / Changes
+<!-- 이 PR에서 무엇을 변경했나요? -->
+
+## 관련 이슈 / Related Issues
+Closes #(issue number)
+
+## 체크리스트 / Checklist
+- [ ] 코드가 norminette를 통과합니다 / Code passes norminette
+- [ ] 컴파일 경고가 없습니다 / No compilation warnings
+- [ ] 모든 테스트가 통과합니다 / All tests pass
+- [ ] 새로운 기능에 대한 테스트를 추가했습니다 / Added tests for new features
+- [ ] 문서를 업데이트했습니다 / Updated documentation
+- [ ] 메모리 누수가 없습니다 / No memory leaks (verified with valgrind)
+
+## 테스트 방법 / How to Test
+<!-- 이 변경사항을 어떻게 테스트할 수 있나요? -->
+```
+
+### Template Features
+- **Bilingual**: Korean for primary communication, English for technical terms
+- **Markdown Formatting**: Rich formatting support
+- **Front Matter**: Auto-labels, assignees, title prefixes
+- **Checkbox Lists**: Clear actionable items for PRs
+- **Comment Hints**: `<!-- -->` guides what to write in each section
+
+### References
+- [GitHub Issue Templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
+- [Pull Request Templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository)
+
+---
+
+## Research Task 7: MinilibX Dependency Management in CI
+
+### Decision
+Clone MinilibX during CI build and compile it as part of the workflow, treating it as a submodule-equivalent dependency.
+
+### Rationale
+1. **Already Integrated**: Project already has `lib/minilibx-linux/` directory
+2. **Build Dependency**: MinilibX must compile before miniRT links against it
+3. **X11 Requirements**: Ubuntu runners need `libx11-dev` and `libxext-dev` packages
+4. **No Display Server**: Use Xvfb (virtual framebuffer) for tests requiring window creation
+5. **Consistent Environment**: CI environment matches local development
+
+### Alternatives Considered
+- **Pre-compiled MinilibX**: Would need to maintain binaries for different platforms
+- **System Package**: MinilibX not available in apt repositories
+- **Skip Tests**: Would miss window/rendering integration issues
+- **Docker Container**: Overkill, slower builds, more complex
+
+### Implementation Details
+
+**Install X11 Dependencies**:
+```yaml
+- name: Install MinilibX dependencies
+  run: |
+    sudo apt-get update
+    sudo apt-get install -y libx11-dev libxext-dev xorg-dev xvfb
+```
+
+**Build MinilibX**:
+```yaml
+- name: Build MinilibX
+  run: |
+    cd lib/minilibx-linux
+    make
+```
+
+**Run Tests with Virtual Display**:
+```yaml
+- name: Run tests
+  run: |
+    # Start virtual X server
+    Xvfb :99 -screen 0 1024x768x24 &
+    export DISPLAY=:99
+    
+    # Run tests that create windows
+    ./miniRT scenes/test.rt
+```
+
+**Makefile Integration**:
+Existing Makefile already handles MinilibX:
+```makefile
+$(NAME): $(OBJS)
+    @make -C $(MLX_DIR)  # Build MinilibX first
+    @$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
+```
+
+### References
+- [MinilibX GitHub](https://github.com/42Paris/minilibx-linux)
+- [Xvfb for Headless Testing](https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml)
+
+---
+
+## Research Task 8: Test Automation Strategy
+
+### Decision
+Create two-tier testing: unit tests for individual functions (math/vector operations, parsing) and integration tests for full scene rendering.
+
+### Rationale
+1. **Fast Feedback**: Unit tests run in < 1 second, catch regressions immediately
+2. **Comprehensive Coverage**: Integration tests verify end-to-end functionality
+3. **Maintainability**: Unit tests easier to debug than full renders
+4. **CI Efficiency**: Run unit tests on every commit, integration tests on PR only
+5. **Local Development**: Developers can run quick unit tests locally
+
+### Alternatives Considered
+- **Manual Testing Only**: Slow, error-prone, doesn't scale
+- **Integration Tests Only**: Slow, hard to debug, poor CI performance
+- **Visual Regression Testing**: Requires image comparison, too complex for scope
+- **Property-Based Testing**: Overkill for deterministic ray tracing math
+
+### Implementation Details
+
+**Unit Test Structure** (existing `/tests` directory):
+```
+tests/
+├── test_vector.c          # Vector math (dot, cross, normalize)
+├── test_parser.c          # Scene file parsing
+├── test_intersections.c   # Ray-object intersection math
+└── test_lighting.c        # Lighting calculations
+```
+
+**Unit Test Framework**:
+Use simple assert-based tests, no heavy framework needed:
 ```c
-// Initialize window
-void *mlx = mlx_init();
-void *win = mlx_new_window(mlx, width, height, "miniRT");
+// tests/test_vector.c
+#include "../includes/vector.h"
+#include <assert.h>
+#include <math.h>
 
-// Render to image buffer (not directly to window)
-void *img = mlx_new_image(mlx, width, height);
-char *img_data = mlx_get_data_addr(img, &bpp, &line_len, &endian);
-// ... fill img_data with rendered pixels ...
-mlx_put_image_to_window(mlx, win, img, 0, 0);
-
-// Register event handlers
-mlx_hook(win, KeyPress, KeyPressMask, handle_keypress, &data);
-mlx_hook(win, DestroyNotify, NoEventMask, handle_close, &data);
-mlx_hook(win, Expose, ExposureMask, handle_expose, &data);
-
-// Enter event loop
-mlx_loop(mlx);
-```
-
-### Best Practices
-- Use image buffer for rendering (recommended in subject)
-- Store rendered image for expose events (avoid re-rendering on minimize/restore)
-- Clean up resources in exit handlers (avoid memory leaks)
-- Return 0 from event handlers to continue event loop, 1 to exit
-- Handle X11 events directly via `mlx_hook()` for fine-grained control
-
----
-
-## 6. Phong Lighting Model (Ambient + Diffuse)
-
-### Decision
-Implement **Phong reflection model** limited to ambient and diffuse components.
-
-### Rationale
-Phong model: `I = I_ambient + I_diffuse + I_specular`
-
-For mandatory part (no specular):
-```
-I = ambient_ratio * object_color + 
-    Σ(light_brightness * object_color * max(0, N · L))
-```
-
-Where:
-- N = surface normal at intersection point (normalized)
-- L = direction from surface point to light source (normalized)
-- `max(0, N · L)` ensures no negative lighting (surfaces facing away are unlit)
-
-### Components
-**Ambient lighting**: Base illumination prevents completely black areas
-```
-ambient = ambient_ratio * ambient_color * object_color
-```
-
-**Diffuse lighting**: Angle-dependent brightness (Lambertian reflection)
-```
-diffuse = light_brightness * light_color * object_color * (N · L)
-```
-
-### Best Practices
-- Normalize all vectors before dot product calculations
-- Clamp final color values to [0, 255] range
-- Apply gamma correction for more realistic output (optional)
-- Pre-compute ambient component once per object (doesn't change per light)
-
-### Shadow Implementation
-- Cast shadow ray from surface point toward light
-- If shadow ray intersects any object before reaching light: surface is in shadow
-- Skip diffuse component for shadowed areas (keep only ambient)
-- Add small epsilon offset to shadow ray origin to avoid self-intersection
-
----
-
-## 7. Scene File Parsing Strategy
-
-### Decision
-Use **line-by-line tokenization** with element-specific validation.
-
-### Rationale
-Scene file format is line-oriented with space-separated values:
-```
-A  0.2  255,255,255
-C  0,0,0  0,0,1  90
-L  -40,50,0  0.6  255,255,255
-sp 0,0,20  20  255,0,0
-```
-
-### Implementation Pattern
-1. **Read file line by line**
-2. **Tokenize by whitespace**: split on spaces/tabs
-3. **Identify element type**: first token (A, C, L, sp, pl, cy)
-4. **Parse parameters**: element-specific parsing based on type
-5. **Validate ranges**: check RGB [0-255], ratios [0.0-1.0], FOV [0-180]
-6. **Validate vectors**: ensure normalized vectors have magnitude ≈ 1.0
-7. **Track singleton elements**: error if A, C, or L appear multiple times
-8. **Build scene structure**: populate scene object with parsed data
-
-### Best Practices
-- Use `strtok()` or custom tokenizer for splitting
-- Use `atof()` for floating point, `atoi()` for integers
-- Provide specific error messages with line numbers
-- Allow flexible whitespace (multiple spaces, tabs)
-- Ignore empty lines and comments (if adding comment support)
-- Validate each element immediately after parsing (fail fast)
-
-### Error Handling Pattern
-```c
-// Example error output
-fprintf(stderr, "Error\n");
-fprintf(stderr, "Invalid RGB value at line %d: value %d exceeds range [0-255]\n", 
-        line_num, value);
-exit(EXIT_FAILURE);
-```
-
----
-
-## 8. Memory Management Strategy
-
-### Decision
-Implement **centralized cleanup** with resource tracking.
-
-### Rationale
-42 projects require zero memory leaks (Valgrind clean). Strategy:
-- Track all allocations in central structure
-- Implement cleanup function called on both normal and error exits
-- Use wrapper functions for malloc/free if needed
-- Free resources in reverse allocation order
-
-### Implementation Pattern
-```c
-typedef struct s_data {
-    void        *mlx;
-    void        *win;
-    void        *img;
-    t_scene     *scene;     // contains all parsed objects
-    // ... other resources
-} t_data;
-
-void cleanup_data(t_data *data)
-{
-    if (data->img)
-        mlx_destroy_image(data->mlx, data->img);
-    if (data->win)
-        mlx_destroy_window(data->mlx, data->win);
-    if (data->mlx)
-    {
-        mlx_destroy_display(data->mlx);
-        free(data->mlx);
-    }
-    if (data->scene)
-        free_scene(data->scene);
+void test_vector_normalize(void) {
+    t_vec3 v = {3.0, 4.0, 0.0};
+    t_vec3 result = vec_normalize(v);
+    double magnitude = sqrt(result.x * result.x + 
+                           result.y * result.y + 
+                           result.z * result.z);
+    assert(fabs(magnitude - 1.0) < 0.0001);
 }
 
-// On exit (both normal and error)
-cleanup_data(&data);
-```
-
-### Best Practices
-- Register cleanup function with `atexit()` or call explicitly
-- Set pointers to NULL after freeing
-- Check pointers before freeing
-- Free child resources before parent
-- Use valgrind regularly during development: `valgrind --leak-check=full ./miniRT scene.rt`
-
----
-
-## 9. 42 Norminette Compliance Patterns
-
-### Decision
-Structure code to **naturally comply** with norminette rules.
-
-### Key Rules
-- **Function length**: Maximum 25 lines per function
-- **Function parameters**: Maximum 4 parameters
-- **Line length**: Maximum 80 characters (norm v3) or 80 columns
-- **Functions per file**: Maximum 5 functions
-- **Header**: 42 standard header required in all files
-- **Naming**: Snake_case for functions, UPPER_CASE for macros/constants
-- **Braces**: K&R style (opening brace on same line for functions, control structures)
-
-### Strategies
-- **Break complex functions**: Extract helper functions for ray-tracing math
-- **Use structures for parameters**: Instead of 6 parameters, pass one struct
-- **Chain calculations**: Break long expressions across multiple lines
-- **Descriptive names**: Use clear names even if longer (better than cryptic)
-- **Helper functions**: Create specific helpers like `calculate_discriminant()`, `get_nearest_intersection()`
-
-### Example Structure Parameter Pattern
-```c
-// Instead of: intersect_sphere(origin_x, origin_y, origin_z, dir_x, dir_y, dir_z, center, radius)
-// Use:
-typedef struct s_ray {
-    t_vec3  origin;
-    t_vec3  direction;
-} t_ray;
-
-double  intersect_sphere(t_ray ray, t_sphere sphere);
-```
-
----
-
-## 10. Color and RGB Handling
-
-### Decision
-Use **integer RGB representation** with floating-point intermediate calculations.
-
-### Rationale
-- Scene file uses integer RGB [0-255]
-- Lighting calculations use floating point [0.0-1.0]
-- Final output converts back to integer RGB
-
-### Implementation Pattern
-```c
-typedef struct s_color {
-    int r;  // [0, 255]
-    int g;
-    int b;
-} t_color;
-
-typedef struct s_color_f {
-    double r;  // [0.0, 1.0]
-    double g;
-    double b;
-} t_color_f;
-
-// Convert for calculations
-t_color_f color_to_float(t_color c) {
-    return (t_color_f){c.r / 255.0, c.g / 255.0, c.b / 255.0};
-}
-
-// Convert back for display
-t_color color_to_int(t_color_f c) {
-    return (t_color){
-        fmin(255, fmax(0, (int)(c.r * 255))),
-        fmin(255, fmax(0, (int)(c.g * 255))),
-        fmin(255, fmax(0, (int)(c.b * 255)))
-    };
+int main(void) {
+    test_vector_normalize();
+    // ... more tests
+    printf("✅ All vector tests passed\n");
+    return 0;
 }
 ```
 
-### Best Practices
-- Clamp values to prevent overflow/underflow
-- Use floating point for all lighting calculations
-- Convert to integer only at final pixel write
-- Consider using 0xRRGGBB integer format for MinilibX image buffer
+**Integration Test Structure**:
+```
+tests/integration/
+├── scenes/
+│   ├── test_basic.rt      # Simple scene: 1 sphere, 1 light
+│   ├── test_shadows.rt    # Shadow validation
+│   └── test_cylinders.rt  # Cylinder rendering
+└── test_render.sh         # Shell script to run renders
+```
+
+**Integration Test Script**:
+```bash
+#!/bin/bash
+# tests/integration/test_render.sh
+
+PASS=0
+FAIL=0
+
+for scene in tests/integration/scenes/*.rt; do
+    echo "Testing $scene..."
+    timeout 30s ./miniRT "$scene" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "✅ PASS: $scene"
+        ((PASS++))
+    else
+        echo "❌ FAIL: $scene"
+        ((FAIL++))
+    fi
+done
+
+echo "Results: $PASS passed, $FAIL failed"
+[ $FAIL -eq 0 ] && exit 0 || exit 1
+```
+
+**CI Workflow Integration**:
+```yaml
+- name: Run unit tests
+  run: |
+    make tests
+    ./tests/run_unit_tests.sh
+
+- name: Run integration tests
+  run: |
+    chmod +x tests/integration/test_render.sh
+    tests/integration/test_render.sh
+```
+
+### Test Coverage Goals
+- **Unit Tests**: 80%+ coverage of math/parsing functions
+- **Integration Tests**: 100% coverage of example scene files
+- **Performance Tests**: Max 5 seconds per scene in CI
+
+### References
+- [Criterion Testing Framework](https://github.com/Snaipe/Criterion) (optional upgrade)
+- [Google Test for C](https://github.com/google/googletest) (C++ alternative)
 
 ---
 
-## Summary
+## Implementation Priority
 
-All NEEDS CLARIFICATION items resolved:
-- ✅ Testing framework: Criterion selected for unit testing
-- ✅ Ray-object intersection mathematics documented
-- ✅ Lighting model strategy defined (ambient + diffuse)
-- ✅ Scene parsing approach established
-- ✅ MinilibX patterns identified
-- ✅ Memory management strategy defined
-- ✅ Norminette compliance patterns documented
-- ✅ Color handling approach defined
+Based on research findings, implement in this order:
 
-**Next Phase**: Phase 1 - Design & Contracts (data model, API contracts, quickstart guide)
+1. **Phase 1A - Core CI Workflow** (Highest Priority)
+   - `.github/workflows/ci.yml` with build + norminette
+   - Validates every push/PR
+   - Blocks merge on failures
+
+2. **Phase 1B - Issue/PR Templates** (High Priority)
+   - Bug report, feature request, documentation templates
+   - PR template with checklist
+   - Immediate value for team collaboration
+
+3. **Phase 2A - Commit Validation** (Medium Priority)
+   - `scripts/check-commit-format.sh`
+   - Add to CI workflow
+   - Enforces Conventional Commits
+
+4. **Phase 2B - Test Automation** (Medium Priority)
+   - Unit test runner in CI
+   - Integration test runner
+   - Xvfb setup for headless testing
+
+5. **Phase 3 - Release Automation** (Lower Priority)
+   - `.github/workflows/release.yml`
+   - Triggered on version tags
+   - Creates GitHub release with binary
+
+6. **Phase 4 - Branch Protection** (Configuration)
+   - Enable branch protection rules
+   - Require PR reviews
+   - Require status checks
+
+---
+
+## Success Metrics
+
+- ✅ CI pipeline runs in < 5 minutes
+- ✅ Zero norminette violations in main branch
+- ✅ 100% of PRs use template
+- ✅ 100% of commits follow Conventional Commits
+- ✅ Zero failed builds in main branch
+- ✅ All tests passing before merge
+- ✅ Automated releases on tags
+
+---
+
+## Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|-----------|
+| GitHub Actions quota exceeded | CI stops working | Monitor usage, optimize workflows, cache dependencies |
+| Norminette version mismatch | False positives/negatives | Pin specific norminette version in workflow |
+| Flaky integration tests | CI instability | Add retries, increase timeouts, use Xvfb properly |
+| MinilibX compilation fails in CI | Blocks all builds | Pre-validate MinilibX build, cache compiled libs |
+| Contributors skip commit format | Inconsistent history | Enforce with CI check, reject non-compliant PRs |
+
+---
+
+## Conclusion
+
+Research complete. All technical decisions documented with rationale, alternatives, and implementation details. Ready to proceed to Phase 1: Design & Contracts.
