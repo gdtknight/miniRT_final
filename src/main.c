@@ -31,6 +31,7 @@ static t_scene	*init_scene(void)
 	scene->has_ambient = 0;
 	scene->has_camera = 0;
 	scene->has_light = 0;
+	scene->shadow_config = init_shadow_config();
 	return (scene);
 }
 

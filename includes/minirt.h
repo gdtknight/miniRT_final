@@ -22,6 +22,7 @@
 # include "vec3.h"
 # include "objects.h"
 # include "ray.h"
+# include "shadow.h"
 
 # define EPSILON 0.0001
 # define PI 3.14159265358979323846
@@ -55,18 +56,19 @@ typedef struct s_light
 
 typedef struct s_scene
 {
-	t_ambient	ambient;
-	t_camera	camera;
-	t_light		light;
-	t_sphere	spheres[100];
-	int			sphere_count;
-	t_plane		planes[100];
-	int			plane_count;
-	t_cylinder	cylinders[100];
-	int			cylinder_count;
-	int			has_ambient;
-	int			has_camera;
-	int			has_light;
+	t_ambient		ambient;
+	t_camera		camera;
+	t_light			light;
+	t_shadow_config	shadow_config;
+	t_sphere		spheres[100];
+	int				sphere_count;
+	t_plane			planes[100];
+	int				plane_count;
+	t_cylinder		cylinders[100];
+	int				cylinder_count;
+	int				has_ambient;
+	int				has_camera;
+	int				has_light;
 }	t_scene;
 
 /* Error handling */

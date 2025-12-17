@@ -14,7 +14,9 @@
 # define SHADOW_H
 
 # include "vec3.h"
-# include "minirt.h"
+
+/* Forward declaration */
+typedef struct s_scene	t_scene;
 
 /**
  * @brief Shadow configuration structure
