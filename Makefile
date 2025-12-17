@@ -37,6 +37,7 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/lighting/lighting.c \
 			  $(SRC_DIR)/lighting/shadow_calc.c \
 			  $(SRC_DIR)/lighting/shadow_config.c \
+			  $(SRC_DIR)/lighting/shadow_test.c \
 			  $(SRC_DIR)/math/vector.c \
 			  $(SRC_DIR)/math/vector_ops.c \
 			  $(SRC_DIR)/parser/parse_elements.c \

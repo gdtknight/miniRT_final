@@ -27,9 +27,16 @@
 double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, \
 		double base_bias)
 {
-	(void)normal;
-	(void)light_dir;
-	return (base_bias);
+	double	dot_nl;
+	double	angle_factor;
+	double	bias;
+
+	dot_nl = vec3_dot(normal, light_dir);
+	if (dot_nl < 0.0)
+		dot_nl = -dot_nl;
+	angle_factor = 1.0 - dot_nl;
+	bias = base_bias * (1.0 + angle_factor * 2.0);
+	return (bias);
 }
 
 /**
@@ -88,22 +95,4 @@ double	calculate_shadow_attenuation(double distance, double max_distance, \
 	(void)max_distance;
 	(void)softness;
 	return (1.0);
-}
-
-/**
- * @brief Test if point is in shadow (single ray)
- * 
- * @param scene Scene data
- * @param point Point to test
- * @param light_pos Light source position
- * @param bias Shadow bias offset
- * @return 1 if in shadow, 0 if lit
- */
-int	is_in_shadow(t_scene *scene, t_vec3 point, t_vec3 light_pos, double bias)
-{
-	(void)scene;
-	(void)point;
-	(void)light_pos;
-	(void)bias;
-	return (0);
 }
