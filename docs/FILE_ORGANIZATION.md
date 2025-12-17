@@ -1,0 +1,229 @@
+# 파일 구조 표준 (File Organization Standards)
+
+**작성일**: 2025-12-17  
+**버전**: 1.0 (Constitution v1.2.0 준수)
+
+---
+
+## 📋 개요
+
+이 문서는 miniRT 프로젝트의 파일 구조 표준을 정의합니다. Constitution v1.2.0 Principle VII에 따라 모든 프로젝트 파일은 명확한 구조로 조직되어야 합니다.
+
+---
+
+## 📁 디렉토리 구조
+
+```
+miniRT_final/
+├── src/                      # 소스 코드
+│   ├── main.c
+│   ├── lighting/
+│   ├── math/
+│   ├── parser/
+│   ├── ray/
+│   ├── render/
+│   ├── utils/
+│   └── window/
+│
+├── includes/                 # 헤더 파일
+│   ├── minirt.h
+│   ├── objects.h
+│   ├── parser.h
+│   ├── ray.h
+│   ├── vec3.h
+│   ├── window.h
+│   └── shadow.h
+│
+├── docs/                     # 문서 (한글 권장)
+│   ├── PROJECT_STATUS.md
+│   ├── TESTING_GUIDE.md
+│   ├── scene-files-guide-kr.md
+│   ├── FILE_ORGANIZATION.md
+│   ├── DEPLOYMENT_SUMMARY.md
+│   ├── IMPLEMENTATION_SUMMARY.md
+│   ├── RELEASE_NOTES.md
+│   ├── miniRT_requirements.md
+│   ├── verification_report.md
+│   └── project-reports/
+│
+├── logs/                     # 로그 파일
+│   ├── build.log
+│   ├── norminette_check.log
+│   └── *.log
+│
+├── scenes/                   # 테스트 장면 파일
+│   ├── test_simple.rt
+│   ├── test_comprehensive.rt
+│   └── *.rt
+│
+├── tests/                    # 단위 테스트
+│   └── test_*.c
+│
+├── lib/                      # 외부 라이브러리
+│   └── minilibx-linux/
+│
+├── scripts/                  # 유틸리티 스크립트
+│   └── *.sh
+│
+├── specs/                    # 기능 명세
+│   ├── 001-raytracer/
+│   └── 002-realistic-shadows/
+│
+├── .specify/                 # Speckit 설정
+│   ├── memory/
+│   └── scripts/
+│
+├── .github/                  # GitHub 설정
+│   ├── workflows/
+│   └── agents/
+│
+├── Makefile                  # 빌드 설정
+├── README.md                 # 프로젝트 개요 (루트에만)
+└── test_miniRT.sh           # 테스트 자동화
+```
+
+---
+
+## 📝 파일 배치 규칙
+
+### 1. 문서 파일 (*.md)
+
+| 파일 유형 | 위치 | 예외 |
+|----------|------|------|
+| 프로젝트 문서 | `docs/` | `README.md` (루트) |
+| 릴리스 노트 | `docs/RELEASE_NOTES.md` | - |
+| 구현 요약 | `docs/IMPLEMENTATION_SUMMARY.md` | - |
+| 배포 요약 | `docs/DEPLOYMENT_SUMMARY.md` | - |
+| 검증 보고서 | `docs/verification_report.md` | - |
+| 프로젝트 보고서 | `docs/project-reports/` | - |
+
+**규칙**:
+- 모든 `.md` 파일은 `docs/` 디렉토리에 위치
+- `README.md`만 프로젝트 루트에 배치
+- 문서는 한글 작성 권장 (국제화 고려 시 영문 허용)
+
+### 2. 로그 파일 (*.log)
+
+| 파일 유형 | 위치 |
+|----------|------|
+| 빌드 로그 | `logs/build*.log` |
+| 검사 로그 | `logs/norminette*.log` |
+| 테스트 로그 | `logs/test*.log` |
+| 기타 로그 | `logs/*.log` |
+
+**규칙**:
+- 모든 `.log` 파일은 `logs/` 디렉토리에 위치
+- 로그 파일은 Git 추적 제외 (`.gitignore` 설정)
+- 로그 디렉토리는 자동 생성
+
+### 3. 소스 코드
+
+| 파일 유형 | 위치 |
+|----------|------|
+| C 소스 파일 | `src/**/*.c` |
+| 헤더 파일 | `includes/*.h` |
+| 테스트 코드 | `tests/*.c` |
+
+**규칙**:
+- 기능별 서브디렉토리 구성 (`lighting/`, `math/`, `parser/` 등)
+- 모든 헤더 파일은 `includes/` 디렉토리
+- 42 헤더 필수 포함
+
+### 4. 설정 및 스크립트
+
+| 파일 유형 | 위치 |
+|----------|------|
+| 빌드 설정 | `Makefile` (루트) |
+| 셸 스크립트 | `scripts/*.sh` |
+| GitHub 워크플로우 | `.github/workflows/*.yml` |
+| Speckit 설정 | `.specify/` |
+
+---
+
+## 🔄 마이그레이션 가이드
+
+### 기존 프로젝트 재구성
+
+1. **로그 디렉토리 생성**:
+   ```bash
+   mkdir -p logs
+   ```
+
+2. **로그 파일 이동**:
+   ```bash
+   mv *.log logs/ 2>/dev/null || true
+   ```
+
+3. **문서 파일 이동**:
+   ```bash
+   # README.md 제외한 모든 .md 파일
+   git mv *.md docs/ 2>/dev/null || true
+   git restore --staged README.md
+   ```
+
+4. **.gitignore 업데이트**:
+   ```bash
+   echo "logs/" >> .gitignore
+   ```
+
+5. **참조 업데이트**:
+   - README.md의 문서 링크 수정
+   - 스크립트의 경로 수정
+   - 워크플로우 파일 확인
+
+### 검증 체크리스트
+
+- [ ] 모든 로그 파일이 `logs/` 디렉토리에 위치
+- [ ] 모든 문서 파일이 `docs/` 디렉토리에 위치 (README.md 제외)
+- [ ] `.gitignore`에 `logs/` 디렉토리 추가
+- [ ] 빌드가 정상 작동 (`make re`)
+- [ ] 테스트가 정상 작동
+- [ ] 문서 링크가 정상 작동
+
+---
+
+## 🚫 제외 사항
+
+### .gitignore 설정
+
+```gitignore
+# Log files
+*.log
+logs/
+
+# Build artifacts
+*.o
+*.a
+obj/
+miniRT
+
+# IDE files
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+```
+
+---
+
+## 📚 참고 문서
+
+- **Constitution v1.2.0**: `.specify/memory/constitution.md`
+- **README.md**: 프로젝트 개요
+- **PROJECT_STATUS.md**: 프로젝트 현황
+
+---
+
+## ✅ 준수 확인
+
+이 파일 구조는 다음 표준을 준수합니다:
+- ✅ Constitution v1.2.0 Principle VII
+- ✅ 42 Norminette (코드 파일)
+- ✅ GitHub 표준 프로젝트 구조
+
+---
+
+**최종 업데이트**: 2025-12-17  
+**관련 이슈**: #5
