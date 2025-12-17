@@ -75,17 +75,7 @@ int	intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit)
 	return (1);
 }
 
-typedef struct s_cyl_calc
-{
-	double	a;
-	double	b;
-	double	c;
-	double	discriminant;
-	double	t;
-	double	m;
-}	t_cyl_calc;
-
-static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
+static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl,
 		t_cyl_calc *calc)
 {
 	t_vec3	oc;
@@ -93,21 +83,21 @@ static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
 
 	radius = cyl->diameter / 2.0;
 	oc = vec3_subtract(ray->origin, cyl->center);
-	calc->a = vec3_dot(ray->direction, ray->direction) - \
-		vec3_dot(ray->direction, cyl->axis) * \
-		vec3_dot(ray->direction, cyl->axis);
-	calc->b = 2.0 * (vec3_dot(ray->direction, oc) - \
-		vec3_dot(ray->direction, cyl->axis) * vec3_dot(oc, cyl->axis));
-	calc->c = vec3_dot(oc, oc) - vec3_dot(oc, cyl->axis) * \
-		vec3_dot(oc, cyl->axis) - radius * radius;
+	calc->a = vec3_dot(ray->direction, ray->direction)
+		- vec3_dot(ray->direction, cyl->axis)
+		* vec3_dot(ray->direction, cyl->axis);
+	calc->b = 2.0 * (vec3_dot(ray->direction, oc)
+			- vec3_dot(ray->direction, cyl->axis) * vec3_dot(oc, cyl->axis));
+	calc->c = vec3_dot(oc, oc) - vec3_dot(oc, cyl->axis)
+		* vec3_dot(oc, cyl->axis) - radius * radius;
 	calc->discriminant = calc->b * calc->b - 4 * calc->a * calc->c;
 	if (calc->discriminant < 0 || calc->a < EPSILON)
 		return (0);
 	calc->t = (-calc->b - sqrt(calc->discriminant)) / (2.0 * calc->a);
 	if (calc->t < 0.001)
 		calc->t = (-calc->b + sqrt(calc->discriminant)) / (2.0 * calc->a);
-	calc->m = vec3_dot(ray->direction, cyl->axis) * calc->t + \
-		vec3_dot(oc, cyl->axis);
+	calc->m = vec3_dot(ray->direction, cyl->axis) * calc->t
+		+ vec3_dot(oc, cyl->axis);
 	return (1);
 }
 
@@ -125,8 +115,8 @@ int	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit)
 		return (0);
 	hit->distance = calc.t;
 	hit->point = hit_point;
-	hit->normal = vec3_normalize(vec3_subtract(vec3_subtract(hit->point, \
-		cylinder->center), vec3_multiply(cylinder->axis, calc.m)));
+	hit->normal = vec3_normalize(vec3_subtract(vec3_subtract(hit->point,
+					cylinder->center), vec3_multiply(cylinder->axis, calc.m)));
 	hit->color = cylinder->color;
 	return (1);
 }

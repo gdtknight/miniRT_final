@@ -46,6 +46,14 @@ typedef struct s_camera
 	double	fov;
 }	t_camera;
 
+typedef struct s_cam_calc
+{
+	double	aspect_ratio;
+	double	fov_scale;
+	t_vec3	right;
+	t_vec3	up;
+}	t_cam_calc;
+
 typedef struct s_light
 {
 	t_vec3	position;

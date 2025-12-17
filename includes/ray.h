@@ -32,4 +32,14 @@ typedef struct s_hit
 	t_color	color;
 }	t_hit;
 
+typedef struct s_cyl_calc
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+	double	t;
+	double	m;
+}	t_cyl_calc;
+
 #endif
