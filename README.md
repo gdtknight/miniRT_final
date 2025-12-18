@@ -1,6 +1,7 @@
 # miniRT - Ray Tracing Renderer
 
 [![Release](https://img.shields.io/github/v/release/gdtknight/miniRT_final?style=flat-square)](https://github.com/gdtknight/miniRT_final/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/gdtknight/miniRT_final/ci.yml?style=flat-square&label=CI)](https://github.com/gdtknight/miniRT_final/actions/workflows/ci.yml)
 [![42 School](https://img.shields.io/badge/42-miniRT-00babc?style=flat-square)](https://github.com/42School)
 [![Norminette](https://img.shields.io/badge/norminette-passing-success?style=flat-square)](https://github.com/42School/norminette)
 [![Language](https://img.shields.io/badge/language-C-blue?style=flat-square)](https://en.wikipedia.org/wiki/C_(programming_language))
@@ -20,6 +21,7 @@ miniRT는 광선 추적(Ray Tracing) 기법을 이용하여 3D 장면을 사실�
 - [빠른 시작](#-빠른-시작)
 - [장면 파일 형식](#-장면-파일-형식)
 - [프로젝트 구조](#-프로젝트-구조)
+- [CI/CD 워크플로우](#-cicd-워크플로우)
 - [개발 히스토리](#-개발-히스토리)
 - [기여 및 라이선스](#-기여-및-라이선스)
 
@@ -49,7 +51,8 @@ miniRT는 광선 추적(Ray Tracing) 기법을 이용하여 3D 장면을 사실�
 ### 🛠️ 기술적 특징
 
 - ✅ **42 Norminette 준수** - 코딩 스타일 가이드 준수
-- ✅ **메모리 안전성** - Valgrind 테스트 통과 (메모리 누수 0)
+- ✅ **메모리 안전성** - Valgrind/leaks 테스트 통과 (메모리 누수 0)
+- ✅ **자동화된 품질 검증** - CI/CD 파이프라인으로 자동 검증
 - ✅ **강건한 에러 처리** - 입력 검증 및 명확한 에러 메시지
 - ✅ **완전한 한글 문서** - [Wiki](https://github.com/gdtknight/miniRT_final/wiki) 참조
 
@@ -287,6 +290,69 @@ valgrind --leak-check=full ./miniRT scenes/test_simple.rt
 - **GCC/Clang** - 컴파일러
 - **Valgrind** - 메모리 검사
 - **Git** - 버전 관리
+
+---
+
+## 🚀 CI/CD 워크플로우
+
+이 프로젝트는 자동화된 품질 검증 파이프라인을 사용합니다:
+
+### 개발 워크플로우 (Development CI)
+**트리거**: 브랜치 push (main, develop, feature/**)
+
+- ✅ Norminette 코드 스타일 검사
+- ✅ Linux/macOS 빌드
+- ✅ 기본 테스트 실행
+
+### PR 검증 워크플로우 (PR Validation)
+**트리거**: Pull Request 생성/업데이트
+
+- ✅ 모든 개발 워크플로우 검사
+- ✅ **메모리 누수 검사** (valgrind/leaks)
+- ✅ 커밋 메시지 검증
+- ✅ 브랜치 네이밍 검증
+- ✅ PR 템플릿 검증
+
+### 릴리스 워크플로우 (Release)
+**트리거**: 버전 태그 (v*.*.*)
+
+- ✅ 모든 품질 검사
+- ✅ Linux/macOS 바이너리 빌드
+- ✅ GitHub Release 생성
+- ✅ **Wiki 자동 동기화** (docs/ → Wiki)
+
+### 메모리 누수 검사
+
+모든 PR은 메모리 누수 검사를 통과해야 합니다:
+
+```bash
+# 로컬에서 메모리 검사 실행
+.github/scripts/check-memory-leaks.sh scenes/test_simple.rt
+
+# Linux (valgrind)
+.github/scripts/install-valgrind.sh
+valgrind --leak-check=full ./miniRT scenes/test_simple.rt
+
+# macOS (leaks)
+./miniRT scenes/test_simple.rt &
+leaks $!
+```
+
+**정책**: 제로 톨러런스 - 모든 메모리 누수는 자동으로 CI 실패 처리됩니다.
+
+### 자동화된 테스트
+
+```bash
+# 향상된 테스트 스크립트 실행
+./test_miniRT.sh
+
+# 출력 예시:
+# ✓ PASS: Simple scene
+# ✓ PASS: All objects scene
+# ✗ FAIL: Missing file (expected fail, got pass)
+#
+# Test Summary: 14/15 passed
+```
 
 ---
 
