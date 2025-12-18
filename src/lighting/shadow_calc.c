@@ -3,27 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   shadow_calc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/17 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:19:04 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:19:05 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shadow.h"
 #include "minirt.h"
 #include "vec3.h"
-#include "ray.h"
 #include <math.h>
 
-/**
- * @brief Calculate adaptive shadow bias
- * 
- * @param normal Surface normal vector
- * @param light_dir Direction to light source
- * @param base_bias Base bias value
- * @return Adjusted bias value
- */
+/*
+** Calculate adaptive shadow bias based on surface angle.
+** Increases bias for grazing angles to prevent shadow acne.
+** Returns adjusted bias value scaled by angle factor.
+*/
 double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, \
 		double base_bias)
 {
@@ -39,14 +35,11 @@ double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, \
 	return (bias);
 }
 
-/**
- * @brief Generate shadow sample offset
- * 
- * @param radius Sampling radius
- * @param sample_index Current sample index
- * @param total_samples Total number of samples
- * @return Offset vector
- */
+/*
+** Generate offset vector for soft shadow sampling.
+** Uses stratified sampling in circular pattern around light.
+** Returns zero vector if only one sample requested.
+*/
 t_vec3	generate_shadow_sample_offset(double radius, int sample_index, \
 		int total_samples)
 {
@@ -62,22 +55,18 @@ t_vec3	generate_shadow_sample_offset(double radius, int sample_index, \
 		grid_size = 1;
 	angle = 2.0 * 3.14159265358979323846 * (sample_index % grid_size) \
 		/ (double)grid_size;
-	r = radius * (sample_index / grid_size + 0.5) / (double)grid_size;
+	r = radius * (sample_index / (double)grid_size + 0.5) / (double)grid_size;
 	offset.x = r * cos(angle);
 	offset.y = r * sin(angle);
 	offset.z = 0.0;
 	return (offset);
 }
 
-/**
- * @brief Calculate shadow factor using multiple shadow rays
- * 
- * @param scene Scene data
- * @param point Point to test for shadows
- * @param light_pos Light source position
- * @param config Shadow configuration
- * @return Shadow factor (0.0-1.0)
- */
+/*
+** Calculate shadow factor using multiple shadow rays.
+** Casts multiple rays to determine partial occlusion.
+** Returns 0.0 (fully lit) to 1.0 (fully shadowed).
+*/
 double	calculate_shadow_factor(t_scene *scene, t_vec3 point, \
 		t_vec3 light_pos, t_shadow_config *config)
 {
@@ -86,6 +75,8 @@ double	calculate_shadow_factor(t_scene *scene, t_vec3 point, \
 	t_vec3	normal;
 	t_vec3	light_dir;
 	int		i;
+	t_vec3	offset;
+	t_vec3	sample_light_pos;
 
 	shadow_count = 0.0;
 	light_dir = vec3_normalize(vec3_subtract(light_pos, point));
@@ -94,21 +85,21 @@ double	calculate_shadow_factor(t_scene *scene, t_vec3 point, \
 	i = 0;
 	while (i < config->samples)
 	{
-		if (is_in_shadow(scene, point, light_pos, bias))
+		offset = generate_shadow_sample_offset(config->softness * 2.0, i, \
+			config->samples);
+		sample_light_pos = vec3_add(light_pos, offset);
+		if (is_in_shadow(scene, point, sample_light_pos, bias))
 			shadow_count += 1.0;
 		i++;
 	}
 	return (shadow_count / (double)config->samples);
 }
 
-/**
- * @brief Calculate distance-based shadow attenuation
- * 
- * @param distance Distance from light
- * @param max_distance Maximum distance for attenuation
- * @param softness Softness factor
- * @return Attenuation factor (0.0-1.0)
- */
+/*
+** Calculate distance-based shadow attenuation.
+** Softens shadows based on distance from light source.
+** Uses inverse square falloff with configurable softness.
+*/
 double	calculate_shadow_attenuation(double distance, double max_distance, \
 		double softness)
 {
