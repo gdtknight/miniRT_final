@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:20:38 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:21:10 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+** Initialize scene structure with default values.
+** Allocates memory and sets all counters to zero.
+** Returns NULL on allocation failure.
+*/
 static t_scene	*init_scene(void)
 {
 	t_scene	*scene;
@@ -35,6 +40,11 @@ static t_scene	*init_scene(void)
 	return (scene);
 }
 
+/*
+** Main program entry point.
+** Validates arguments, initializes scene, parses input file,
+** creates window, and starts rendering loop.
+*/
 int	main(int argc, char **argv)
 {
 	t_scene		*scene;
