@@ -3,29 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:17:55 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:21:25 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
 # include <stdbool.h>
 # include "vec3.h"
 # include "objects.h"
 # include "ray.h"
+# include "shadow.h"
 
+/* Epsilon value for floating point comparison to avoid numerical errors */
 # define EPSILON 0.0001
-# define PI 3.14159265358979323846
 
+/* Floating point color for intermediate calculations (0.0 - 1.0+) */
 typedef struct s_color_f
 {
 	double	r;
@@ -33,12 +32,14 @@ typedef struct s_color_f
 	double	b;
 }	t_color_f;
 
+/* Ambient lighting that illuminates all objects uniformly */
 typedef struct s_ambient
 {
 	double	ratio;
 	t_color	color;
 }	t_ambient;
 
+/* Camera defines viewpoint and field of view for rendering */
 typedef struct s_camera
 {
 	t_vec3	position;
@@ -46,6 +47,7 @@ typedef struct s_camera
 	double	fov;
 }	t_camera;
 
+/* Point light source emitting from a single point in all directions */
 typedef struct s_light
 {
 	t_vec3	position;
@@ -53,37 +55,49 @@ typedef struct s_light
 	t_color	color;
 }	t_light;
 
+/* Complete scene: ambient light, camera, light, and geometric objects */
 typedef struct s_scene
 {
-	t_ambient	ambient;
-	t_camera	camera;
-	t_light		light;
-	t_sphere	spheres[100];
-	int			sphere_count;
-	t_plane		planes[100];
-	int			plane_count;
-	t_cylinder	cylinders[100];
-	int			cylinder_count;
-	int			has_ambient;
-	int			has_camera;
-	int			has_light;
+	t_ambient		ambient;
+	t_camera		camera;
+	t_light			light;
+	t_shadow_config	shadow_config;
+	t_sphere		spheres[100];
+	int				sphere_count;
+	t_plane			planes[100];
+	int				plane_count;
+	t_cylinder		cylinders[100];
+	int				cylinder_count;
+	int				has_ambient;
+	int				has_camera;
+	int				has_light;
 }	t_scene;
 
-/* Error handling */
+/* Print error message to stderr and return 0 */
 int		print_error(const char *message);
 
-/* Memory cleanup */
+/* Convert string to integer */
+int		ft_atoi(const char *str);
+/* Convert string to double */
+double	ft_atof(const char *str);
+
+/* Free allocated memory for scene structure */
 void	cleanup_scene(t_scene *scene);
+/* Free allocated memory for render structure */
 void	cleanup_render(void *render);
+/* Free all allocated memory (scene and render) */
 void	cleanup_all(t_scene *scene, void *render);
 
-/* Rendering */
+/* Render entire scene to window by tracing rays for each pixel */
 void	render_scene(t_scene *scene, void *mlx, void *win);
+/* Calculate final color at hit point using lighting and shadows */
 t_color	apply_lighting(t_scene *scene, t_hit *hit);
 
-/* Intersections */
+/* Test ray-sphere intersection and update hit info if closer */
 int		intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit);
+/* Test ray-plane intersection and update hit info if closer */
 int		intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit);
+/* Test ray-cylinder intersection and update hit info if closer */
 int		intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit);
 
 #endif
