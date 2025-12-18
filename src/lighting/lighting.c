@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/17 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:18:59 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:19:00 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #include "shadow.h"
 #include <math.h>
 
+/*
+** Clamp color values to valid range [0, 255].
+** Prevents overflow in final pixel color values.
+*/
 static void	clamp_color(t_color *result)
 {
 	if (result->r > 255)
@@ -26,10 +30,38 @@ static void	clamp_color(t_color *result)
 		result->b = 255;
 }
 
+/*
+** Calculate specular reflection (Phong model).
+** Creates shiny highlights on surfaces.
+*/
+static double	calculate_specular(t_vec3 light_dir, t_vec3 normal, \
+		t_vec3 view_dir)
+{
+	t_vec3	reflect_dir;
+	double	spec;
+	double	dot_ln;
+
+	dot_ln = vec3_dot(light_dir, normal);
+	reflect_dir = vec3_subtract(vec3_multiply(normal, 2.0 * dot_ln), \
+		light_dir);
+	spec = vec3_dot(reflect_dir, view_dir);
+	if (spec < 0.0)
+		spec = 0.0;
+	spec = pow(spec, 32.0);
+	return (spec);
+}
+
+/*
+** Apply Phong lighting model to calculate final color at hit point.
+** Combines ambient light with diffuse reflection and specular highlights.
+** Takes into account shadow factor to darken occluded areas.
+*/
 t_color	apply_lighting(t_scene *scene, t_hit *hit)
 {
 	t_vec3	light_dir;
+	t_vec3	view_dir;
 	double	diffuse;
+	double	specular;
 	t_color	result;
 	double	ambient;
 	double	shadow_factor;
@@ -37,12 +69,15 @@ t_color	apply_lighting(t_scene *scene, t_hit *hit)
 	ambient = scene->ambient.ratio;
 	light_dir = vec3_normalize(vec3_subtract(scene->light.position, \
 		hit->point));
+	view_dir = vec3_normalize(vec3_subtract(scene->camera.position, \
+		hit->point));
 	diffuse = vec3_dot(hit->normal, light_dir);
 	if (diffuse < 0)
 		diffuse = 0;
 	shadow_factor = calculate_shadow_factor(scene, hit->point, \
 		scene->light.position, &scene->shadow_config);
-	diffuse = diffuse * (1.0 - shadow_factor);
+	specular = calculate_specular(light_dir, hit->normal, view_dir) * 0.5;
+	diffuse = (diffuse + specular) * (1.0 - shadow_factor);
 	result.r = hit->color.r * (ambient + diffuse * scene->light.brightness);
 	result.g = hit->color.g * (ambient + diffuse * scene->light.brightness);
 	result.b = hit->color.b * (ambient + diffuse * scene->light.brightness);
