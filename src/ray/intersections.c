@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:19:51 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:19:52 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include "vec3.h"
 #include <math.h>
 
+/*
+** Calculate ray-sphere intersection distance using quadratic formula.
+** Solves: ||ray.origin + t*ray.direction - sphere.center||² = radius²
+** Returns closest positive t value, or -1 if no intersection.
+*/
 static double	calculate_sphere_t(t_vec3 oc, t_ray *ray, double radius)
 {
 	double	a;
@@ -35,6 +40,11 @@ static double	calculate_sphere_t(t_vec3 oc, t_ray *ray, double radius)
 	return (t);
 }
 
+/*
+** Test ray-sphere intersection and update hit info if closer.
+** Uses quadratic equation to find intersection points.
+** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
+*/
 int	intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit)
 {
 	t_vec3	oc;
@@ -53,6 +63,11 @@ int	intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit)
 	return (1);
 }
 
+/*
+** Test ray-plane intersection using plane equation.
+** Plane equation: dot(point - plane.point, plane.normal) = 0
+** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
+*/
 int	intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit)
 {
 	double	denom;
@@ -75,6 +90,7 @@ int	intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit)
 	return (1);
 }
 
+/* Helper structure for cylinder intersection calculations */
 typedef struct s_cyl_calc
 {
 	double	a;
@@ -85,6 +101,11 @@ typedef struct s_cyl_calc
 	double	m;
 }	t_cyl_calc;
 
+/*
+** Calculate ray-cylinder infinite surface intersection.
+** Uses quadratic equation excluding cylinder caps.
+** Returns 1 if intersection found within cylinder height, 0 otherwise.
+*/
 static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
 		t_cyl_calc *calc)
 {
@@ -111,22 +132,95 @@ static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
 	return (1);
 }
 
-int	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit)
+/*
+** Check ray intersection with cylinder cap (top or bottom disc).
+** Returns 1 if hit and updates hit info, 0 otherwise.
+*/
+static int	intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit, \
+		double cap_m)
+{
+	t_vec3	cap_center;
+	double	denom;
+	double	t;
+	t_vec3	p;
+	double	dist_sq;
+
+	denom = vec3_dot(ray->direction, cyl->axis);
+	if (fabs(denom) < EPSILON)
+		return (0);
+	cap_center = vec3_add(cyl->center, vec3_multiply(cyl->axis, cap_m));
+	t = vec3_dot(vec3_subtract(cap_center, ray->origin), cyl->axis) / denom;
+	if (t < 0.001 || t > hit->distance)
+		return (0);
+	p = vec3_add(ray->origin, vec3_multiply(ray->direction, t));
+	dist_sq = vec3_dot(vec3_subtract(p, cap_center), \
+		vec3_subtract(p, cap_center));
+	if (dist_sq > (cyl->diameter / 2.0) * (cyl->diameter / 2.0))
+		return (0);
+	hit->distance = t;
+	hit->point = p;
+	hit->normal = cyl->axis;
+	if (vec3_dot(ray->direction, hit->normal) > 0)
+		hit->normal = vec3_multiply(hit->normal, -1.0);
+	hit->color = cyl->color;
+	return (1);
+}
+
+/*
+** Test ray-cylinder body intersection (side surface).
+** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
+*/
+static int	intersect_cylinder_body(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 {
 	t_cyl_calc	calc;
 	t_vec3		hit_point;
+	t_vec3		axis_point;
 
-	if (!calculate_cylinder_intersection(ray, cylinder, &calc))
+	if (!calculate_cylinder_intersection(ray, cyl, &calc))
 		return (0);
 	if (calc.t < 0.001 || calc.t > hit->distance)
 		return (0);
 	hit_point = vec3_add(ray->origin, vec3_multiply(ray->direction, calc.t));
-	if (calc.m < 0 || calc.m > cylinder->height)
+	if (calc.m < -cyl->height / 2.0 || calc.m > cyl->height / 2.0)
 		return (0);
 	hit->distance = calc.t;
 	hit->point = hit_point;
-	hit->normal = vec3_normalize(vec3_subtract(vec3_subtract(hit->point, \
-		cylinder->center), vec3_multiply(cylinder->axis, calc.m)));
-	hit->color = cylinder->color;
+	axis_point = vec3_add(cyl->center, vec3_multiply(cyl->axis, calc.m));
+	hit->normal = vec3_normalize(vec3_subtract(hit->point, axis_point));
+	hit->color = cyl->color;
 	return (1);
+}
+
+/*
+** Test ray-cylinder intersection including body and caps.
+** Checks body, top cap, and bottom cap, returns closest hit.
+** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
+*/
+int	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit)
+{
+	int		hit_found;
+	t_hit	temp_hit;
+
+	hit_found = 0;
+	temp_hit.distance = hit->distance;
+	if (intersect_cylinder_body(ray, cylinder, &temp_hit))
+	{
+		*hit = temp_hit;
+		hit_found = 1;
+	}
+	temp_hit.distance = hit->distance;
+	if (intersect_cylinder_cap(ray, cylinder, &temp_hit, \
+		cylinder->height / 2.0))
+	{
+		*hit = temp_hit;
+		hit_found = 1;
+	}
+	temp_hit.distance = hit->distance;
+	if (intersect_cylinder_cap(ray, cylinder, &temp_hit, \
+		-cylinder->height / 2.0))
+	{
+		*hit = temp_hit;
+		hit_found = 1;
+	}
+	return (hit_found);
 }
