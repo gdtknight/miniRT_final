@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:18:50 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:18:51 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,72 @@
 
 # include "minirt.h"
 
+/* Object type enumeration for selection */
+typedef enum e_obj_type
+{
+	OBJ_NONE = 0,
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER
+}	t_obj_type;
+
+/* Selected object information */
+typedef struct s_selection
+{
+	t_obj_type	type;
+	int			index;
+}	t_selection;
+
+/* Render context containing MLX pointers and scene data */
 typedef struct s_render
 {
 	void		*mlx;
 	void		*win;
+	void		*img;
+	char		*img_data;
+	int			bpp;
+	int			size_line;
+	int			endian;
 	t_scene		*scene;
+	t_selection	selection;
+	int			dirty;
+	int			low_quality;
 }	t_render;
 
-/* Window management */
+/* Initialize MLX window and set up event handlers */
 t_render	*init_window(t_scene *scene);
+/* Close window and clean up resources */
 int			close_window(void *param);
+/* Handle keyboard input (ESC to exit) */
 int			handle_key(int keycode, void *param);
+/* Handle key release events */
+int			handle_key_release(int keycode, void *param);
+/* Main rendering loop */
+int			render_loop(void *param);
 
-/* MLX functions */
-void	*mlx_init(void);
-void	*mlx_new_window(void *mlx_ptr, int width, int height, char *title);
-int		mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
-int		mlx_loop(void *mlx_ptr);
-int		mlx_hook(void *win_ptr, int event, int mask, int (*f)(), void *param);
-int		mlx_key_hook(void *win_ptr, int (*f)(), void *param);
+/* Initialize MLX connection */
+void		*mlx_init(void);
+/* Create new window with specified dimensions and title */
+void		*mlx_new_window(void *mlx_ptr, int width, int height,
+				char *title);
+/* Start MLX event loop */
+int			mlx_loop(void *mlx_ptr);
+/* Register event handler for window events */
+int			mlx_hook(void *win_ptr, int event, int mask,
+				int (*f)(), void *param);
+/* Register keyboard event handler */
+int			mlx_key_hook(void *win_ptr, int (*f)(), void *param);
+/* Create new image buffer */
+void		*mlx_new_image(void *mlx_ptr, int width, int height);
+/* Get image data address for direct pixel manipulation */
+char		*mlx_get_data_addr(void *img_ptr, int *bpp, int *size_line,
+				int *endian);
+/* Display image buffer to window */
+int			mlx_put_image_to_window(void *mlx_ptr, void *win_ptr,
+				void *img_ptr, int x, int y);
+/* Destroy image buffer */
+int			mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+/* Register loop hook for continuous rendering */
+int			mlx_loop_hook(void *mlx_ptr, int (*f)(), void *param);
 
 #endif

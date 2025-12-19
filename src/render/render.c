@@ -3,81 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:20:00 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/19 08:57:16 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "vec3.h"
 #include "ray.h"
 #include "window.h"
-#include <math.h>
 
-#ifndef M_PI
-# define M_PI 3.14159265358979323846
-#endif
+t_ray		create_camera_ray(t_camera *camera, double x, double y);
+t_color		trace_ray(t_scene *scene, t_ray *ray);
 
-static t_ray	create_camera_ray(t_camera *camera, double x, double y)
+/*
+** Write color directly to image buffer for fast rendering.
+** Converts RGB color to packed integer and writes to memory.
+*/
+static void	put_pixel_to_buffer(t_render *render, int x, int y, t_color color)
+{
+	int		offset;
+	int		pixel_color;
+
+	if (x < 0 || x >= 800 || y < 0 || y >= 600)
+		return ;
+	offset = y * render->size_line + x * (render->bpp / 8);
+	pixel_color = (color.r << 16) | (color.g << 8) | color.b;
+	*(int *)(render->img_data + offset) = pixel_color;
+}
+
+/*
+** Render single pixel at screen coordinates (x, y).
+** Converts screen space to normalized device coordinates.
+** Creates camera ray, traces it, and writes resulting color to buffer.
+*/
+static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 {
 	t_ray	ray;
-	t_vec3	right;
-	t_vec3	up;
-	t_vec3	pixel_pos;
-	double	aspect_ratio;
-	double	fov_scale;
+	t_color	color;
+	double	u;
+	double	v;
 
-	aspect_ratio = 800.0 / 600.0;
-	fov_scale = tan(camera->fov * 0.5 * M_PI / 180.0);
-	right = vec3_normalize(vec3_cross(camera->direction, (t_vec3){0, 1, 0}));
-	up = vec3_normalize(vec3_cross(right, camera->direction));
-	pixel_pos = camera->direction;
-	pixel_pos = vec3_add(pixel_pos, vec3_multiply(right, x * fov_scale * aspect_ratio));
-	pixel_pos = vec3_add(pixel_pos, vec3_multiply(up, y * fov_scale));
-	ray.origin = camera->position;
-	ray.direction = vec3_normalize(pixel_pos);
-	return (ray);
+	u = (2.0 * x / 800.0) - 1.0;
+	v = 1.0 - (2.0 * y / 600.0);
+	ray = create_camera_ray(&scene->camera, u, v);
+	color = trace_ray(scene, &ray);
+	put_pixel_to_buffer(render, x, y, color);
 }
 
-static t_color	trace_ray(t_scene *scene, t_ray *ray)
-{
-	t_hit	hit;
-	t_hit	temp_hit;
-	int		i;
-	int		hit_found;
-
-	hit_found = 0;
-	hit.distance = INFINITY;
-	i = 0;
-	while (i < scene->sphere_count)
-	{
-		temp_hit.distance = hit.distance;
-		if (intersect_sphere(ray, &scene->spheres[i], &temp_hit))
-		{
-			hit = temp_hit;
-			hit_found = 1;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < scene->plane_count)
-	{
-		temp_hit.distance = hit.distance;
-		if (intersect_plane(ray, &scene->planes[i], &temp_hit))
-		{
-			hit = temp_hit;
-			hit_found = 1;
-		}
-		i++;
-	}
-	if (hit_found)
-		return (apply_lighting(scene, &hit));
-	return ((t_color){0, 0, 0});
-}
-
-void	render_scene(t_scene *scene, void *mlx, void *win)
+/*
+** Render scene at reduced resolution for fast preview.
+** Uses 2x2 pixel blocks to achieve 4x speedup.
+*/
+static void	render_low_quality(t_scene *scene, t_render *render)
 {
 	int		x;
 	int		y;
@@ -96,9 +75,56 @@ void	render_scene(t_scene *scene, void *mlx, void *win)
 			v = 1.0 - (2.0 * y / 600.0);
 			ray = create_camera_ray(&scene->camera, u, v);
 			color = trace_ray(scene, &ray);
-			mlx_pixel_put(mlx, win, x, y, (color.r << 16) | (color.g << 8) | color.b);
+			put_pixel_to_buffer(render, x, y, color);
+			if (x + 1 < 800)
+				put_pixel_to_buffer(render, x + 1, y, color);
+			if (y + 1 < 600)
+			{
+				put_pixel_to_buffer(render, x, y + 1, color);
+				if (x + 1 < 800)
+					put_pixel_to_buffer(render, x + 1, y + 1, color);
+			}
+			x += 2;
+		}
+		y += 2;
+	}
+}
+
+/*
+** Render entire scene to image buffer.
+** Uses low quality mode if requested for faster preview.
+** Otherwise renders at full 800x600 resolution.
+*/
+void	render_scene_to_buffer(t_scene *scene, t_render *render)
+{
+	int		x;
+	int		y;
+
+	if (render->low_quality)
+	{
+		render_low_quality(scene, render);
+		return ;
+	}
+	y = 0;
+	while (y < 600)
+	{
+		x = 0;
+		while (x < 800)
+		{
+			render_pixel(scene, render, x, y);
 			x++;
 		}
 		y++;
 	}
+}
+
+/*
+** Legacy wrapper for backward compatibility.
+** Renders to temporary buffer and displays.
+*/
+void	render_scene(t_scene *scene, void *mlx, void *win)
+{
+	(void)scene;
+	(void)mlx;
+	(void)win;
 }

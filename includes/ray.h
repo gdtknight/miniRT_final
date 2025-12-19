@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniRT team <miniRT@42.fr>                +#+  +:+       +#+        */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:00:00 by miniRT           #+#    #+#             */
-/*   Updated: 2025/12/15 00:00:00 by miniRT          ###   ########.fr       */
+/*   Created: 2025/12/18 15:18:33 by yoshin            #+#    #+#             */
+/*   Updated: 2025/12/18 15:18:34 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 # include "objects.h"
 # include <stdbool.h>
 
+/* Ray with origin point and normalized direction vector */
 typedef struct s_ray
 {
 	t_vec3	origin;
 	t_vec3	direction;
 }	t_ray;
 
+/* Ray-object intersection result with hit point and surface info */
 typedef struct s_hit
 {
 	bool	hit;
@@ -31,5 +33,7 @@ typedef struct s_hit
 	t_vec3	normal;
 	t_color	color;
 }	t_hit;
+
+typedef t_hit	t_hit_record;
 
 #endif

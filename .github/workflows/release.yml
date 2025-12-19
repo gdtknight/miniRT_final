@@ -1,0 +1,155 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build Release Binaries
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact-name: miniRT-linux-x86_64
+          - os: macos-latest
+            artifact-name: miniRT-macos-arm64
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make xorg libxext-dev libbsd-dev
+
+      - name: Setup MinilibX for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          if [ ! -f lib/minilibx-linux/Makefile ]; then
+            echo "Cloning minilibx-linux..."
+            rm -rf lib/minilibx-linux
+            git clone https://github.com/42Paris/minilibx-linux.git lib/minilibx-linux
+          fi
+
+      - name: Clean build
+        run: make fclean || true
+
+      - name: Build miniRT
+        run: |
+          make
+          ls -lh miniRT
+
+      - name: Rename binary with platform suffix
+        run: |
+          mv miniRT ${{ matrix.artifact-name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.artifact-name }}
+
+  create-release:
+    name: Create GitHub Release
+    needs: build-release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          echo "Generating release notes..."
+          
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          
+          echo "## What's Changed" > release_notes.md
+          echo "" >> release_notes.md
+          
+          if [ -n "$PREV_TAG" ]; then
+            echo "Changes since $PREV_TAG:" >> release_notes.md
+            echo "" >> release_notes.md
+            
+            # Group commits by type
+            echo "### Features" >> release_notes.md
+            git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" --grep="^feat" >> release_notes.md || true
+            echo "" >> release_notes.md
+            
+            echo "### Bug Fixes" >> release_notes.md
+            git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" --grep="^fix" >> release_notes.md || true
+            echo "" >> release_notes.md
+            
+            echo "### Documentation" >> release_notes.md
+            git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" --grep="^docs" >> release_notes.md || true
+            echo "" >> release_notes.md
+            
+            echo "### Other Changes" >> release_notes.md
+            git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" --grep="^chore\|^style\|^refactor" >> release_notes.md || true
+            echo "" >> release_notes.md
+          else
+            echo "Initial release" >> release_notes.md
+            echo "" >> release_notes.md
+            git log --pretty=format:"- %s (%h)" >> release_notes.md
+          fi
+          
+          echo "" >> release_notes.md
+          echo "## Installation" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "Download the appropriate binary for your platform:" >> release_notes.md
+          echo "- **Linux**: miniRT-linux-x86_64" >> release_notes.md
+          echo "- **macOS**: miniRT-macos-arm64" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "Make it executable: \`chmod +x miniRT-*\`" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "Run with a scene file: \`./miniRT-* scenes/test_scene.rt\`" >> release_notes.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release_notes.md
+          files: |
+            miniRT-linux-x86_64/miniRT-linux-x86_64
+            miniRT-macos-arm64/miniRT-macos-arm64
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sync-wiki:
+    name: Sync Documentation to Wiki
+    needs: create-release
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync Wiki
+        run: |
+          .github/scripts/sync-wiki.sh ${GITHUB_REF#refs/tags/}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}

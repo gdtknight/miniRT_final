@@ -1,0 +1,455 @@
+# Release Workflow Contract
+
+**Workflow**: `.github/workflows/release.yml`
+**Purpose**: Automated release creation when version tags are pushed
+**Triggers**: Push of tags matching `v*.*.*` pattern
+
+---
+
+## Contract Specification
+
+### Input Events
+
+```yaml
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Semantic version tags: v1.0.0, v1.2.3, etc.
+```
+
+### Required Permissions
+
+```yaml
+permissions:
+  contents: write  # Required to create releases and upload assets
+```
+
+### Tag Format Requirements
+
+**Pattern**: `v{MAJOR}.{MINOR}.{PATCH}`
+
+**Valid Examples**:
+- `v1.0.0` - Initial release
+- `v1.2.3` - Feature release with bug fixes
+- `v2.0.0` - Breaking change release
+
+**Invalid Examples**:
+- `v1.0` - Missing patch version
+- `1.0.0` - Missing 'v' prefix
+- `v1.0.0-beta` - Pre-release suffixes not supported in this contract
+
+### Job: create-release
+
+**Purpose**: Build clean binary and create GitHub release with assets
+
+**Steps**:
+1. Checkout repository at tagged commit
+2. Install build dependencies
+3. Build MinilibX
+4. Clean build of miniRT (ensure no stale objects)
+5. Strip binary (optional, reduces size)
+6. Generate release notes from commits
+7. Create GitHub release
+8. Upload miniRT binary as asset
+
+**Exit Conditions**:
+- ✅ Success: Release created with binary attached
+- ❌ Failure: Build fails or release creation fails
+
+**Contract**:
+```yaml
+create-release:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for changelog generation
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libx11-dev libxext-dev xorg-dev
+        
+    - name: Build MinilibX
+      run: |
+        cd lib/minilibx-linux
+        make
+        
+    - name: Clean build
+      run: make fclean
+      
+    - name: Build release binary
+      run: make
+      
+    - name: Verify binary
+      run: |
+        [ -f ./miniRT ] || exit 1
+        echo "✅ Binary built successfully"
+        ls -lh miniRT
+        
+    - name: Strip binary (optional)
+      run: strip miniRT
+      
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        echo "## Changes" > release_notes.md
+        git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s" >> release_notes.md || echo "Initial release" >> release_notes.md
+        cat release_notes.md
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: miniRT
+        body_path: release_notes.md
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+## Release Notes Format
+
+### Auto-Generated Changelog
+
+Release notes automatically generated from commits since last tag using Conventional Commits:
+
+**Format**:
+```markdown
+## miniRT v1.2.3
+
+### Features
+- feat(parser): add cylinder orientation parsing
+- feat(render): implement specular lighting
+
+### Bug Fixes
+- fix(ray): correct cylinder cap intersection
+- fix(lighting): fix shadow ray self-intersection
+
+### Documentation
+- docs: update Korean implementation guide
+- docs: add quickstart guide for CI/CD
+
+### Other Changes
+- chore(ci): add release automation workflow
+- test(parser): add validation tests
+```
+
+### Grouping Rules
+
+Commits grouped by type prefix:
+- `feat:` → Features section
+- `fix:` → Bug Fixes section
+- `docs:` → Documentation section
+- `style:`, `refactor:`, `test:`, `chore:` → Other Changes section
+
+---
+
+## Asset Specification
+
+### Primary Asset: miniRT Binary
+
+| Property | Value |
+|----------|-------|
+| Filename | `miniRT` |
+| Type | ELF 64-bit LSB executable |
+| Architecture | x86-64 |
+| Stripped | Yes (debug symbols removed) |
+| Typical Size | 200-300 KB |
+| Permissions | 755 (executable) |
+
+### Asset Download URL
+
+Pattern: `https://github.com/{owner}/{repo}/releases/download/{tag}/miniRT`
+
+Example: `https://github.com/user/miniRT_final/releases/download/v1.0.0/miniRT`
+
+---
+
+## Semantic Versioning Strategy
+
+### Version Number Meanings
+
+**MAJOR version** (v**X**.0.0):
+- Incompatible API changes
+- Breaking changes to .rt file format
+- Mandatory subject requirements change
+
+**Examples**:
+- Adding mandatory element to .rt format
+- Changing required function signatures
+- Removing supported features
+
+**MINOR version** (v1.**X**.0):
+- New features (backward-compatible)
+- Bonus features implementation
+- Performance improvements
+
+**Examples**:
+- Adding specular lighting (bonus)
+- Adding checkerboard patterns
+- Implementing cone objects
+
+**PATCH version** (v1.2.**X**):
+- Bug fixes only
+- No new features
+- Backward-compatible corrections
+
+**Examples**:
+- Fixing memory leak
+- Correcting intersection calculation
+- Fixing norminette violations
+
+---
+
+## Release Process
+
+### Step-by-Step Workflow
+
+**1. Developer Prepares Release**
+```bash
+# Ensure main branch is up to date
+git checkout main
+git pull origin main
+
+# Verify all tests pass locally
+make test
+
+# Verify norminette compliance
+norminette src/ includes/
+
+# Update version in README or VERSION file (if exists)
+echo "1.2.3" > VERSION
+git add VERSION
+git commit -m "chore: bump version to 1.2.3"
+git push origin main
+```
+
+**2. Create and Push Tag**
+```bash
+# Create annotated tag
+git tag -a v1.2.3 -m "Release version 1.2.3"
+
+# Push tag to trigger workflow
+git push origin v1.2.3
+```
+
+**3. GitHub Actions Executes**
+- Workflow triggered automatically
+- Binary built and verified
+- Release created with auto-generated notes
+- Binary uploaded as downloadable asset
+
+**4. Verify Release**
+- Check GitHub Releases page
+- Download and test binary
+- Verify release notes accuracy
+
+---
+
+## Error Handling
+
+### Build Failure During Release
+
+**Symptom**:
+```bash
+make: *** [obj/render/render.o] Error 1
+Error: Process completed with exit code 2.
+```
+
+**Recovery**:
+1. Delete failed tag: `git push --delete origin v1.2.3`
+2. Fix build errors locally
+3. Commit fixes
+4. Recreate tag with same or incremented version
+5. Push tag again
+
+### Release Already Exists
+
+**Symptom**:
+```bash
+Error: Release v1.2.3 already exists
+```
+
+**Recovery Options**:
+- **Option A**: Delete existing release, push tag again
+- **Option B**: Increment patch version (v1.2.4), push new tag
+- **Option C**: Update existing release manually (not recommended)
+
+### Tag Without Release
+
+If tag pushed but workflow fails, tag remains without release:
+
+**Recovery**:
+```bash
+# Delete remote tag
+git push --delete origin v1.2.3
+
+# Delete local tag
+git tag -d v1.2.3
+
+# Fix issue, recreate tag, push again
+git tag -a v1.2.3 -m "Release 1.2.3"
+git push origin v1.2.3
+```
+
+---
+
+## Download Instructions for Evaluators
+
+Include in release notes:
+
+```markdown
+## Installation
+
+### Quick Start
+```bash
+# Download binary
+wget https://github.com/{owner}/{repo}/releases/download/v1.2.3/miniRT
+
+# Make executable
+chmod +x miniRT
+
+# Run with scene file
+./miniRT scenes/example.rt
+```
+
+### Building from Source
+```bash
+# Clone repository at this tag
+git clone --branch v1.2.3 https://github.com/{owner}/{repo}.git
+cd miniRT_final
+
+# Build
+make
+
+# Run
+./miniRT scenes/example.rt
+```
+
+### Requirements
+- Linux with X11 display server
+- libX11, libXext development libraries
+```
+
+---
+
+## Security Considerations
+
+### Token Security
+
+Workflow uses `GITHUB_TOKEN` automatically provided by GitHub Actions:
+- Scoped to current repository only
+- Expires after workflow completes
+- No need to create personal access tokens
+- Permissions limited to `contents: write`
+
+### Binary Integrity
+
+Evaluators can verify binary matches source:
+1. Download source at tag
+2. Build locally: `make`
+3. Compare checksums:
+```bash
+sha256sum miniRT  # Local build
+sha256sum miniRT_downloaded  # Downloaded asset
+```
+
+Should match if both built from same source on compatible systems.
+
+---
+
+## Monitoring and Alerts
+
+### Workflow Status
+
+Check workflow execution:
+- GitHub Actions tab → Release workflow runs
+- Red X = failed release
+- Green checkmark = successful release
+
+### Release Dashboard
+
+View all releases:
+- GitHub repository → Releases section
+- Shows all published versions
+- Download counts per asset
+- Tag linkage
+
+---
+
+## Maintenance
+
+### Update Release Action
+
+Periodically update `softprops/action-gh-release`:
+```yaml
+# Check for latest version
+- uses: softprops/action-gh-release@v1  # Current
+- uses: softprops/action-gh-release@v2  # If updated
+```
+
+### Enhance Release Notes
+
+Optional improvements:
+- Add comparison link to previous release
+- Include contributor credits
+- Link to milestone or project board
+- Attach additional assets (e.g., scene files)
+
+### Pre-release Support
+
+Add pre-release tag support:
+```yaml
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-beta*'
+      - 'v*.*.*-rc*'
+```
+
+Mark as pre-release:
+```yaml
+- uses: softprops/action-gh-release@v1
+  with:
+    prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+```
+
+---
+
+## Rollback Procedure
+
+### Revert to Previous Release
+
+If new release has critical bug:
+
+**1. Create Hotfix Tag**
+```bash
+# Increment patch version
+git tag -a v1.2.4 -m "Hotfix: revert broken feature"
+git push origin v1.2.4
+```
+
+**2. Mark Bad Release**
+Edit release on GitHub:
+- Add warning to description: "⚠️ Known issue, use v1.2.4 instead"
+- Or delete release entirely
+
+**3. Notify Users**
+- Update README with notice
+- Post issue announcing hotfix
+- Update documentation
+
+---
+
+## Success Criteria
+
+- ✅ Release created within 5 minutes of tag push
+- ✅ Binary successfully uploaded and downloadable
+- ✅ Release notes accurately reflect changes
+- ✅ Binary executes without errors
+- ✅ Download count tracked correctly
