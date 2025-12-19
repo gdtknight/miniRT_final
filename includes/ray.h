@@ -34,4 +34,6 @@ typedef struct s_hit
 	t_color	color;
 }	t_hit;
 
+typedef t_hit	t_hit_record;
+
 #endif

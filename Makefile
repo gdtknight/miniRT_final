@@ -47,11 +47,18 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/ray/intersections.c \
 			  $(SRC_DIR)/render/camera.c \
 			  $(SRC_DIR)/render/render.c \
+			  $(SRC_DIR)/render/render_state.c \
 			  $(SRC_DIR)/render/trace.c \
+			  $(SRC_DIR)/spatial/aabb.c \
+			  $(SRC_DIR)/spatial/bounds.c \
+			  $(SRC_DIR)/spatial/bvh_build.c \
+			  $(SRC_DIR)/spatial/bvh_init.c \
+			  $(SRC_DIR)/spatial/bvh_traverse.c \
 			  $(SRC_DIR)/utils/cleanup.c \
 			  $(SRC_DIR)/utils/error.c \
 			  $(SRC_DIR)/utils/ft_atoi.c \
 			  $(SRC_DIR)/utils/ft_atof.c \
+			  $(SRC_DIR)/utils/timer.c \
 			  $(SRC_DIR)/window/window.c
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

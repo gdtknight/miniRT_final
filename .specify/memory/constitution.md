@@ -1,52 +1,45 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.2.1 → 2.0.0
+Version Change: 2.1.0 → 2.2.0
 Updated: 2025-12-19
 
-RATIONALE FOR VERSION 2.0.0:
-- MAJOR version bump: Complete rewrite of constitution principles
-- Previous constitution was generic for 42 school projects
-- New constitution is specific to miniRT project structure and workflows
-- 5 new principles focused on automation, CI/CD, and project organization
-- Removed generic principles that don't apply to miniRT's specific needs
-- Backward incompatible: Complete governance framework change
+RATIONALE FOR VERSION 2.2.0:
+- MINOR version bump: Added new principle about 42 School constraints
+- Added Principle VII: 42 School Function Constraints
+- Defines allowed/prohibited functions for miniRT project
+- Specifies permitted optimization techniques within 42 constraints
+- No backward-incompatible changes to existing principles
+- Existing workflows and templates remain valid
 
-PRINCIPLES DEFINED (5 total):
-1. Project Structure Standards (NON-NEGOTIABLE) - NEW
-2. Code Quality Automation (NON-NEGOTIABLE) - NEW
-3. Documentation and Wiki Synchronization (NON-NEGOTIABLE) - NEW
-4. Workflow System (NON-NEGOTIABLE) - NEW
-5. Tools and Environment Standards (NON-NEGOTIABLE) - NEW
-
-REMOVED PRINCIPLES:
-- Readability-First Code (generic, not specific to miniRT)
-- Mandatory Unit Testing (miniRT uses integration tests instead)
-- Bilingual Documentation (miniRT uses Korean-only docs)
-- Build Verification Workflow (replaced by Workflow System)
-- GitHub Issue Tracking (not enforced in miniRT)
-- File Organization Standards (replaced by Project Structure Standards)
-- 42 Norminette Compliance (absorbed into Code Quality Automation)
+PRINCIPLES DEFINED (7 total):
+1. Project Structure Standards (NON-NEGOTIABLE)
+2. Code Quality Automation (NON-NEGOTIABLE)
+3. Documentation and Wiki Synchronization (NON-NEGOTIABLE)
+4. Workflow System (NON-NEGOTIABLE)
+5. Tools and Environment Standards (NON-NEGOTIABLE)
+6. Bilingual Specification Management (NON-NEGOTIABLE)
+7. 42 School Function Constraints (NON-NEGOTIABLE) - NEW
 
 ADDED PRINCIPLES:
-- Principle I: Project Structure Standards - Script organization, documentation hierarchy, CI/CD separation
-- Principle II: Code Quality Automation - norminette, valgrind, build checks in CI
-- Principle III: Documentation and Wiki Synchronization - Auto-update wiki on version tags
-- Principle IV: Workflow System - Development, PR, and Release workflows
-- Principle V: Tools and Environment Standards - Linux/macOS support, MinilibX automation
+- Principle VII: 42 School Function Constraints
+  - Defines allowed functions for miniRT project (libc, math, MiniLibX, libft, GNL)
+  - Explicitly prohibits pthread, fork, external libraries for parallelization
+  - Lists prohibited optimization techniques (multithreading, multiprocessing, SIMD)
+  - Specifies allowed optimization approaches (algorithmic, caching, math optimization)
+  - Ensures all implementations comply with 42 School evaluation requirements
 
 TEMPLATES REQUIRING UPDATES:
-✅ plan-template.md - Constitution check section remains generic
+✅ plan-template.md - Will add 42 constraints check to constitution validation
 ✅ spec-template.md - No changes needed (functional requirements unchanged)
 ✅ tasks-template.md - No changes needed (task organization compatible)
-✅ README.md - Already describes project structure per new Principle I
+✅ README.md - Already indicates 42 School project status
 
 FOLLOW-UP ACTIONS:
-- Implement GitHub Actions workflows per Principle II and IV
-- Create wiki sync automation per Principle III
-- Verify all scripts follow Principle I organization
-- Document MinilibX build automation per Principle V
-- Update CI/CD pipelines to enforce all quality gates
+- Add 42 function constraint checks to plan-template.md constitution section
+- Verify no pthread or prohibited functions exist in current codebase
+- Document optimization strategies within allowed constraints
+- Update CI to validate function usage against allowed list
 -->
 
 # miniRT Project Constitution
@@ -108,7 +101,7 @@ on manual review. This enables confident iteration and rapid development.
 ### III. Documentation and Wiki Synchronization (NON-NEGOTIABLE)
 
 GitHub Wiki MUST be automatically synchronized with source documentation to ensure
-users always have access to current information.
+users always have access to current information that matches the released version.
 
 **Automation Requirements**:
 - Version tag creation MUST trigger automatic GitHub Wiki update
@@ -116,19 +109,28 @@ users always have access to current information.
 - Wiki MUST always reflect the latest release version
 - Source docs in `docs/` are the single source of truth
 
+**Release Synchronization**:
+- Wiki updates MUST occur during the release process
+- Wiki content MUST match the exact state of docs/ in the release tag
+- Release version and documentation version MUST be consistent
+- Wiki pages MUST display the release version they correspond to
+
 **Synchronization Workflow**:
 - On version tag creation: Extract docs → Generate Wiki markdown → Push to Wiki
 - Documentation changes MUST trigger wiki update workflow when merged to main
 - Failed wiki updates MUST be logged but MUST NOT block releases
+- Release checklist MUST include wiki synchronization verification
 
 **Content Requirements**:
 - Wiki pages MUST be generated from Korean documentation in docs/
 - Wiki structure MUST mirror docs/ organization for consistency
 - Wiki MUST include version information on each page
+- Each wiki page MUST clearly indicate which release version it documents
 
 **Rationale**: Automatic wiki synchronization eliminates manual documentation drift,
 ensures users see current information, reduces maintenance burden, and creates a
-reliable documentation workflow tied to version releases.
+reliable documentation workflow tied to version releases. Release synchronization
+ensures documentation always matches the codebase state for each version.
 
 ### IV. Workflow System (NON-NEGOTIABLE)
 
@@ -188,6 +190,93 @@ automated dependency management.
 **Rationale**: Cross-platform support ensures broader usability, automated dependency
 management reduces setup friction, systematic test organization improves quality
 assurance, and proper artifact management keeps the repository clean.
+
+### VI. Bilingual Specification Management (NON-NEGOTIABLE)
+
+All feature specifications MUST be maintained in both English and Korean, with strict
+synchronization requirements to ensure both language versions remain consistent.
+
+**Directory Structure**:
+- English specifications MUST be located in `specs/` directory
+- Korean translations MUST be located in `docs/specs/` directory
+- Directory structure MUST be mirrored between specs/ and docs/specs/
+- File names MUST be identical in both directories
+
+**Synchronization Requirements**:
+- When English specification is created in specs/, Korean version MUST be created in docs/specs/
+- When English specification is updated, Korean version MUST be updated simultaneously
+- Both versions MUST be updated in the same commit/PR
+- Version numbers MUST match between English and Korean documents
+- Content MUST be semantically equivalent between language versions
+
+**Release Consistency**:
+- Release packages MUST include both English and Korean documentation
+- Release notes MUST be available in both languages
+- Wiki synchronization MUST process both language versions
+- Documentation version tags MUST apply to both English and Korean versions
+
+**Quality Assurance**:
+- PRs touching specs/ MUST include corresponding docs/specs/ changes
+- CI checks SHOULD verify both versions exist and are up-to-date
+- Documentation reviews MUST verify semantic consistency between languages
+- Out-of-sync documentation MUST NOT be merged
+
+**Rationale**: Bilingual documentation ensures accessibility for both international
+collaborators and Korean-speaking users. Synchronized maintenance prevents translation
+drift and ensures all stakeholders have access to accurate, current information in
+their preferred language. This supports both the 42 School community and broader
+open-source contribution.
+
+### VII. 42 School Function Constraints (NON-NEGOTIABLE)
+
+All code implementations MUST comply with 42 School miniRT project constraints, which
+strictly limit allowed functions and prohibit certain optimization techniques to ensure
+projects are evaluated fairly according to curriculum requirements.
+
+**Allowed Functions**:
+- Standard C library: `open`, `close`, `read`, `write`, `printf`, `malloc`, `free`, 
+  `perror`, `strerror`, `exit`
+- Math library: All functions from `math.h` (linked with `-lm`)
+- MiniLibX library: All `mlx_*` functions provided by the school's graphics library
+- Custom implementations: `get_next_line` (if implemented by student)
+- Custom library: All functions from `libft` (if written by student)
+
+**Prohibited Functions and Techniques**:
+- pthread library: `pthread_create`, `pthread_join`, `pthread_mutex_*`, and all 
+  pthread-related functions MUST NOT be used
+- Process management: `fork`, `pipe`, and multiprocessing functions MUST NOT be used
+- External optimization libraries: SIMD intrinsics, OpenMP, Intel TBB, or any external
+  parallelization libraries MUST NOT be used
+- Multithreading/multiprocessing: Any form of parallel execution MUST NOT be implemented
+
+**Allowed Optimization Strategies**:
+- Algorithmic optimization: BVH (Bounding Volume Hierarchy), spatial partitioning, 
+  octrees, kd-trees for reducing ray-object intersection tests
+- Early termination: Ray culling, frustum culling, backface culling to skip 
+  unnecessary calculations
+- Caching: Precomputed values, lookup tables, memoization of expensive calculations
+- Memory layout optimization: Structure packing, cache-friendly data organization, 
+  memory access patterns
+- Mathematical optimization: Reduced precision where appropriate, algebraic 
+  simplification, optimized vector operations
+
+**Validation Requirements**:
+- Code review MUST verify no prohibited functions are used
+- Function usage MUST be validated against allowed list before merge
+- Any optimization technique MUST be implementable using only allowed functions
+- CI checks SHOULD scan for prohibited function usage
+
+**Evaluation Compliance**:
+- All implementations MUST pass 42 School evaluation criteria
+- Projects using prohibited functions WILL fail evaluation regardless of functionality
+- Performance optimization MUST NOT compromise evaluation compliance
+- Documentation MUST clearly indicate which optimization techniques are used
+
+**Rationale**: 42 School projects are evaluated based on specific constraints to ensure
+students learn core algorithms and data structures without relying on advanced libraries
+or parallelization. These constraints ensure fair evaluation, promote understanding of
+fundamental computer graphics concepts, and maintain consistency across all student
+submissions. Compliance with these constraints is mandatory for project success.
 
 ## Documentation Standards
 
@@ -264,4 +353,4 @@ miniRT project. All development activity MUST comply with these principles.
 - Outdated principles MUST be updated or removed
 - New automation capabilities SHOULD be reflected in principles
 
-**Version**: 2.0.0 | **Ratified**: 2025-12-19 | **Last Amended**: 2025-12-19
+**Version**: 2.2.0 | **Ratified**: 2025-12-19 | **Last Amended**: 2025-12-19

@@ -50,3 +50,9 @@ core.*
 *.tmp
 *.temp
 *.bak
+
+# Build directory
+build/
+
+# Optimization test script
+test_optimizations.sh
