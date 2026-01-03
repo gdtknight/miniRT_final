@@ -1,11 +1,15 @@
 # Feature Specification: Realistic Shadow Rendering
 
+**Feature Branch**: `005-realistic-shadows`  
+**Created**: 2025-12-19  
+**Status**: Draft
+
 ## Overview
 Enhance shadow realism in miniRT raytracer by implementing soft shadows, shadow attenuation, and improved shadow interaction while maintaining 42 norminette compliance.
 
 ## GitHub Issue
 - **Issue**: [#4](https://github.com/gdtknight/miniRT_final/issues/4)
-- **Branch**: 002-realistic-shadows
+- **Branch**: 005-realistic-shadows
 
 ## Current State Analysis
 
