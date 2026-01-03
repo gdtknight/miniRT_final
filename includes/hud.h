@@ -201,26 +201,7 @@ void	hud_select_prev(t_render *render);
 ** Key Binding:
 **   Called from handle_key() on Down arrow key
 */
-void	hud_page_down(t_render *render);
-
-/*
-** Navigate to previous page of objects (Up arrow or PgUp).
-**
-** Parameters:
-**   render: Render context with HUD pagination state
-**
-** Returns:
-**   void
-**
-** Behavior:
-**   - Decrements render->hud.current_page
-**   - Wraps to (total_pages - 1) if goes below 0
-**   - Sets render->hud.dirty = 1
-**
-** Key Binding:
-**   Called from handle_key() on Up arrow key
-*/
-void	hud_page_up(t_render *render);
+void	hud_change_page(t_render *render, int direction);
 
 /*
 ** Mark HUD as dirty to force redraw on next render loop.

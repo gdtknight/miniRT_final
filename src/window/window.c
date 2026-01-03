@@ -397,9 +397,9 @@ int	handle_key(int keycode, void *param)
 			hud_select_next(render);
 	}
 	else if (keycode == KEY_UP)
-		hud_page_up(render);
+		hud_change_page(render, -1);
 	else if (keycode == KEY_DOWN)
-		hud_page_down(render);
+		hud_change_page(render, 1);
 	else if (keycode == KEY_W || keycode == KEY_X || keycode == KEY_A
 		|| keycode == KEY_D || keycode == KEY_Q || keycode == KEY_Z)
 	{

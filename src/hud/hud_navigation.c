@@ -78,20 +78,15 @@ void	hud_select_prev(t_render *render)
 	render->hud.dirty = 1;
 }
 
-void	hud_page_down(t_render *render)
+void	hud_change_page(t_render *render, int direction)
 {
 	if (render->hud.total_pages <= 1)
 		return ;
-	render->hud.current_page = (render->hud.current_page + 1)
-		% render->hud.total_pages;
-	render->hud.dirty = 1;
-}
-
-void	hud_page_up(t_render *render)
-{
-	if (render->hud.total_pages <= 1)
-		return ;
-	render->hud.current_page = (render->hud.current_page - 1
-			+ render->hud.total_pages) % render->hud.total_pages;
+	if (direction > 0)
+		render->hud.current_page = (render->hud.current_page + 1)
+			% render->hud.total_pages;
+	else
+		render->hud.current_page = (render->hud.current_page - 1
+				+ render->hud.total_pages) % render->hud.total_pages;
 	render->hud.dirty = 1;
 }
