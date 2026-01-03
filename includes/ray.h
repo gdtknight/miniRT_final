@@ -49,7 +49,7 @@ typedef struct s_cyl_calc
 }	t_cyl_calc;
 
 /* Generic intersection function pointer type */
-typedef int	(*t_intersect_fn)(t_ray *ray, void *object, t_hit *hit);
+typedef int		(*t_intersect_fn)(t_ray *ray, void *object, t_hit *hit);
 
 /* Helper structure for generic intersection checking */
 typedef struct s_intersect_params
@@ -67,7 +67,7 @@ int		intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit);
 int		intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit);
 int		intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit);
 int		intersect_cylinder_body(t_ray *ray, t_cylinder *cyl, t_hit *hit);
-int		intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit, \
-		double cap_m);
+int		intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit,
+			double cap_m);
 
 #endif
