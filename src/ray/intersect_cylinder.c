@@ -20,7 +20,7 @@
 ** Uses quadratic equation excluding cylinder caps.
 ** Returns 1 if intersection found within cylinder height, 0 otherwise.
 */
-static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
+static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl,
 		t_cyl_calc *calc)
 {
 	t_vec3	oc;
@@ -35,8 +35,8 @@ static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
 	dir_dot_dir = vec3_dot(ray->direction, ray->direction);
 	oc_dot_oc = vec3_dot(oc, oc);
 	calc->a = dir_dot_dir - dir_dot_axis * dir_dot_axis;
-	calc->b = 2.0 * (vec3_dot(ray->direction, oc) - \
-		dir_dot_axis * oc_dot_axis);
+	calc->b = 2.0 * (vec3_dot(ray->direction, oc)
+			- dir_dot_axis * oc_dot_axis);
 	calc->c = oc_dot_oc - oc_dot_axis * oc_dot_axis - cyl->radius_squared;
 	calc->discriminant = calc->b * calc->b - 4 * calc->a * calc->c;
 	if (calc->discriminant < 0 || calc->a < EPSILON)
@@ -52,7 +52,7 @@ static int	calculate_cylinder_intersection(t_ray *ray, t_cylinder *cyl, \
 ** Check ray intersection with cylinder cap (top or bottom disc).
 ** Returns 1 if hit and updates hit info, 0 otherwise.
 */
-int	intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit, \
+int	intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit,
 		double cap_m)
 {
 	t_vec3	cap_center;
@@ -69,8 +69,8 @@ int	intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit, \
 	if (t < 0.001 || t > hit->distance)
 		return (0);
 	p = vec3_add(ray->origin, vec3_multiply(ray->direction, t));
-	dist_sq = vec3_dot(vec3_subtract(p, cap_center), \
-		vec3_subtract(p, cap_center));
+	dist_sq = vec3_dot(vec3_subtract(p, cap_center),
+			vec3_subtract(p, cap_center));
 	if (dist_sq > cyl->radius_squared)
 		return (0);
 	hit->distance = t;
@@ -125,15 +125,15 @@ int	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit)
 		hit_found = 1;
 	}
 	temp_hit.distance = hit->distance;
-	if (intersect_cylinder_cap(ray, cylinder, &temp_hit, \
-		cylinder->half_height))
+	if (intersect_cylinder_cap(ray, cylinder, &temp_hit,
+			cylinder->half_height))
 	{
 		*hit = temp_hit;
 		hit_found = 1;
 	}
 	temp_hit.distance = hit->distance;
-	if (intersect_cylinder_cap(ray, cylinder, &temp_hit, \
-		-cylinder->half_height))
+	if (intersect_cylinder_cap(ray, cylinder, &temp_hit,
+			-cylinder->half_height))
 	{
 		*hit = temp_hit;
 		hit_found = 1;

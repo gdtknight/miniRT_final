@@ -17,7 +17,7 @@
 ** Softens shadows based on distance from light source.
 ** Uses inverse square falloff with configurable softness.
 */
-double	calculate_shadow_attenuation(double distance, double max_distance, \
+double	calculate_shadow_attenuation(double distance, double max_distance,
 		double softness)
 {
 	double	normalized_dist;

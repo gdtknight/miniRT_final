@@ -20,7 +20,7 @@
 ** Increases bias for grazing angles to prevent shadow acne.
 ** Returns adjusted bias value scaled by angle factor.
 */
-double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, \
+double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir,
 		double base_bias)
 {
 	double	dot_nl;
@@ -40,7 +40,7 @@ double	calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, \
 ** Uses stratified sampling in circular pattern around light.
 ** Returns zero vector if only one sample requested.
 */
-t_vec3	generate_shadow_sample_offset(double radius, int sample_index, \
+t_vec3	generate_shadow_sample_offset(double radius, int sample_index,
 		int total_samples)
 {
 	t_vec3	offset;
@@ -53,7 +53,7 @@ t_vec3	generate_shadow_sample_offset(double radius, int sample_index, \
 	grid_size = (int)sqrt((double)total_samples);
 	if (grid_size < 1)
 		grid_size = 1;
-	angle = 2.0 * 3.14159265358979323846 * (sample_index % grid_size) \
+	angle = 2.0 * 3.14159265358979323846 * (sample_index % grid_size)
 		/ (double)grid_size;
 	r = radius * (sample_index / (double)grid_size + 0.5) / (double)grid_size;
 	offset.x = r * cos(angle);
@@ -63,18 +63,6 @@ t_vec3	generate_shadow_sample_offset(double radius, int sample_index, \
 }
 
 /*
-** Helper structure for shadow sampling parameters.
-*/
-typedef struct s_shadow_sample
-{
-	t_scene			*scene;
-	t_vec3			point;
-	t_vec3			light_pos;
-	t_shadow_config	*config;
-	double			bias;
-}	t_shadow_sample;
-
-/*
 ** Cast single shadow ray with offset.
 */
 static int	sample_shadow_ray(t_shadow_sample *params, int index)
@@ -82,17 +70,17 @@ static int	sample_shadow_ray(t_shadow_sample *params, int index)
 	t_vec3	offset;
 	t_vec3	sample_light_pos;
 
-	offset = generate_shadow_sample_offset(params->config->softness * 2.0, \
-		index, params->config->samples);
+	offset = generate_shadow_sample_offset(params->config->softness * 2.0,
+			index, params->config->samples);
 	sample_light_pos = vec3_add(params->light_pos, offset);
-	return (is_in_shadow(params->scene, params->point, \
-		sample_light_pos, params->bias));
+	return (is_in_shadow(params->scene, params->point,
+			sample_light_pos, params->bias));
 }
 
 /*
 ** Calculate shadow samples by casting rays to light positions.
 */
-static double	calc_shadow_samples(t_scene *scene, t_vec3 point, \
+static double	calc_shadow_samples(t_scene *scene, t_vec3 point,
 		t_vec3 light_pos, t_shadow_config *config)
 {
 	t_shadow_sample	params;
@@ -124,7 +112,7 @@ static double	calc_shadow_samples(t_scene *scene, t_vec3 point, \
 ** Casts multiple rays to determine partial occlusion.
 ** Returns 0.0 (fully lit) to 1.0 (fully shadowed).
 */
-double	calculate_shadow_factor(t_scene *scene, t_vec3 point, \
+double	calculate_shadow_factor(t_scene *scene, t_vec3 point,
 		t_vec3 light_pos, t_shadow_config *config)
 {
 	double	shadow_count;

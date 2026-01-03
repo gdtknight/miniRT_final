@@ -35,6 +35,16 @@ typedef struct s_shadow_config
 	int		enable_ao;
 }	t_shadow_config;
 
+/* Helper structure for shadow sampling parameters */
+typedef struct s_shadow_sample
+{
+	t_scene			*scene;
+	t_vec3			point;
+	t_vec3			light_pos;
+	t_shadow_config	*config;
+	double			bias;
+}	t_shadow_sample;
+
 /**
  * @brief Initialize shadow configuration with default values
  * 
