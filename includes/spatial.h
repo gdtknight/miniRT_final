@@ -63,6 +63,17 @@ typedef struct s_hit_check
 	t_hit_record	*hit;
 }	t_hit_check;
 
+/* Axis intersection check parameters */
+typedef struct s_axis_check
+{
+	double	box_min;
+	double	box_max;
+	double	ray_origin;
+	double	ray_direction;
+	double	*tmin;
+	double	*tmax;
+}	t_axis_check;
+
 /* BVH partition parameters */
 typedef struct s_partition_params
 {
