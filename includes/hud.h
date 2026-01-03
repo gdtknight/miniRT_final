@@ -30,15 +30,24 @@
 # define HUD_COLOR_BG 0x000000
 # define HUD_BG_ALPHA 0.65
 
+/* Pixel operations parameters */
+typedef struct s_pixel_params
+{
+	char	*img_data;
+	int		x;
+	int		y;
+	int		size_line;
+	int		bpp;
+}	t_pixel_params;
+
 /* Alpha blending utilities */
 int		blend_colors(int bg_color, int fg_color, double alpha);
 int		get_red(int color);
 int		get_green(int color);
 int		get_blue(int color);
 int		make_color(int r, int g, int b);
-int		get_pixel(char *img_data, int x, int y, int size_line, int bpp);
-void	set_pixel(char *img_data, int x, int y, int color,
-			int size_line, int bpp);
+int		get_pixel(t_pixel_params *params);
+void	set_pixel(t_pixel_params *params, int color);
 
 /* ========================================================================== */
 /*                            PUBLIC API FUNCTIONS                            */

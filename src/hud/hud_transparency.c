@@ -47,19 +47,20 @@ int	blend_colors(int bg_color, int fg_color, double alpha)
 	return (make_color(r, g, b));
 }
 
-int	get_pixel(char *img_data, int x, int y, int size_line, int bpp)
+int	get_pixel(t_pixel_params *params)
 {
 	char	*pixel;
 
-	pixel = img_data + (y * size_line + x * (bpp / 8));
+	pixel = params->img_data + (params->y * params->size_line
+			+ params->x * (params->bpp / 8));
 	return (*(int *)pixel);
 }
 
-void	set_pixel(char *img_data, int x, int y, int color,
-	int size_line, int bpp)
+void	set_pixel(t_pixel_params *params, int color)
 {
 	char	*pixel;
 
-	pixel = img_data + (y * size_line + x * (bpp / 8));
+	pixel = params->img_data + (params->y * params->size_line
+			+ params->x * (params->bpp / 8));
 	*(int *)pixel = color;
 }

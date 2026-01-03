@@ -63,6 +63,16 @@ typedef struct s_hit_check
 	t_hit_record	*hit;
 }	t_hit_check;
 
+/* BVH partition parameters */
+typedef struct s_partition_params
+{
+	t_object_ref	*objects;
+	int				count;
+	int				axis;
+	double			split;
+	void			*scene;
+}	t_partition_params;
+
 /* AABB operations */
 t_aabb		aabb_create(t_vec3 min, t_vec3 max);
 t_aabb		aabb_merge(t_aabb a, t_aabb b);

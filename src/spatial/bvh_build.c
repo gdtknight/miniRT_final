@@ -70,8 +70,7 @@ static t_aabb	compute_bounds(t_object_ref *objects, int count, void *scene)
 	return (bounds);
 }
 
-static int	partition_objects(t_object_ref *objects, int count, int axis,
-		double split, void *scene)
+static int	partition_objects(t_partition_params *params)
 {
 	int				i;
 	int				left_count;
@@ -80,21 +79,22 @@ static int	partition_objects(t_object_ref *objects, int count, int axis,
 
 	left_count = 0;
 	i = 0;
-	while (i < count)
+	while (i < params->count)
 	{
-		center = get_object_center(objects[i], scene);
-		if ((axis == 0 && center.x < split) || (axis == 1 && center.y < split)
-			|| (axis == 2 && center.z < split))
+		center = get_object_center(params->objects[i], params->scene);
+		if ((params->axis == 0 && center.x < params->split)
+			|| (params->axis == 1 && center.y < params->split)
+			|| (params->axis == 2 && center.z < params->split))
 		{
-			temp = objects[left_count];
-			objects[left_count] = objects[i];
-			objects[i] = temp;
+			temp = params->objects[left_count];
+			params->objects[left_count] = params->objects[i];
+			params->objects[i] = temp;
 			left_count++;
 		}
 		i++;
 	}
-	if (left_count == 0 || left_count == count)
-		return (count / 2);
+	if (left_count == 0 || left_count == params->count)
+		return (params->count / 2);
 	return (left_count);
 }
 
@@ -129,12 +129,13 @@ static t_bvh_node	*create_leaf_node(t_object_ref *objects, int count,
 t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 		void *scene, int depth)
 {
-	t_bvh_node	*node;
-	t_aabb		bounds;
-	int			axis;
-	double		split;
-	int			mid;
-	double		max_extent;
+	t_bvh_node			*node;
+	t_aabb				bounds;
+	int					axis;
+	double				split;
+	int					mid;
+	double				max_extent;
+	t_partition_params	params;
 
 	if (count <= 2 || depth > 20)
 		return (create_leaf_node(objects, count, scene));
@@ -153,7 +154,12 @@ t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 		split = (bounds.min.y + bounds.max.y) / 2.0;
 	else
 		split = (bounds.min.z + bounds.max.z) / 2.0;
-	mid = partition_objects(objects, count, axis, split, scene);
+	params.objects = objects;
+	params.count = count;
+	params.axis = axis;
+	params.split = split;
+	params.scene = scene;
+	mid = partition_objects(&params);
 	node = malloc(sizeof(t_bvh_node));
 	if (!node)
 		return (NULL);
