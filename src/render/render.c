@@ -71,8 +71,7 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 	int		y;
 	t_ray	ray;
 	t_color	color;
-	double	u;
-	double	v;
+	double	uv[2];
 
 	y = 0;
 	while (y < WINDOW_HEIGHT)
@@ -80,8 +79,8 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			screen_to_ndc(x, y, &u, &v);
-			ray = create_camera_ray(&scene->camera, u, v);
+			screen_to_ndc(x, y, &uv[0], &uv[1]);
+			ray = create_camera_ray(&scene->camera, uv[0], uv[1]);
 			color = trace_ray(scene, &ray);
 			put_pixel_to_buffer(render, x, y, color);
 			if (x + 1 < WINDOW_WIDTH)
