@@ -19,10 +19,11 @@ int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y,
 
 void	keyguide_render_background(t_render *render)
 {
-	int	x;
-	int	y;
-	int	scene_color;
-	int	blended;
+	int				x;
+	int				y;
+	int				scene_color;
+	int				blended;
+	t_pixel_params	params;
 
 	y = render->keyguide.y;
 	while (y < render->keyguide.y + KEYGUIDE_HEIGHT)
@@ -30,16 +31,53 @@ void	keyguide_render_background(t_render *render)
 		x = render->keyguide.x;
 		while (x < render->keyguide.x + KEYGUIDE_WIDTH)
 		{
-			scene_color = get_pixel(render->img_data, x, y,
-					render->size_line, render->bpp);
+			params.img_data = render->img_data;
+			params.x = x;
+			params.y = y;
+			params.size_line = render->size_line;
+			params.bpp = render->bpp;
+			scene_color = get_pixel(&params);
 			blended = blend_colors(scene_color, KEYGUIDE_COLOR_BG,
 					KEYGUIDE_BG_ALPHA);
-			set_pixel(render->img_data, x, y, blended,
-				render->size_line, render->bpp);
+			set_pixel(&params, blended);
 			x++;
 		}
 		y++;
 	}
+}
+
+static void	render_nav_section(t_render *render, int *y)
+{
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 10, *y, KEYGUIDE_COLOR_TEXT, "Navigation:");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "ESC - Exit");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "H - Toggle HUD");
+	*y += KEYGUIDE_SECTION_GAP + KEYGUIDE_LINE_HEIGHT;
+}
+
+static void	render_camera_section(t_render *render, int *y)
+{
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 10, *y, KEYGUIDE_COLOR_TEXT, "Camera:");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "W/X - Fwd/Back");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "A/D - Left/Right");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "Q/Z - Up/Down");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "E/C - Pitch");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "S - Reset");
 }
 
 void	keyguide_render_content(t_render *render)
@@ -50,32 +88,8 @@ void	keyguide_render_content(t_render *render)
 	mlx_string_put(render->mlx, render->win,
 		render->keyguide.x + 10, y, KEYGUIDE_COLOR_HEADING, "CONTROLS");
 	y += 30;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 10, y, KEYGUIDE_COLOR_TEXT, "Navigation:");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "ESC - Exit");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "H - Toggle HUD");
-	y += KEYGUIDE_SECTION_GAP + KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 10, y, KEYGUIDE_COLOR_TEXT, "Camera:");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "W/X - Fwd/Back");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "A/D - Left/Right");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "Q/Z - Up/Down");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "E/C - Pitch");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "S - Reset");
+	render_nav_section(render, &y);
+	render_camera_section(render, &y);
 }
 
 void	keyguide_render_content2(t_render *render, int *y)
