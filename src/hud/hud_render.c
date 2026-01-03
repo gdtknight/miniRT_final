@@ -23,18 +23,22 @@ void	hud_mark_dirty(t_render *render)
 
 void	hud_render_background_row(t_render *render, int y)
 {
-	int	x;
-	int	scene_color;
-	int	blended;
+	int				x;
+	int				scene_color;
+	int				blended;
+	t_pixel_params	params;
 
 	x = HUD_MARGIN_X;
+	params.img_data = render->img_data;
+	params.y = y;
+	params.size_line = render->size_line;
+	params.bpp = render->bpp;
 	while (x < HUD_MARGIN_X + HUD_WIDTH)
 	{
-		scene_color = get_pixel(render->img_data, x, y,
-				render->size_line, render->bpp);
+		params.x = x;
+		scene_color = get_pixel(&params);
 		blended = blend_colors(scene_color, HUD_COLOR_BG, HUD_BG_ALPHA);
-		set_pixel(render->img_data, x, y, blended,
-			render->size_line, render->bpp);
+		set_pixel(&params, blended);
 		x++;
 	}
 }
@@ -51,36 +55,31 @@ void	hud_render_background(t_render *render)
 	}
 }
 
-void	hud_render_camera(t_render *render, int *y)
+static void	format_and_print_vec3(t_render *render, int *y,
+		char *label, t_vec3 vec)
 {
 	char	buf[128];
 	int		i;
 
+	i = 0;
+	while (i < 8)
+		buf[i++] = ' ';
+	while (*label)
+		buf[i++] = *label++;
+	buf[i] = '\0';
+	hud_format_vec3(buf + i, vec);
+	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
+		*y, HUD_COLOR_TEXT, buf);
+	*y += HUD_LINE_HEIGHT;
+}
+
+void	hud_render_camera(t_render *render, int *y)
+{
 	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
 		*y, HUD_COLOR_TEXT, "Camera:");
 	*y += HUD_LINE_HEIGHT;
-	i = 0;
-	while (i < 8)
-		buf[i++] = ' ';
-	buf[i++] = 'p';
-	buf[i++] = 'o';
-	buf[i++] = 's';
-	buf[i] = '\0';
-	hud_format_vec3(buf + i, render->scene->camera.position);
-	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
-		*y, HUD_COLOR_TEXT, buf);
-	*y += HUD_LINE_HEIGHT;
-	i = 0;
-	while (i < 8)
-		buf[i++] = ' ';
-	buf[i++] = 'd';
-	buf[i++] = 'i';
-	buf[i++] = 'r';
-	buf[i] = '\0';
-	hud_format_vec3(buf + i, render->scene->camera.direction);
-	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
-		*y, HUD_COLOR_TEXT, buf);
-	*y += HUD_LINE_HEIGHT;
+	format_and_print_vec3(render, y, "pos", render->scene->camera.position);
+	format_and_print_vec3(render, y, "dir", render->scene->camera.direction);
 }
 
 static void	render_camera_fov(t_render *render, int *y)
@@ -179,39 +178,35 @@ static void	render_light_bright(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+static int	copy_str_to_buf(char *dst, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (i);
+}
+
 static void	render_object_header(t_render *render, int *y)
 {
 	char	buf[64];
-	int		i;
+	int		len;
 
-	i = 0;
-	buf[i++] = '-';
-	buf[i++] = '-';
-	buf[i++] = '-';
-	buf[i++] = ' ';
-	buf[i++] = 'O';
-	buf[i++] = 'b';
-	buf[i++] = 'j';
-	buf[i++] = 'e';
-	buf[i++] = 'c';
-	buf[i++] = 't';
-	buf[i++] = 's';
-	buf[i++] = ' ';
-	buf[i++] = '(';
-	buf[i++] = 'P';
-	buf[i++] = 'a';
-	buf[i++] = 'g';
-	buf[i++] = 'e';
-	buf[i++] = ' ';
-	buf[i++] = '0' + render->hud.current_page + 1;
-	buf[i++] = '/';
-	buf[i++] = '0' + render->hud.total_pages;
-	buf[i++] = ')';
-	buf[i++] = ' ';
-	buf[i++] = '-';
-	buf[i++] = '-';
-	buf[i++] = '-';
-	buf[i] = '\0';
+	len = 0;
+	buf[len++] = '-';
+	buf[len++] = '-';
+	buf[len++] = '-';
+	buf[len++] = ' ';
+	len += copy_str_to_buf(buf + len, "Objects (Page ");
+	buf[len++] = '0' + render->hud.current_page + 1;
+	buf[len++] = '/';
+	buf[len++] = '0' + render->hud.total_pages;
+	len += copy_str_to_buf(buf + len, ") ---");
+	buf[len] = '\0';
 	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
 		*y, HUD_COLOR_TEXT, buf);
 	*y += HUD_LINE_HEIGHT;

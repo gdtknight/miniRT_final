@@ -23,54 +23,47 @@ static void	render_perf_header(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+static int	copy_str(char *dst, char *src, int max_len)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] && i < max_len - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (i);
+}
+
+static void	concat_and_print(t_render *render, int *y, char *prefix,
+		char *value, char *suffix)
+{
+	char	line[128];
+	int		len;
+
+	len = copy_str(line, prefix, 128);
+	len += copy_str(line + len, value, 128 - len);
+	if (suffix)
+		len += copy_str(line + len, suffix, 128 - len);
+	line[len] = '\0';
+	mlx_string_put(render->mlx, render->win,
+		HUD_MARGIN_X + 10, *y, HUD_COLOR_TEXT, line);
+	*y += HUD_LINE_HEIGHT;
+}
+
 static void	render_perf_basic(t_render *render, int *y)
 {
 	t_metrics	*m;
 	char		buf[64];
-	char		line[128];
-	int			i;
-	int			j;
 
 	m = &render->scene->render_state.metrics;
 	hud_format_fps(buf, m->fps);
-	i = 0;
-	j = 0;
-	while ("FPS: "[j])
-		line[i++] = "FPS: "[j++];
-	j = 0;
-	while (buf[j])
-		line[i++] = buf[j++];
-	line[i] = '\0';
-	mlx_string_put(render->mlx, render->win,
-		HUD_MARGIN_X + 10, *y, HUD_COLOR_TEXT, line);
-	*y += HUD_LINE_HEIGHT;
+	concat_and_print(render, y, "FPS: ", buf, NULL);
 	hud_format_time_ms(buf, m->render_time_us);
-	i = 0;
-	j = 0;
-	while ("Frame: "[j])
-		line[i++] = "Frame: "[j++];
-	j = 0;
-	while (buf[j])
-		line[i++] = buf[j++];
-	j = 0;
-	while ("ms"[j])
-		line[i++] = "ms"[j++];
-	line[i] = '\0';
-	mlx_string_put(render->mlx, render->win,
-		HUD_MARGIN_X + 10, *y, HUD_COLOR_TEXT, line);
-	*y += HUD_LINE_HEIGHT;
+	concat_and_print(render, y, "Frame: ", buf, "ms");
 	hud_format_bvh_status(buf, render->scene->render_state.bvh_enabled);
-	i = 0;
-	j = 0;
-	while ("BVH: "[j])
-		line[i++] = "BVH: "[j++];
-	j = 0;
-	while (buf[j])
-		line[i++] = buf[j++];
-	line[i] = '\0';
-	mlx_string_put(render->mlx, render->win,
-		HUD_MARGIN_X + 10, *y, HUD_COLOR_TEXT, line);
-	*y += HUD_LINE_HEIGHT;
+	concat_and_print(render, y, "BVH: ", buf, NULL);
 }
 
 void	hud_render_performance(t_render *render, int *y)
