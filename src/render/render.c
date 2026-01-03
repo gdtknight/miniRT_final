@@ -21,12 +21,6 @@ t_color		trace_ray(t_scene *scene, t_ray *ray);
 ** Convert screen pixel coordinates to Normalized Device Coordinates.
 ** NDC range: u in [-1, 1] (left to right), v in [-1, 1] (bottom to top).
 */
-static inline void	screen_to_ndc(int x, int y, double *u, double *v)
-{
-	*u = (2.0 * x / (double)WINDOW_WIDTH) - 1.0;
-	*v = 1.0 - (2.0 * y / (double)WINDOW_HEIGHT);
-}
-
 /*
 ** Write color directly to image buffer for fast rendering.
 ** Converts RGB color to packed integer and writes to memory.
@@ -55,23 +49,11 @@ static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 	double	u;
 	double	v;
 
-	screen_to_ndc(x, y, &u, &v);
+	u = (2.0 * x / (double)WINDOW_WIDTH) - 1.0;
+	v = 1.0 - (2.0 * y / (double)WINDOW_HEIGHT);
 	ray = create_camera_ray(&scene->camera, u, v);
 	color = trace_ray(scene, &ray);
 	put_pixel_to_buffer(render, x, y, color);
-}
-
-static void	render_2x2_block(t_render *render, int x, int y, t_color color)
-{
-	put_pixel_to_buffer(render, x, y, color);
-	if (x + 1 < WINDOW_WIDTH)
-		put_pixel_to_buffer(render, x + 1, y, color);
-	if (y + 1 < WINDOW_HEIGHT)
-	{
-		put_pixel_to_buffer(render, x, y + 1, color);
-		if (x + 1 < WINDOW_WIDTH)
-			put_pixel_to_buffer(render, x + 1, y + 1, color);
-	}
 }
 
 /*
@@ -92,10 +74,19 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			screen_to_ndc(x, y, &uv[0], &uv[1]);
+			uv[0] = (2.0 * x / (double)WINDOW_WIDTH) - 1.0;
+			uv[1] = 1.0 - (2.0 * y / (double)WINDOW_HEIGHT);
 			ray = create_camera_ray(&scene->camera, uv[0], uv[1]);
 			color = trace_ray(scene, &ray);
-			render_2x2_block(render, x, y, color);
+			put_pixel_to_buffer(render, x, y, color);
+			if (x + 1 < WINDOW_WIDTH)
+				put_pixel_to_buffer(render, x + 1, y, color);
+			if (y + 1 < WINDOW_HEIGHT)
+			{
+				put_pixel_to_buffer(render, x, y + 1, color);
+				if (x + 1 < WINDOW_WIDTH)
+					put_pixel_to_buffer(render, x + 1, y + 1, color);
+			}
 			x += 2;
 		}
 		y += 2;
