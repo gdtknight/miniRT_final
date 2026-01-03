@@ -21,25 +21,24 @@
 ** Iterates through object array and updates hit with closest intersection.
 ** Returns 1 if any intersection found, 0 otherwise.
 */
-static int	check_intersections_generic(void *objects, int count, \
-		size_t obj_size, t_intersect_fn intersect_fn, t_ray *ray, t_hit *hit)
+static int	check_intersections_generic(t_intersect_params *params)
 {
 	t_hit	temp_hit;
 	int		i;
 	int		hit_found;
 	void	*current_obj;
 
-	if (objects == NULL && count > 0)
+	if (params->objects == NULL && params->count > 0)
 		return (0);
 	hit_found = 0;
 	i = 0;
-	while (i < count)
+	while (i < params->count)
 	{
-		current_obj = (char *)objects + (i * obj_size);
-		temp_hit.distance = hit->distance;
-		if (intersect_fn(ray, current_obj, &temp_hit))
+		current_obj = (char *)params->objects + (i * params->obj_size);
+		temp_hit.distance = params->hit->distance;
+		if (params->intersect_fn(params->ray, current_obj, &temp_hit))
 		{
-			*hit = temp_hit;
+			*params->hit = temp_hit;
 			hit_found = 1;
 		}
 		i++;
@@ -54,9 +53,15 @@ static int	check_intersections_generic(void *objects, int count, \
 */
 int	check_sphere_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
-	return (check_intersections_generic(scene->spheres, \
-		scene->sphere_count, sizeof(t_sphere), \
-		(t_intersect_fn)intersect_sphere, ray, hit));
+	t_intersect_params	params;
+
+	params.objects = scene->spheres;
+	params.count = scene->sphere_count;
+	params.obj_size = sizeof(t_sphere);
+	params.intersect_fn = (t_intersect_fn)intersect_sphere;
+	params.ray = ray;
+	params.hit = hit;
+	return (check_intersections_generic(&params));
 }
 
 /*
@@ -66,9 +71,15 @@ int	check_sphere_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 */
 int	check_plane_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
-	return (check_intersections_generic(scene->planes, \
-		scene->plane_count, sizeof(t_plane), \
-		(t_intersect_fn)intersect_plane, ray, hit));
+	t_intersect_params	params;
+
+	params.objects = scene->planes;
+	params.count = scene->plane_count;
+	params.obj_size = sizeof(t_plane);
+	params.intersect_fn = (t_intersect_fn)intersect_plane;
+	params.ray = ray;
+	params.hit = hit;
+	return (check_intersections_generic(&params));
 }
 
 /*
@@ -78,9 +89,15 @@ int	check_plane_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 */
 int	check_cylinder_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
-	return (check_intersections_generic(scene->cylinders, \
-		scene->cylinder_count, sizeof(t_cylinder), \
-		(t_intersect_fn)intersect_cylinder, ray, hit));
+	t_intersect_params	params;
+
+	params.objects = scene->cylinders;
+	params.count = scene->cylinder_count;
+	params.obj_size = sizeof(t_cylinder);
+	params.intersect_fn = (t_intersect_fn)intersect_cylinder;
+	params.ray = ray;
+	params.hit = hit;
+	return (check_intersections_generic(&params));
 }
 
 /*

@@ -16,6 +16,7 @@
 # include "vec3.h"
 # include "objects.h"
 # include <stdbool.h>
+# include <stddef.h>
 
 /* Ray with origin point and normalized direction vector */
 typedef struct s_ray
@@ -49,6 +50,17 @@ typedef struct s_cyl_calc
 
 /* Generic intersection function pointer type */
 typedef int	(*t_intersect_fn)(t_ray *ray, void *object, t_hit *hit);
+
+/* Helper structure for generic intersection checking */
+typedef struct s_intersect_params
+{
+	void			*objects;
+	int				count;
+	size_t			obj_size;
+	t_intersect_fn	intersect_fn;
+	t_ray			*ray;
+	t_hit			*hit;
+}	t_intersect_params;
 
 /* Function declarations */
 int		intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit);
