@@ -152,14 +152,30 @@ static double	calculate_split_position(t_aabb bounds, int axis)
 		return ((bounds.min.z + bounds.max.z) / 2.0);
 }
 
+static t_bvh_node	*create_split_node(t_split_params *sp)
+{
+	t_bvh_node	*node;
+
+	node = malloc(sizeof(t_bvh_node));
+	if (!node)
+		return (NULL);
+	node->bounds = sp->bounds;
+	node->objects = NULL;
+	node->object_count = 0;
+	node->left = bvh_build_recursive(sp->objects, sp->mid,
+			sp->scene, sp->depth + 1);
+	node->right = bvh_build_recursive(sp->objects + sp->mid,
+			sp->count - sp->mid, sp->scene, sp->depth + 1);
+	return (node);
+}
+
 t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 		void *scene, int depth)
 {
-	t_bvh_node			*node;
 	t_aabb				bounds;
 	int					axis;
-	int					mid;
 	t_partition_params	params;
+	t_split_params		sp;
 
 	if (count <= 2 || depth > 20)
 		return (create_leaf_node(objects, count, scene));
@@ -170,17 +186,13 @@ t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 	params.axis = axis;
 	params.split = calculate_split_position(bounds, axis);
 	params.scene = scene;
-	mid = partition_objects(&params);
-	node = malloc(sizeof(t_bvh_node));
-	if (!node)
-		return (NULL);
-	node->bounds = bounds;
-	node->objects = NULL;
-	node->object_count = 0;
-	node->left = bvh_build_recursive(objects, mid, scene, depth + 1);
-	node->right = bvh_build_recursive(objects + mid, count - mid, scene,
-			depth + 1);
-	return (node);
+	sp.mid = partition_objects(&params);
+	sp.bounds = bounds;
+	sp.objects = objects;
+	sp.count = count;
+	sp.scene = scene;
+	sp.depth = depth;
+	return (create_split_node(&sp));
 }
 
 void	bvh_build(t_bvh *bvh, t_object_ref *objects, int count, void *scene)

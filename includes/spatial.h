@@ -84,6 +84,17 @@ typedef struct s_partition_params
 	void			*scene;
 }	t_partition_params;
 
+/* BVH split node parameters */
+typedef struct s_split_params
+{
+	t_aabb			bounds;
+	t_object_ref	*objects;
+	int				mid;
+	int				count;
+	void			*scene;
+	int				depth;
+}	t_split_params;
+
 /* AABB operations */
 t_aabb		aabb_create(t_vec3 min, t_vec3 max);
 t_aabb		aabb_merge(t_aabb a, t_aabb b);
