@@ -53,6 +53,16 @@ typedef struct s_bvh
 	int			max_depth;
 }	t_bvh;
 
+/* Helper structure for BVH hit checking */
+typedef struct s_hit_check
+{
+	int				hit_left;
+	int				hit_right;
+	t_hit_record	*left_hit;
+	t_hit_record	*right_hit;
+	t_hit_record	*hit;
+}	t_hit_check;
+
 /* AABB operations */
 t_aabb		aabb_create(t_vec3 min, t_vec3 max);
 t_aabb		aabb_merge(t_aabb a, t_aabb b);

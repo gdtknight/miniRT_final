@@ -42,6 +42,15 @@ typedef struct s_progressive_state
 	int		tile_size;
 }	t_progressive_state;
 
+/* Progressive tile coordinates */
+typedef struct s_tile_rect
+{
+	int	x;
+	int	y;
+	int	w;
+	int	h;
+}	t_tile_rect;
+
 /* Complete render state management */
 typedef struct s_render_state
 {
@@ -69,8 +78,7 @@ void	quality_handle_interaction(t_render_state *state);
 /* Progressive rendering */
 void	progressive_init(t_progressive_state *prog, int width, int height,
 			int tile_size);
-int		progressive_next_tile(t_progressive_state *prog, int *x, int *y,
-			int *w, int *h);
+int		progressive_next_tile(t_progressive_state *prog, t_tile_rect *rect);
 void	progressive_reset(t_progressive_state *prog);
 
 #endif

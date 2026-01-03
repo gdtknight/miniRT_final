@@ -54,25 +54,24 @@ static int	bvh_leaf_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 	return (hit_anything);
 }
 
-static int	check_child_hits(int hit_left, int hit_right,
-		t_hit_record *left_hit, t_hit_record *right_hit, t_hit_record *hit)
+static int	check_child_hits(t_hit_check *hc)
 {
-	if (hit_left && hit_right)
+	if (hc->hit_left && hc->hit_right)
 	{
-		if (left_hit->distance < right_hit->distance)
-			*hit = *left_hit;
+		if (hc->left_hit->distance < hc->right_hit->distance)
+			*hc->hit = *hc->left_hit;
 		else
-			*hit = *right_hit;
+			*hc->hit = *hc->right_hit;
 		return (1);
 	}
-	if (hit_left)
+	if (hc->hit_left)
 	{
-		*hit = *left_hit;
+		*hc->hit = *hc->left_hit;
 		return (1);
 	}
-	if (hit_right)
+	if (hc->hit_right)
 	{
-		*hit = *right_hit;
+		*hc->hit = *hc->right_hit;
 		return (1);
 	}
 	return (0);
@@ -83,10 +82,9 @@ int	bvh_node_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 {
 	double			t_min;
 	double			t_max;
-	int				hit_left;
-	int				hit_right;
 	t_hit_record	left_hit;
 	t_hit_record	right_hit;
+	t_hit_check		hc;
 
 	if (!node)
 		return (0);
@@ -96,9 +94,12 @@ int	bvh_node_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 		return (0);
 	if (node->object_count > 0)
 		return (bvh_leaf_intersect(node, ray, hit, scene));
-	hit_left = bvh_node_intersect(node->left, ray, &left_hit, scene);
-	hit_right = bvh_node_intersect(node->right, ray, &right_hit, scene);
-	return (check_child_hits(hit_left, hit_right, &left_hit, &right_hit, hit));
+	hc.hit_left = bvh_node_intersect(node->left, ray, &left_hit, scene);
+	hc.hit_right = bvh_node_intersect(node->right, ray, &right_hit, scene);
+	hc.left_hit = &left_hit;
+	hc.right_hit = &right_hit;
+	hc.hit = hit;
+	return (check_child_hits(&hc));
 }
 
 int	bvh_intersect(t_bvh *bvh, t_ray ray, t_hit_record *hit, void *scene)

@@ -96,8 +96,7 @@ void	progressive_init(t_progressive_state *prog, int width, int height,
 	prog->enabled = 1;
 }
 
-int	progressive_next_tile(t_progressive_state *prog, int *x, int *y, int *w,
-		int *h)
+int	progressive_next_tile(t_progressive_state *prog, t_tile_rect *rect)
 {
 	int	tiles_x;
 	int	tile_x;
@@ -108,14 +107,14 @@ int	progressive_next_tile(t_progressive_state *prog, int *x, int *y, int *w,
 	tiles_x = (800 + prog->tile_size - 1) / prog->tile_size;
 	tile_x = prog->current_tile % tiles_x;
 	tile_y = prog->current_tile / tiles_x;
-	*x = tile_x * prog->tile_size;
-	*y = tile_y * prog->tile_size;
-	*w = prog->tile_size;
-	*h = prog->tile_size;
-	if (*x + *w > WINDOW_WIDTH)
-		*w = WINDOW_WIDTH - *x;
-	if (*y + *h > WINDOW_HEIGHT)
-		*h = WINDOW_HEIGHT - *y;
+	rect->x = tile_x * prog->tile_size;
+	rect->y = tile_y * prog->tile_size;
+	rect->w = prog->tile_size;
+	rect->h = prog->tile_size;
+	if (rect->x + rect->w > WINDOW_WIDTH)
+		rect->w = WINDOW_WIDTH - rect->x;
+	if (rect->y + rect->h > WINDOW_HEIGHT)
+		rect->h = WINDOW_HEIGHT - rect->y;
 	prog->current_tile++;
 	return (1);
 }
