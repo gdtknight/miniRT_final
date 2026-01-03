@@ -61,6 +61,19 @@ static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 	put_pixel_to_buffer(render, x, y, color);
 }
 
+static void	render_2x2_block(t_render *render, int x, int y, t_color color)
+{
+	put_pixel_to_buffer(render, x, y, color);
+	if (x + 1 < WINDOW_WIDTH)
+		put_pixel_to_buffer(render, x + 1, y, color);
+	if (y + 1 < WINDOW_HEIGHT)
+	{
+		put_pixel_to_buffer(render, x, y + 1, color);
+		if (x + 1 < WINDOW_WIDTH)
+			put_pixel_to_buffer(render, x + 1, y + 1, color);
+	}
+}
+
 /*
 ** Render scene at reduced resolution for fast preview.
 ** Uses 2x2 pixel blocks to achieve 4x speedup.
@@ -82,15 +95,7 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 			screen_to_ndc(x, y, &uv[0], &uv[1]);
 			ray = create_camera_ray(&scene->camera, uv[0], uv[1]);
 			color = trace_ray(scene, &ray);
-			put_pixel_to_buffer(render, x, y, color);
-			if (x + 1 < WINDOW_WIDTH)
-				put_pixel_to_buffer(render, x + 1, y, color);
-			if (y + 1 < WINDOW_HEIGHT)
-			{
-				put_pixel_to_buffer(render, x, y + 1, color);
-				if (x + 1 < WINDOW_WIDTH)
-					put_pixel_to_buffer(render, x + 1, y + 1, color);
-			}
+			render_2x2_block(render, x, y, color);
 			x += 2;
 		}
 		y += 2;

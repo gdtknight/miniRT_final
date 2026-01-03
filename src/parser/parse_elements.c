@@ -43,6 +43,15 @@ int	parse_ambient(char *line, t_scene *scene)
 	return (1);
 }
 
+static char	*skip_to_next_token(char *token)
+{
+	while (*token && *token != ' ')
+		token++;
+	while (*token == ' ')
+		token++;
+	return (token);
+}
+
 /*
 ** Parse camera element from scene file.
 ** Format: C <x,y,z> <nx,ny,nz> <fov>
@@ -59,17 +68,11 @@ int	parse_camera(char *line, t_scene *scene)
 		token++;
 	if (!parse_vector(token, &scene->camera.position))
 		return (print_error("Invalid camera position"));
-	while (*token && *token != ' ')
-		token++;
-	while (*token == ' ')
-		token++;
+	token = skip_to_next_token(token);
 	if (!parse_vector(token, &scene->camera.direction))
 		return (print_error("Invalid camera direction"));
 	scene->camera.direction = vec3_normalize(scene->camera.direction);
-	while (*token && *token != ' ')
-		token++;
-	while (*token == ' ')
-		token++;
+	token = skip_to_next_token(token);
 	scene->camera.fov = ft_atof(token);
 	if (!in_range(scene->camera.fov, 0, 180))
 		return (print_error("FOV must be in range [0, 180]"));

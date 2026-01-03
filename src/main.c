@@ -43,6 +43,27 @@ static t_scene	*init_scene(void)
 	return (scene);
 }
 
+static int	initialize_scene_and_render(char *filename, t_scene **scene,
+		t_render **render)
+{
+	*scene = init_scene();
+	if (!*scene)
+		return (print_error("Failed to initialize scene"));
+	if (!parse_scene(filename, *scene))
+	{
+		cleanup_scene(*scene);
+		return (1);
+	}
+	scene_build_bvh(*scene);
+	*render = init_window(*scene);
+	if (!*render)
+	{
+		cleanup_scene(*scene);
+		return (print_error("Failed to initialize window"));
+	}
+	return (0);
+}
+
 /*
 ** Main program entry point.
 ** Validates arguments, initializes scene, parses input file,
@@ -58,21 +79,8 @@ int	main(int argc, char **argv)
 		printf("Usage: %s <scene_file.rt>\n", argv[0]);
 		return (1);
 	}
-	scene = init_scene();
-	if (!scene)
-		return (print_error("Failed to initialize scene"));
-	if (!parse_scene(argv[1], scene))
-	{
-		cleanup_scene(scene);
+	if (initialize_scene_and_render(argv[1], &scene, &render) != 0)
 		return (1);
-	}
-	scene_build_bvh(scene);
-	render = init_window(scene);
-	if (!render)
-	{
-		cleanup_scene(scene);
-		return (print_error("Failed to initialize window"));
-	}
 	render_scene(scene, render->mlx, render->win);
 	mlx_loop(render->mlx);
 	return (0);
