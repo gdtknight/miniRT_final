@@ -209,10 +209,10 @@ static void	handle_object_selection(t_render *render, int keycode)
 					&& render->selection.index >= render->scene->sphere_count)
 				|| (render->selection.type == OBJ_PLANE
 					&& render->selection.index
-						>= render->scene->plane_count)
+					>= render->scene->plane_count)
 				|| (render->selection.type == OBJ_CYLINDER
 					&& render->selection.index
-						>= render->scene->cylinder_count))
+					>= render->scene->cylinder_count))
 			{
 				render->selection.index = 0;
 				if (render->selection.type == OBJ_SPHERE)

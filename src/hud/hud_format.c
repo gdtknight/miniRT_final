@@ -149,4 +149,3 @@ void	hud_format_bvh_status(char *buf, int enabled)
 	else
 		ft_strcpy(buf, "OFF");
 }
-
