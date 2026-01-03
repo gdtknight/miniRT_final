@@ -106,11 +106,4 @@ void	render_scene_to_buffer(t_scene *scene, t_render *render);
 /* Calculate final color at hit point using lighting and shadows */
 t_color	apply_lighting(t_scene *scene, t_hit *hit);
 
-/* Test ray-sphere intersection and update hit info if closer */
-int		intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit);
-/* Test ray-plane intersection and update hit info if closer */
-int		intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit);
-/* Test ray-cylinder intersection and update hit info if closer */
-int		intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit);
-
 #endif
