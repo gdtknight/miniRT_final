@@ -54,6 +54,30 @@ static int	bvh_leaf_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 	return (hit_anything);
 }
 
+static int	check_child_hits(int hit_left, int hit_right,
+		t_hit_record *left_hit, t_hit_record *right_hit, t_hit_record *hit)
+{
+	if (hit_left && hit_right)
+	{
+		if (left_hit->distance < right_hit->distance)
+			*hit = *left_hit;
+		else
+			*hit = *right_hit;
+		return (1);
+	}
+	if (hit_left)
+	{
+		*hit = *left_hit;
+		return (1);
+	}
+	if (hit_right)
+	{
+		*hit = *right_hit;
+		return (1);
+	}
+	return (0);
+}
+
 int	bvh_node_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 		void *scene)
 {
@@ -74,25 +98,7 @@ int	bvh_node_intersect(t_bvh_node *node, t_ray ray, t_hit_record *hit,
 		return (bvh_leaf_intersect(node, ray, hit, scene));
 	hit_left = bvh_node_intersect(node->left, ray, &left_hit, scene);
 	hit_right = bvh_node_intersect(node->right, ray, &right_hit, scene);
-	if (hit_left && hit_right)
-	{
-		if (left_hit.distance < right_hit.distance)
-			*hit = left_hit;
-		else
-			*hit = right_hit;
-		return (1);
-	}
-	if (hit_left)
-	{
-		*hit = left_hit;
-		return (1);
-	}
-	if (hit_right)
-	{
-		*hit = right_hit;
-		return (1);
-	}
-	return (0);
+	return (check_child_hits(hit_left, hit_right, &left_hit, &right_hit, hit));
 }
 
 int	bvh_intersect(t_bvh *bvh, t_ray ray, t_hit_record *hit, void *scene)

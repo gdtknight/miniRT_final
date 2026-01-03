@@ -20,36 +20,49 @@ static int	count_objects(t_scene *scene)
 	return (scene->sphere_count + scene->plane_count + scene->cylinder_count);
 }
 
-static void	fill_object_refs(t_scene *scene, t_object_ref *refs)
+static void	fill_spheres(t_scene *scene, t_object_ref *refs, int *idx)
 {
 	int	i;
-	int	idx;
 
-	idx = 0;
 	i = 0;
 	while (i < scene->sphere_count)
 	{
-		refs[idx].type = OBJ_SPHERE;
-		refs[idx].index = i;
-		idx++;
+		refs[*idx].type = OBJ_SPHERE;
+		refs[*idx].index = i;
+		(*idx)++;
 		i++;
 	}
+}
+
+static void	fill_planes_cylinders(t_scene *scene, t_object_ref *refs, int *idx)
+{
+	int	i;
+
 	i = 0;
 	while (i < scene->plane_count)
 	{
-		refs[idx].type = OBJ_PLANE;
-		refs[idx].index = i;
-		idx++;
+		refs[*idx].type = OBJ_PLANE;
+		refs[*idx].index = i;
+		(*idx)++;
 		i++;
 	}
 	i = 0;
 	while (i < scene->cylinder_count)
 	{
-		refs[idx].type = OBJ_CYLINDER;
-		refs[idx].index = i;
-		idx++;
+		refs[*idx].type = OBJ_CYLINDER;
+		refs[*idx].index = i;
+		(*idx)++;
 		i++;
 	}
+}
+
+static void	fill_object_refs(t_scene *scene, t_object_ref *refs)
+{
+	int	idx;
+
+	idx = 0;
+	fill_spheres(scene, refs, &idx);
+	fill_planes_cylinders(scene, refs, &idx);
 }
 
 void	scene_build_bvh(t_scene *scene)

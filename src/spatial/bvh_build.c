@@ -134,6 +134,7 @@ t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 	int			axis;
 	double		split;
 	int			mid;
+	double		max_extent;
 
 	if (count <= 2 || depth > 20)
 		return (create_leaf_node(objects, count, scene));
@@ -141,12 +142,17 @@ t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 	axis = 0;
 	if (bounds.max.y - bounds.min.y > bounds.max.x - bounds.min.x)
 		axis = 1;
-	if (bounds.max.z - bounds.min.z > (axis == 0 ? bounds.max.x - bounds.min.x
-			: bounds.max.y - bounds.min.y))
+	max_extent = bounds.max.x - bounds.min.x;
+	if (axis == 1)
+		max_extent = bounds.max.y - bounds.min.y;
+	if (bounds.max.z - bounds.min.z > max_extent)
 		axis = 2;
-	split = (axis == 0 ? (bounds.min.x + bounds.max.x) / 2.0 : (axis == 1
-				? (bounds.min.y + bounds.max.y) / 2.0 : (bounds.min.z
-					+ bounds.max.z) / 2.0));
+	if (axis == 0)
+		split = (bounds.min.x + bounds.max.x) / 2.0;
+	else if (axis == 1)
+		split = (bounds.min.y + bounds.max.y) / 2.0;
+	else
+		split = (bounds.min.z + bounds.max.z) / 2.0;
 	mid = partition_objects(objects, count, axis, split, scene);
 	node = malloc(sizeof(t_bvh_node));
 	if (!node)
