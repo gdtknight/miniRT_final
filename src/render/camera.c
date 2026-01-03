@@ -16,15 +16,6 @@
 #include "ray.h"
 #include <math.h>
 
-/* Helper structure for camera ray calculations */
-typedef struct s_cam_calc
-{
-	double	aspect_ratio;
-	double	fov_scale;
-	t_vec3	right;
-	t_vec3	up;
-}	t_cam_calc;
-
 /*
 ** Initialize camera coordinate system (right and up vectors).
 ** Creates orthonormal basis from camera direction.

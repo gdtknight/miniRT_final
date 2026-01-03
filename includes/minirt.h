@@ -25,6 +25,15 @@
 /* Forward declarations */
 typedef struct s_render	t_render;
 
+/* Helper structure for camera ray calculations */
+typedef struct s_cam_calc
+{
+	double	aspect_ratio;
+	double	fov_scale;
+	t_vec3	right;
+	t_vec3	up;
+}	t_cam_calc;
+
 /* Epsilon value for floating point comparison to avoid numerical errors */
 # define EPSILON 0.0001
 

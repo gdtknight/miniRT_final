@@ -15,17 +15,6 @@
 #include "vec3.h"
 #include <math.h>
 
-/* Helper structure for cylinder intersection calculations */
-typedef struct s_cyl_calc
-{
-	double	a;
-	double	b;
-	double	c;
-	double	discriminant;
-	double	t;
-	double	m;
-}	t_cyl_calc;
-
 /*
 ** Calculate ray-cylinder infinite surface intersection.
 ** Uses quadratic equation excluding cylinder caps.

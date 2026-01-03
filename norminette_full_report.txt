@@ -1,0 +1,226 @@
+Setting locale to en_US
+main.c: Error!
+Error: TOO_MANY_LINES       (line:  79, col:   1):	Function has more than 25 lines
+trace.c: Error!
+Error: MIXED_SPACE_TAB      (line:  24, col:  66):	[93mMixed spaces and tabs[0m
+Error: TOO_MANY_ARGS        (line:  25, col:  78):	[91mFunction has more than 4 arguments[0m
+Error: MIXED_SPACE_TAB      (line:  57, col:  56):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  58, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  69, col:  55):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  70, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  81, col:  58):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  82, col:   1):	[94mFound tab when expecting space[0m
+metrics.c: Error!
+Error: TOO_MANY_FUNCS       (line:  70, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  93, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 102, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 108, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 114, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 120, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 126, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 132, col:   1):	[92mToo many functions in file[0m
+render.c: Error!
+Error: TOO_MANY_VARS_FUNC   (line:  75, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_MANY_LINES       (line:  99, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 133, col:   1):	[92mToo many functions in file[0m
+camera.c: Error!
+Error: FORBIDDEN_TYPEDEF    (line:  20, col:   1):	Typedef declaration are not allowed in .c files
+Error: MIXED_SPACE_TAB      (line:  37, col:  63):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  38, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  55, col:  62):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  56, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  57, col:  59):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  58, col:   1):	[94mFound tab when expecting space[0m
+metrics_calc.c: OK!
+render_state.c: Error!
+Error: TERNARY_FBIDDEN      (line:  57, col:  58):	Ternaries are forbidden
+Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  81, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  96, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_ARGS        (line:  97, col:  16):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_FUNCS       (line: 120, col:   1):	[92mToo many functions in file[0m
+timer.c: Error!
+Error: TOO_MANY_FUNCS       (line:  54, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  62, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  67, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  77, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  82, col:   1):	[92mToo many functions in file[0m
+ft_atof.c: Error!
+Error: MIXED_SPACE_TAB      (line:  18, col:  50):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  19, col:   1):	[94mFound tab when expecting space[0m
+error.c: OK!
+cleanup.c: OK!
+ft_atoi.c: Error!
+Error: MIXED_SPACE_TAB      (line:  18, col:  50):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  19, col:   1):	[94mFound tab when expecting space[0m
+parse_validation.c: OK!
+parse_objects.c: OK!
+parse_elements.c: Error!
+Error: TOO_MANY_LINES       (line:  80, col:   1):	Function has more than 25 lines
+parser.c: OK!
+vector.c: OK!
+vector_ops.c: OK!
+window.c: Error!
+Error: TOO_FEW_TAB          (line: 139, col:   1):	Missing tabs for indent level
+Error: TOO_FEW_TAB          (line: 172, col:   1):	Missing tabs for indent level
+Error: LINE_TOO_LONG        (line: 213, col:  82):	[94mline too long[0m
+Error: TERNARY_FBIDDEN      (line: 218, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 219, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 222, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 223, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 226, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 227, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 243, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 244, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 246, col:  46):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 248, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 254, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 255, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 257, col:  44):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 263, col:  25):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 264, col:  29):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 266, col:  43):	Ternaries are forbidden
+Error: TOO_MANY_LINES       (line: 273, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 275, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 294, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 318, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 347, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 415, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 421, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 446, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 473, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 519, col:   1):	Function has more than 25 lines
+shadow_test.c: OK!
+lighting.c: Error!
+Error: MIXED_SPACE_TAB      (line:  37, col:  68):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  45, col:  69):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  46, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  57, col:  65):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  67, col:  63):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  68, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  85, col:  68):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  86, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  87, col:  68):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  88, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  90, col:  54):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  91, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  92, col:  54):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  93, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  94, col:  54):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  95, col:   1):	[94mFound tab when expecting space[0m
+shadow_config.c: OK!
+shadow_attenuation.c: Error!
+Error: MIXED_SPACE_TAB      (line:  20, col:  75):	[93mMixed spaces and tabs[0m
+shadow_calc.c: Error!
+Error: MIXED_SPACE_TAB      (line:  23, col:  63):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  43, col:  71):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  56, col:  70):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  57, col:   1):	[94mFound tab when expecting space[0m
+Error: SPC_BFR_OPERATOR     (line:  57, col:   9):	[94mmissing space before operator[0m
+Error: FORBIDDEN_TYPEDEF    (line:  68, col:   1):	Typedef declaration are not allowed in .c files
+Error: MIXED_SPACE_TAB      (line:  85, col:  75):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  86, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  88, col:  55):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  89, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  95, col:  66):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line: 127, col:  62):	[93mMixed spaces and tabs[0m
+keyguide_cleanup.c: OK!
+keyguide_init.c: OK!
+keyguide_render.c: Error!
+Error: TOO_MANY_ARGS        (line:  18, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_LINES       (line:  79, col:   1):	Function has more than 25 lines
+bvh_init.c: Error!
+Error: TOO_MANY_LINES       (line:  53, col:   1):	Function has more than 25 lines
+bounds.c: OK!
+aabb.c: Error!
+Error: TOO_MANY_FUNCS       (line:  66, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  86, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 102, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 114, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 162, col:   1):	Function has more than 25 lines
+bvh_traverse.c: Error!
+Error: TOO_MANY_VARS_FUNC   (line:  65, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_MANY_LINES       (line:  96, col:   1):	Function has more than 25 lines
+bvh_build.c: Error!
+Error: TOO_MANY_ARGS        (line:  74, col:  35):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_FUNCS       (line: 101, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 129, col:   1):	[92mToo many functions in file[0m
+Error: TERNARY_FBIDDEN      (line: 144, col:  50):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line: 147, col:  24):	Ternaries are forbidden
+Error: MIXED_SPACE_TAB      (line: 147, col:  61):	[93mMixed spaces and tabs[0m
+Error: TERNARY_FBIDDEN      (line: 148, col:  22):	Ternaries are forbidden
+Error: TOO_MANY_LINES       (line: 161, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 163, col:   1):	[92mToo many functions in file[0m
+intersections.c: OK!
+intersect_cylinder.c: Error!
+Error: FORBIDDEN_TYPEDEF    (line:  19, col:   1):	Typedef declaration are not allowed in .c files
+Error: MIXED_SPACE_TAB      (line:  34, col:  73):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  49, col:  52):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  50, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line:  66, col:  68):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  83, col:  53):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line:  84, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line: 139, col:  57):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line: 140, col:   1):	[94mFound tab when expecting space[0m
+Error: MIXED_SPACE_TAB      (line: 146, col:  57):	[93mMixed spaces and tabs[0m
+Error: TAB_INSTEAD_SPC      (line: 147, col:   1):	[94mFound tab when expecting space[0m
+hud_render.c: Error!
+Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_LINES       (line:  84, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 105, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 134, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 155, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 182, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 218, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 220, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 247, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 273, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 302, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 320, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 345, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 363, col:   1):	[92mToo many functions in file[0m
+hud_format.c: Error!
+Error: TOO_MANY_FUNCS       (line: 113, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 132, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 137, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 145, col:   1):	[92mToo many functions in file[0m
+Error: EMPTY_LINE_EOF       (line: 152, col:   1):	Empty line at end of file
+hud_navigation.c: Error!
+Error: TOO_MANY_FUNCS       (line:  90, col:   1):	[92mToo many functions in file[0m
+hud_init.c: OK!
+hud_toggle.c: OK!
+hud_performance.c: Error!
+Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_LINES       (line:  74, col:   1):	Function has more than 25 lines
+hud_transparency.c: Error!
+Error: TOO_MANY_FUNCS       (line:  50, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_ARGS        (line:  50, col:  68):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_FUNCS       (line:  58, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_ARGS        (line:  59, col:  28):	[91mFunction has more than 4 arguments[0m
+hud.h: Error!
+Error: TOO_MANY_ARGS        (line:  39, col:  72):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_ARGS        (line:  41, col:  36):	[91mFunction has more than 4 arguments[0m
+Error: MISALIGNED_FUNC_DECL (line: 247, col:  13):	Misaligned function declaration
+spatial.h: OK!
+parser.h: OK!
+window.h: Error!
+Error: PREPROC_CONSTANT     (line:  21, col:  23):	Preprocessor statement must only contain constant defines
+Error: TOO_MANY_ARGS        (line: 106, col:  41):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_ARGS        (line: 116, col:  45):	[91mFunction has more than 4 arguments[0m
+keyguide.h: OK!
+render_state.h: Error!
+Error: TOO_MANY_ARGS        (line:  73, col:  28):	[91mFunction has more than 4 arguments[0m
+objects.h: OK!
+ray.h: Error!
+Error: MISALIGNED_VAR_DECL  (line:  40, col:   1):	Misaligned variable declaration
+Error: MIXED_SPACE_TAB      (line:  47, col:  72):	[93mMixed spaces and tabs[0m
+shadow.h: Error!
+Error: MIXED_SPACE_TAB      (line:  80, col:  71):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line:  94, col:  61):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line: 109, col:  70):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line: 122, col:  62):	[93mMixed spaces and tabs[0m
+Error: MIXED_SPACE_TAB      (line: 136, col:  59):	[93mMixed spaces and tabs[0m
+vec3.h: OK!
+minirt.h: OK!
+metrics.h: OK!

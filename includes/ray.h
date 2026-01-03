@@ -36,6 +36,17 @@ typedef struct s_hit
 
 typedef t_hit	t_hit_record;
 
+/* Helper structure for cylinder intersection calculations */
+typedef struct s_cyl_calc
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+	double	t;
+	double	m;
+}	t_cyl_calc;
+
 /* Generic intersection function pointer type */
 typedef int	(*t_intersect_fn)(t_ray *ray, void *object, t_hit *hit);
 
