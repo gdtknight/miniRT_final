@@ -54,7 +54,10 @@ void	quality_set_mode(t_render_state *state, t_quality_mode mode)
 {
 	state->quality = mode;
 	state->target_quality = mode;
-	state->metrics.quality_mode = (mode == QUALITY_HIGH) ? 1 : 0;
+	if (mode == QUALITY_HIGH)
+		state->metrics.quality_mode = 1;
+	else
+		state->metrics.quality_mode = 0;
 }
 
 int	quality_should_upgrade(t_render_state *state)

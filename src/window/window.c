@@ -136,7 +136,7 @@ static void	handle_camera_move(t_render *render, int keycode)
 
 	step = 1.0;
 	right = vec3_normalize(vec3_cross(render->scene->camera.direction,
-			(t_vec3){0, 1, 0}));
+				(t_vec3){0, 1, 0}));
 	if (keycode == KEY_W)
 		move = vec3_multiply(render->scene->camera.direction, step);
 	else if (keycode == KEY_X)
@@ -169,7 +169,7 @@ static void	handle_camera_pitch(t_render *render, int keycode)
 	else if (keycode != KEY_E)
 		return ;
 	right = vec3_normalize(vec3_cross(render->scene->camera.direction,
-			(t_vec3){0, 1, 0}));
+				(t_vec3){0, 1, 0}));
 	cos_a = cos(angle);
 	sin_a = sin(angle);
 	new_dir.x = render->scene->camera.direction.x * cos_a
@@ -208,23 +208,40 @@ static void	handle_object_selection(t_render *render, int keycode)
 			if ((render->selection.type == OBJ_SPHERE
 					&& render->selection.index >= render->scene->sphere_count)
 				|| (render->selection.type == OBJ_PLANE
-					&& render->selection.index >= render->scene->plane_count)
+					&& render->selection.index
+						>= render->scene->plane_count)
 				|| (render->selection.type == OBJ_CYLINDER
-					&& render->selection.index >= render->scene->cylinder_count))
+					&& render->selection.index
+						>= render->scene->cylinder_count))
 			{
 				render->selection.index = 0;
 				if (render->selection.type == OBJ_SPHERE)
-					render->selection.type = (render->scene->plane_count > 0)
-						? OBJ_PLANE : ((render->scene->cylinder_count > 0)
-							? OBJ_CYLINDER : OBJ_SPHERE);
+				{
+					if (render->scene->plane_count > 0)
+						render->selection.type = OBJ_PLANE;
+					else if (render->scene->cylinder_count > 0)
+						render->selection.type = OBJ_CYLINDER;
+					else
+						render->selection.type = OBJ_SPHERE;
+				}
 				else if (render->selection.type == OBJ_PLANE)
-					render->selection.type = (render->scene->cylinder_count > 0)
-						? OBJ_CYLINDER : ((render->scene->sphere_count > 0)
-							? OBJ_SPHERE : OBJ_PLANE);
+				{
+					if (render->scene->cylinder_count > 0)
+						render->selection.type = OBJ_CYLINDER;
+					else if (render->scene->sphere_count > 0)
+						render->selection.type = OBJ_SPHERE;
+					else
+						render->selection.type = OBJ_PLANE;
+				}
 				else
-					render->selection.type = (render->scene->sphere_count > 0)
-						? OBJ_SPHERE : ((render->scene->plane_count > 0)
-							? OBJ_PLANE : OBJ_CYLINDER);
+				{
+					if (render->scene->sphere_count > 0)
+						render->selection.type = OBJ_SPHERE;
+					else if (render->scene->plane_count > 0)
+						render->selection.type = OBJ_PLANE;
+					else
+						render->selection.type = OBJ_CYLINDER;
+				}
 			}
 		}
 	}
@@ -239,32 +256,51 @@ static void	handle_object_selection(t_render *render, int keycode)
 			{
 				if (render->selection.type == OBJ_SPHERE)
 				{
-					render->selection.type = (render->scene->cylinder_count > 0)
-						? OBJ_CYLINDER : ((render->scene->plane_count > 0)
-							? OBJ_PLANE : OBJ_SPHERE);
-					render->selection.index = (render->selection.type
-							== OBJ_CYLINDER) ? render->scene->cylinder_count - 1
-						: ((render->selection.type == OBJ_PLANE)
-							? render->scene->plane_count - 1
-							: render->scene->sphere_count - 1);
+					if (render->scene->cylinder_count > 0)
+						render->selection.type = OBJ_CYLINDER;
+					else if (render->scene->plane_count > 0)
+						render->selection.type = OBJ_PLANE;
+					else
+						render->selection.type = OBJ_SPHERE;
+					if (render->selection.type == OBJ_CYLINDER)
+						render->selection.index
+							= render->scene->cylinder_count - 1;
+					else if (render->selection.type == OBJ_PLANE)
+						render->selection.index
+							= render->scene->plane_count - 1;
+					else
+						render->selection.index
+							= render->scene->sphere_count - 1;
 				}
 				else if (render->selection.type == OBJ_PLANE)
 				{
-					render->selection.type = (render->scene->sphere_count > 0)
-						? OBJ_SPHERE : ((render->scene->cylinder_count > 0)
-							? OBJ_CYLINDER : OBJ_PLANE);
-					render->selection.index = (render->selection.type
-							== OBJ_SPHERE) ? render->scene->sphere_count - 1
-						: render->scene->plane_count - 1;
+					if (render->scene->sphere_count > 0)
+						render->selection.type = OBJ_SPHERE;
+					else if (render->scene->cylinder_count > 0)
+						render->selection.type = OBJ_CYLINDER;
+					else
+						render->selection.type = OBJ_PLANE;
+					if (render->selection.type == OBJ_SPHERE)
+						render->selection.index
+							= render->scene->sphere_count - 1;
+					else
+						render->selection.index
+							= render->scene->plane_count - 1;
 				}
 				else
 				{
-					render->selection.type = (render->scene->plane_count > 0)
-						? OBJ_PLANE : ((render->scene->sphere_count > 0)
-							? OBJ_SPHERE : OBJ_CYLINDER);
-					render->selection.index = (render->selection.type
-							== OBJ_PLANE) ? render->scene->plane_count - 1
-						: render->scene->cylinder_count - 1;
+					if (render->scene->plane_count > 0)
+						render->selection.type = OBJ_PLANE;
+					else if (render->scene->sphere_count > 0)
+						render->selection.type = OBJ_SPHERE;
+					else
+						render->selection.type = OBJ_CYLINDER;
+					if (render->selection.type == OBJ_PLANE)
+						render->selection.index
+							= render->scene->plane_count - 1;
+					else
+						render->selection.index
+							= render->scene->cylinder_count - 1;
 				}
 			}
 		}
