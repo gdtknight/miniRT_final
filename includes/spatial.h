@@ -95,6 +95,10 @@ typedef struct s_split_params
 	int				depth;
 }	t_split_params;
 
+/* Helper functions */
+double		min_double(double a, double b);
+double		max_double(double a, double b);
+
 /* AABB operations */
 t_aabb		aabb_create(t_vec3 min, t_vec3 max);
 t_aabb		aabb_merge(t_aabb a, t_aabb b);

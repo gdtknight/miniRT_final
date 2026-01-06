@@ -5,6 +5,14 @@
 **Status**: Draft  
 **Input**: User description: "노미넷(norminette) 에러 77개를 0개로 완전 제거하기 위한 파일 분할 및 리팩토링 작업"
 
+## Clarifications
+
+### Session 2026-01-03
+
+- Q: How should HUD-related files (hud_render.c with 13 functions) be split organizationally? → A: UI component hierarchical splitting by layer (text, metrics, controls)
+- Q: What validation strategy should be used to verify functionality preservation after refactoring? → A: Automated image diff + manual verification + exit code verification
+- Q: How should header file organization be structured when splitting files? → A: One header per source file
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - File Function Count Compliance (Priority: P1)
@@ -17,7 +25,7 @@ As a developer maintaining the miniRT codebase, I need all source files to compl
 
 **Acceptance Scenarios**:
 
-1. **Given** hud_render.c contains 13 functions (8 over limit), **When** file is split into logical modules, **Then** each resulting file contains ≤5 functions and all HUD rendering functionality works identically
+1. **Given** hud_render.c contains 13 functions (8 over limit), **When** file is split by UI component layers (hud_text.c for text rendering, hud_metrics.c for metrics display, hud_controls.c for control hints), **Then** each resulting file contains ≤5 functions and all HUD rendering functionality works identically (verified by automated image diff + manual inspection + exit code checks)
 2. **Given** metrics.c contains 8 functions (3 over limit), **When** functions are reorganized into separate files by concern, **Then** norminette reports zero TOO_MANY_FUNCS errors and metrics tracking operates correctly
 3. **Given** window.c contains 7 functions (2 over limit), **When** window initialization and event handling are separated, **Then** each file has ≤5 functions and window management behaves as before
 4. **Given** timer.c and bvh_build.c each contain 6 functions (1 over limit), **When** one helper function is extracted to a new file in each case, **Then** both files pass norminette function count validation
@@ -110,7 +118,7 @@ As a project maintainer, I need to resolve remaining style issues (preprocessor 
 - **FR-007**: System MUST rename preprocessor constants to comply with norminette naming conventions
 - **FR-008**: System MUST align function declarations according to norminette spacing rules
 - **FR-009**: System MUST update Makefile to include all newly created source files
-- **FR-010**: System MUST update header files with declarations for all newly extracted functions
+- **FR-010**: System MUST create one header file per source file with declarations for all functions in that source file
 - **FR-011**: System MUST maintain all existing functionality without behavior changes
 - **FR-012**: System MUST preserve build success across all compilation targets
 - **FR-013**: System MUST maintain performance characteristics of rendering pipeline (no measurable regression)
@@ -122,7 +130,7 @@ As a project maintainer, I need to resolve remaining style issues (preprocessor 
 - **Source File Module**: Represents a .c file containing related functionality, must have ≤5 functions, organized by feature concern (e.g., HUD rendering, metrics tracking, window management)
 - **Function Unit**: Represents a single function, must be ≤25 lines, have ≤4 parameters, and ≤5 local variables
 - **Parameter Structure**: Represents a collection of related parameters grouped into a struct to reduce function signature complexity
-- **Header File**: Represents a .h file declaring interfaces, must follow norminette tab/space rules and contain no trailing whitespace
+- **Header File**: Represents a .h file declaring interfaces, must follow norminette tab/space rules and contain no trailing whitespace. Organized as one header per source file (.c), containing all public function declarations from that source file
 - **Norminette Error**: Represents a specific rule violation with category (TOO_MANY_FUNCS, TOO_MANY_LINES, etc.), file location, and line number
 
 ## Success Criteria *(mandatory)*
@@ -134,7 +142,7 @@ As a project maintainer, I need to resolve remaining style issues (preprocessor 
 - **SC-003**: All functions are ≤25 lines (currently 5 functions exceed this limit)
 - **SC-004**: All header files pass norminette formatting checks (currently 10 formatting violations)
 - **SC-005**: Project compiles successfully with `make` and `make bonus` producing zero compiler errors
-- **SC-006**: All existing test scenes render identically to pre-refactoring output (pixel-perfect comparison)
+- **SC-006**: All existing test scenes render identically to pre-refactoring output (validated via automated image diff + manual verification + exit code verification)
 - **SC-007**: Rendering performance remains within 5% of baseline (no significant regression)
 - **SC-008**: Code review confirms improved readability with smaller, focused functions
 - **SC-009**: Project achieves 42 School norminette compliance certification requirement (0 errors)
@@ -149,7 +157,7 @@ As a project maintainer, I need to resolve remaining style issues (preprocessor 
 - Test scenes accurately represent all features and can validate behavior preservation
 - Performance baseline can be established using existing timer/metrics infrastructure
 - File splitting follows logical feature boundaries (e.g., HUD rendering, metrics collection, window management)
-- Header file organization follows include guards and forward declaration best practices
+- Header file organization follows include guards and forward declaration best practices, with one header file per source file (.c) containing that source file's public function declarations
 - The Constitution document referenced contains coding standards that align with norminette rules
 - Refactoring work can be done incrementally and tested at each stage (file splits, function extractions, formatting fixes)
 

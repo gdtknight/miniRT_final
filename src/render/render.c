@@ -57,6 +57,22 @@ static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 }
 
 /*
+** Draw a 2x2 pixel block with the same color for low quality rendering.
+*/
+static void	draw_pixel_block(t_render *render, int x, int y, t_color color)
+{
+	put_pixel_to_buffer(render, x, y, color);
+	if (x + 1 < WINDOW_WIDTH)
+		put_pixel_to_buffer(render, x + 1, y, color);
+	if (y + 1 < WINDOW_HEIGHT)
+	{
+		put_pixel_to_buffer(render, x, y + 1, color);
+		if (x + 1 < WINDOW_WIDTH)
+			put_pixel_to_buffer(render, x + 1, y + 1, color);
+	}
+}
+
+/*
 ** Render scene at reduced resolution for fast preview.
 ** Uses 2x2 pixel blocks to achieve 4x speedup.
 */
@@ -78,15 +94,7 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 			uv[1] = 1.0 - (2.0 * y / (double)WINDOW_HEIGHT);
 			ray = create_camera_ray(&scene->camera, uv[0], uv[1]);
 			color = trace_ray(scene, &ray);
-			put_pixel_to_buffer(render, x, y, color);
-			if (x + 1 < WINDOW_WIDTH)
-				put_pixel_to_buffer(render, x + 1, y, color);
-			if (y + 1 < WINDOW_HEIGHT)
-			{
-				put_pixel_to_buffer(render, x, y + 1, color);
-				if (x + 1 < WINDOW_WIDTH)
-					put_pixel_to_buffer(render, x + 1, y + 1, color);
-			}
+			draw_pixel_block(render, x, y, color);
 			x += 2;
 		}
 		y += 2;
@@ -119,15 +127,4 @@ void	render_scene_to_buffer(t_scene *scene, t_render *render)
 		}
 		y++;
 	}
-}
-
-/*
-** Legacy wrapper for backward compatibility.
-** Renders to temporary buffer and displays.
-*/
-void	render_scene(t_scene *scene, void *mlx, void *win)
-{
-	(void)scene;
-	(void)mlx;
-	(void)win;
 }

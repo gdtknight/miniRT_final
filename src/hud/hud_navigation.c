@@ -24,57 +24,55 @@ int	hud_get_global_index(t_selection sel, t_scene *scene)
 	return (0);
 }
 
-t_selection	hud_get_selection_from_global(int global_idx, t_scene *scene)
+void	hud_get_selection_from_global(t_selection *sel, int idx,
+	t_scene *scene)
 {
-	t_selection	sel;
-
-	if (global_idx < scene->sphere_count)
+	if (idx < scene->sphere_count)
 	{
-		sel.type = OBJ_SPHERE;
-		sel.index = global_idx;
+		sel->type = OBJ_SPHERE;
+		sel->index = idx;
 	}
-	else if (global_idx < scene->sphere_count + scene->plane_count)
+	else if (idx < scene->sphere_count + scene->plane_count)
 	{
-		sel.type = OBJ_PLANE;
-		sel.index = global_idx - scene->sphere_count;
+		sel->type = OBJ_PLANE;
+		sel->index = idx - scene->sphere_count;
 	}
 	else
 	{
-		sel.type = OBJ_CYLINDER;
-		sel.index = global_idx - scene->sphere_count - scene->plane_count;
+		sel->type = OBJ_CYLINDER;
+		sel->index = idx - scene->sphere_count - scene->plane_count;
 	}
-	return (sel);
 }
 
 void	hud_select_next(t_render *render)
 {
 	int	total_objects;
-	int	global_idx;
+	int	idx;
 
 	total_objects = render->scene->sphere_count
 		+ render->scene->plane_count + render->scene->cylinder_count;
 	if (total_objects == 0)
 		return ;
-	global_idx = hud_get_global_index(render->selection, render->scene);
-	global_idx = (global_idx + 1) % total_objects;
-	render->selection = hud_get_selection_from_global(global_idx,
-			render->scene);
+	idx = hud_get_global_index(render->selection, render->scene);
+	idx = (idx + 1) % total_objects;
+	hud_get_selection_from_global(&render->selection, idx,
+		render->scene);
 	render->hud.dirty = 1;
 }
 
 void	hud_select_prev(t_render *render)
 {
 	int	total_objects;
-	int	global_idx;
+	int	idx;
 
 	total_objects = render->scene->sphere_count
 		+ render->scene->plane_count + render->scene->cylinder_count;
 	if (total_objects == 0)
 		return ;
-	global_idx = hud_get_global_index(render->selection, render->scene);
-	global_idx = (global_idx - 1 + total_objects) % total_objects;
-	render->selection = hud_get_selection_from_global(global_idx,
-			render->scene);
+	idx = hud_get_global_index(render->selection, render->scene);
+	idx = (idx - 1 + total_objects) % total_objects;
+	hud_get_selection_from_global(&render->selection, idx,
+		render->scene);
 	render->hud.dirty = 1;
 }
 
@@ -89,4 +87,5 @@ void	hud_change_page(t_render *render, int direction)
 		render->hud.current_page = (render->hud.current_page - 1
 				+ render->hud.total_pages) % render->hud.total_pages;
 	render->hud.dirty = 1;
+	render->dirty = 1;
 }

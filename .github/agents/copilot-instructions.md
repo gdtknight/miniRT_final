@@ -27,6 +27,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-15
 - In-memory scene data structures (no persistent storage) (001-performance-optimization)
 - C (C99/C11 compatible with 42 norminette standards) + MiniLibX (graphics library), libm (math library), libft (custom C library) (012-code-cleanup-refactor)
 - Scene files (.rt format), N/A for runtime (012-code-cleanup-refactor)
+- C (C99 standard per 42 School requirements) + MiniLibX (graphics), libft (custom C library), math library (-lm) (013-norminette-compliance)
+- N/A (no persistent storage, scene files loaded at startup) (013-norminette-compliance)
 
 - C (C99 or later with -std=c99 or compatible) + MinilibX (X11/XQuartz graphics library), libm (math library), optional libft (001-raytracer)
 
@@ -46,9 +48,9 @@ tests/
 C (C99 or later with -std=c99 or compatible): Follow standard conventions
 
 ## Recent Changes
+- 013-norminette-compliance: Added C (C99 standard per 42 School requirements) + MiniLibX (graphics), libft (custom C library), math library (-lm)
 - 012-code-cleanup-refactor: Added C (C99/C11 compatible with 42 norminette standards) + MiniLibX (graphics library), libm (math library), libft (custom C library)
 - 001-performance-optimization: Added C (C99 standard) + MiniLibX (42 School graphics library), math.h, libft (custom C library)
-- 011-code-refactoring: Added C (C99 standard), compiled with cc/gcc with flags -Wall -Wextra -Werror + MiniLibX (graphics library), libm (math library), libft (custom C library)
 
 
 <!-- MANUAL ADDITIONS START -->

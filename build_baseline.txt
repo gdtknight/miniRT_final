@@ -1,0 +1,1351 @@
+[0;32mCompiling src/main.c...[0m
+[0;32mCompiling src/hud/hud_color.c...[0m
+[0;32mCompiling src/hud/hud_color_extract.c...[0m
+[0;32mCompiling src/hud/hud_format.c...[0m
+[0;32mCompiling src/hud/hud_format_helpers.c...[0m
+[0;32mCompiling src/hud/hud_format_simple.c...[0m
+[0;32mCompiling src/hud/hud_init.c...[0m
+[0;32mCompiling src/hud/hud_navigation.c...[0m
+[0;32mCompiling src/hud/hud_performance.c...[0m
+[0;32mCompiling src/hud/hud_render.c...[0m
+[0;32mCompiling src/hud/hud_toggle.c...[0m
+[0;32mCompiling src/hud/hud_transparency.c...[0m
+[0;32mCompiling src/keyguide/keyguide_init.c...[0m
+[0;32mCompiling src/keyguide/keyguide_render.c...[0m
+[0;32mCompiling src/keyguide/keyguide_cleanup.c...[0m
+[0;32mCompiling src/lighting/lighting.c...[0m
+[0;32mCompiling src/lighting/shadow_calc.c...[0m
+[0;32mCompiling src/lighting/shadow_attenuation.c...[0m
+[0;32mCompiling src/lighting/shadow_config.c...[0m
+[0;32mCompiling src/lighting/shadow_test.c...[0m
+[0;32mCompiling src/math/vector.c...[0m
+[0;32mCompiling src/math/vector_ops.c...[0m
+[0;32mCompiling src/parser/parse_elements.c...[0m
+[0;32mCompiling src/parser/parse_objects.c...[0m
+[0;32mCompiling src/parser/parse_validation.c...[0m
+[0;32mCompiling src/parser/parser.c...[0m
+[0;32mCompiling src/ray/intersections.c...[0m
+[0;32mCompiling src/ray/intersect_cylinder.c...[0m
+[0;32mCompiling src/render/camera.c...[0m
+[0;32mCompiling src/render/metrics_time.c...[0m
+[0;32mCompiling src/render/metrics_frame.c...[0m
+[0;32mCompiling src/render/metrics_counters.c...[0m
+[0;32mCompiling src/render/metrics_calc.c...[0m
+[0;32mCompiling src/render/render.c...[0m
+[0;32mCompiling src/render/render_state.c...[0m
+[0;32mCompiling src/render/trace.c...[0m
+[0;32mCompiling src/spatial/aabb.c...[0m
+[0;32mCompiling src/spatial/aabb_basic.c...[0m
+[0;32mCompiling src/spatial/aabb_shapes.c...[0m
+[0;32mCompiling src/spatial/bounds.c...[0m
+[0;32mCompiling src/spatial/bvh_build.c...[0m
+[0;32mCompiling src/spatial/bvh_init.c...[0m
+[0;32mCompiling src/spatial/bvh_traverse.c...[0m
+[0;32mCompiling src/utils/cleanup.c...[0m
+[0;32mCompiling src/utils/error.c...[0m
+[0;32mCompiling src/utils/ft_atoi.c...[0m
+[0;32mCompiling src/utils/ft_atof.c...[0m
+[0;32mCompiling src/utils/timer.c...[0m
+[0;32mCompiling src/window/window.c...[0m
+[0;32mLinking miniRT...[0m
+cc -O2 -DSTRINGPUTX11   -c -o mlx_shaders.o mlx_shaders.c
+mlx_shaders.c:15:13: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |   param_func(object, GL_INFO_LOG_LENGTH, &log_length);
+      |             ^
+mlx_shaders.c:17:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   17 |   getlog_func(object, log_length, NULL, log);
+      |              ^
+mlx_shaders.c:29:25: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   29 |   glsl->pixel_vshader = glCreateShader(GL_VERTEX_SHADER);
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:39:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   39 |   glShaderSource(glsl->pixel_vshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:40:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   40 |   glCompileShader(glsl->pixel_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:43:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   43 |   glGetShaderiv(glsl->pixel_vshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:46:38: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   46 |     display_log(glsl->pixel_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:46:53: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   46 |     display_log(glsl->pixel_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:50:25: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   50 |   glsl->pixel_fshader = glCreateShader(GL_FRAGMENT_SHADER);
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:59:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   59 |   glShaderSource(glsl->pixel_fshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:60:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   60 |   glCompileShader(glsl->pixel_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:63:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   63 |   glGetShaderiv(glsl->pixel_fshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:66:38: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   66 |     display_log(glsl->pixel_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:66:53: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   66 |     display_log(glsl->pixel_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:70:25: warning: 'glCreateProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   70 |   glsl->pixel_program = glCreateProgram();
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1865:23: note: 'glCreateProgram' has been explicitly marked deprecated here
+ 1865 | GLAPI GLuint APIENTRY glCreateProgram (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:71:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   71 |   glAttachShader(glsl->pixel_program, glsl->pixel_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:72:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   72 |   glAttachShader(glsl->pixel_program, glsl->pixel_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:73:3: warning: 'glLinkProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   73 |   glLinkProgram(glsl->pixel_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1890:21: note: 'glLinkProgram' has been explicitly marked deprecated here
+ 1890 | GLAPI void APIENTRY glLinkProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:75:3: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   75 |   glGetProgramiv(glsl->pixel_program, GL_LINK_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:78:38: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   78 |     display_log(glsl->pixel_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:78:54: warning: 'glGetProgramInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   78 |     display_log(glsl->pixel_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1877:21: note: 'glGetProgramInfoLog' has been explicitly marked deprecated here
+ 1877 | GLAPI void APIENTRY glGetProgramInfoLog (GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:82:3: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   82 |   glFlush();
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:94:25: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   94 |   glsl->image_vshader = glCreateShader(GL_VERTEX_SHADER);
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:109:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  109 |   glShaderSource(glsl->image_vshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:110:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  110 |   glCompileShader(glsl->image_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:113:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  113 |   glGetShaderiv(glsl->image_vshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:116:38: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  116 |     display_log(glsl->image_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:116:53: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  116 |     display_log(glsl->image_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:120:25: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  120 |   glsl->image_fshader = glCreateShader(GL_FRAGMENT_SHADER);
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:129:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  129 |   glShaderSource(glsl->image_fshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:130:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  130 |   glCompileShader(glsl->image_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:133:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  133 |   glGetShaderiv(glsl->image_fshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:136:38: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  136 |     display_log(glsl->image_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:136:53: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  136 |     display_log(glsl->image_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:140:25: warning: 'glCreateProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  140 |   glsl->image_program = glCreateProgram();
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1865:23: note: 'glCreateProgram' has been explicitly marked deprecated here
+ 1865 | GLAPI GLuint APIENTRY glCreateProgram (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:141:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  141 |   glAttachShader(glsl->image_program, glsl->image_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:142:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  142 |   glAttachShader(glsl->image_program, glsl->image_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:143:3: warning: 'glLinkProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  143 |   glLinkProgram(glsl->image_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1890:21: note: 'glLinkProgram' has been explicitly marked deprecated here
+ 1890 | GLAPI void APIENTRY glLinkProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:145:3: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  145 |   glGetProgramiv(glsl->image_program, GL_LINK_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:148:38: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  148 |     display_log(glsl->image_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:148:54: warning: 'glGetProgramInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  148 |     display_log(glsl->image_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                                      ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1877:21: note: 'glGetProgramInfoLog' has been explicitly marked deprecated here
+ 1877 | GLAPI void APIENTRY glGetProgramInfoLog (GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:152:3: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  152 |   glFlush();
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:166:24: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  166 |   glsl->font_vshader = glCreateShader(GL_VERTEX_SHADER);
+      |                        ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:186:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  186 |   glShaderSource(glsl->font_vshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:187:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  187 |   glCompileShader(glsl->font_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:190:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  190 |   glGetShaderiv(glsl->font_vshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:193:37: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  193 |     display_log(glsl->font_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:193:52: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  193 |     display_log(glsl->font_vshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:197:24: warning: 'glCreateShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  197 |   glsl->font_fshader = glCreateShader(GL_FRAGMENT_SHADER);
+      |                        ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1866:23: note: 'glCreateShader' has been explicitly marked deprecated here
+ 1866 | GLAPI GLuint APIENTRY glCreateShader (GLenum type) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:207:3: warning: 'glShaderSource' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  207 |   glShaderSource(glsl->font_fshader, 1, (const GLchar**)&source, &length);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1891:21: note: 'glShaderSource' has been explicitly marked deprecated here
+ 1891 | GLAPI void APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:208:3: warning: 'glCompileShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  208 |   glCompileShader(glsl->font_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1864:21: note: 'glCompileShader' has been explicitly marked deprecated here
+ 1864 | GLAPI void APIENTRY glCompileShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:211:3: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  211 |   glGetShaderiv(glsl->font_fshader, GL_COMPILE_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:214:37: warning: 'glGetShaderiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  214 |     display_log(glsl->font_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1878:21: note: 'glGetShaderiv' has been explicitly marked deprecated here
+ 1878 | GLAPI void APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:214:52: warning: 'glGetShaderInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  214 |     display_log(glsl->font_fshader, glGetShaderiv, glGetShaderInfoLog);
+      |                                                    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1879:21: note: 'glGetShaderInfoLog' has been explicitly marked deprecated here
+ 1879 | GLAPI void APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:218:24: warning: 'glCreateProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  218 |   glsl->font_program = glCreateProgram();
+      |                        ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1865:23: note: 'glCreateProgram' has been explicitly marked deprecated here
+ 1865 | GLAPI GLuint APIENTRY glCreateProgram (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                       ^
+mlx_shaders.c:219:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  219 |   glAttachShader(glsl->font_program, glsl->font_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:220:3: warning: 'glAttachShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  220 |   glAttachShader(glsl->font_program, glsl->font_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1862:21: note: 'glAttachShader' has been explicitly marked deprecated here
+ 1862 | GLAPI void APIENTRY glAttachShader (GLuint program, GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:221:3: warning: 'glLinkProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  221 |   glLinkProgram(glsl->font_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1890:21: note: 'glLinkProgram' has been explicitly marked deprecated here
+ 1890 | GLAPI void APIENTRY glLinkProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:223:3: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  223 |   glGetProgramiv(glsl->font_program, GL_LINK_STATUS, &action_ok);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:226:37: warning: 'glGetProgramiv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  226 |     display_log(glsl->font_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1876:21: note: 'glGetProgramiv' has been explicitly marked deprecated here
+ 1876 | GLAPI void APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:226:53: warning: 'glGetProgramInfoLog' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  226 |     display_log(glsl->font_program, glGetProgramiv, glGetProgramInfoLog);
+      |                                                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1877:21: note: 'glGetProgramInfoLog' has been explicitly marked deprecated here
+ 1877 | GLAPI void APIENTRY glGetProgramInfoLog (GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_shaders.c:230:3: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  230 |   glFlush();
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+62 warnings generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_new_window.o mlx_new_window.m
+In file included from mlx_new_window.m:11:
+./mlx_new_window.h:29:21: warning: 'NSOpenGLView' is deprecated: first deprecated in macOS 10.14 - Please use MTKView instead. [-Wdeprecated-declarations]
+   29 | @interface MlxWin : NSOpenGLView
+      |                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGLView.h:18:12: note: 'NSOpenGLView' has been explicitly marked deprecated here
+   18 | @interface NSOpenGLView : NSView
+      |            ^
+In file included from mlx_new_window.m:11:
+./mlx_new_window.h:32:3: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   32 |   NSOpenGLContext       *ctx;
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+In file included from mlx_new_window.m:11:
+./mlx_new_window.h:45:74: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   45 | - (id) initWithRect: (NSRect)rect andTitle: (NSString *)title pfaAttrs: (NSOpenGLPixelFormatAttribute *)attrs;
+      |                                                                          ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+In file included from mlx_new_window.m:11:
+./mlx_new_window.h:52:4: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   52 | - (NSOpenGLContext *) ctx;
+      |    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+mlx_new_window.m:16:5: warning: 'NSOpenGLPFADepthSize' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   16 |     NSOpenGLPFADepthSize, 32,
+      |     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:66:5: note: 'NSOpenGLPFADepthSize' has been explicitly marked deprecated here
+   66 |     NSOpenGLPFADepthSize             NS_OPENGL_ENUM_DEPRECATED(10.0, 10.14)  =  12,     /* number of depth buffer bits                  */
+      |     ^
+mlx_new_window.m:17:5: warning: 'NSOpenGLPFAOpenGLProfile' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   17 |     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+      |     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:86:5: note: 'NSOpenGLPFAOpenGLProfile' has been explicitly marked deprecated here
+   86 |     NSOpenGLPFAOpenGLProfile         NS_OPENGL_ENUM_DEPRECATED(10.7, 10.14)  =  99,    /* specify an OpenGL Profile to use             */
+      |     ^
+mlx_new_window.m:17:31: warning: 'NSOpenGLProfileVersionLegacy' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   17 |     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+      |                               ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:105:5: note: 'NSOpenGLProfileVersionLegacy' has been explicitly marked deprecated here
+  105 |     NSOpenGLProfileVersionLegacy     NS_OPENGL_ENUM_DEPRECATED(10.7, 10.14)  = 0x1000,   /* choose a Legacy/Pre-OpenGL 3.0 Implementation */
+      |     ^
+mlx_new_window.m:14:1: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   14 | NSOpenGLPixelFormatAttribute pfa_attrs[] =
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+mlx_new_window.m:123:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  123 |     event_funct[2](0xFF+the_key, event_param[2]);
+      |                   ^
+mlx_new_window.m:125:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  125 |     event_funct[3](0xFF+the_key, event_param[3]);
+      |                   ^
+mlx_new_window.m:161:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  161 |     event_funct[2]([theEvent keyCode], event_param[2]);
+      |                   ^
+mlx_new_window.m:169:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  169 |     event_funct[3]([theEvent keyCode], event_param[3]);
+      |                   ^
+mlx_new_window.m:183:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  183 |     event_funct[4](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[4]);
+      |                   ^
+mlx_new_window.m:195:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  195 |     event_funct[4](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[4]);
+      |                   ^
+mlx_new_window.m:207:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  207 |     event_funct[4](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[4]);
+      |                   ^
+mlx_new_window.m:219:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  219 |     event_funct[5](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[5]);
+      |                   ^
+mlx_new_window.m:231:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  231 |     event_funct[5](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[5]);
+      |                   ^
+mlx_new_window.m:243:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  243 |     event_funct[5](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[5]);
+      |                   ^
+mlx_new_window.m:253:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  253 |     event_funct[6]((int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[6]);
+      |                   ^
+mlx_new_window.m:264:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  264 |     event_funct[6]((int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[6]);
+      |                   ^
+mlx_new_window.m:275:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  275 |     event_funct[6]((int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[6]);
+      |                   ^
+mlx_new_window.m:286:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  286 |     event_funct[6]((int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[6]);
+      |                   ^
+mlx_new_window.m:312:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  312 |     event_funct[4](button, (int)(thepoint.x), size_y - 1 - (int)(thepoint.y), event_param[4]);
+      |                   ^
+mlx_new_window.m:320:22: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  320 |       event_funct[12](event_param[12]);
+      |                      ^
+mlx_new_window.m:327:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  327 |     event_funct[17](event_param[17]);
+      |                    ^
+mlx_new_window.m:341:74: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+  341 | - (id) initWithRect: (NSRect)rect andTitle: (NSString *)title pfaAttrs: (NSOpenGLPixelFormatAttribute *)attrs
+      |                                                                          ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+mlx_new_window.m:484:4: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+  484 | - (NSOpenGLContext *) ctx
+      |    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+mlx_new_window.m:343:3: warning: 'NSOpenGLPixelFormat' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+  343 |   NSOpenGLPixelFormat* pixFmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:115:12: note: 'NSOpenGLPixelFormat' has been explicitly marked deprecated here
+  115 | @interface NSOpenGLPixelFormat : NSObject <NSCoding>
+      |            ^
+mlx_new_window.m:343:55: warning: 'NSOpenGLPixelFormat' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+  343 |   NSOpenGLPixelFormat* pixFmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
+      |                                                       ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:115:12: note: 'NSOpenGLPixelFormat' has been explicitly marked deprecated here
+  115 | @interface NSOpenGLPixelFormat : NSObject <NSCoding>
+      |            ^
+mlx_new_window.m:365:29: warning: 'setView:' is deprecated: first deprecated in macOS 10.14 - Use NSOpenGLView to provide OpenGL content in a Cocoa app. [-Wdeprecated-declarations]
+  365 |       [[self openGLContext] setView:self];
+      |                             ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:193:36: note: property 'view' is declared deprecated here
+  193 | @property (nullable, weak) NSView *view NS_SWIFT_UI_ACTOR API_DEPRECATED("", macos(10.0,10.14));
+      |                                    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:194:1: note: 'setView:' has been explicitly marked deprecated here
+  194 | - (void)setView:(nullable NSView *)view NS_SWIFT_UI_ACTOR API_DEPRECATED("Use NSOpenGLView to provide OpenGL content in a Cocoa app.", macos(10.0,10.14));
+      | ^
+mlx_new_window.m:381:7: warning: 'glClearColor' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  381 |       glClearColor(0, 0, 0, 0);
+      |       ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1632:21: note: 'glClearColor' has been explicitly marked deprecated here
+ 1632 | GLAPI void APIENTRY glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:382:7: warning: 'glClear' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  382 |       glClear(GL_COLOR_BUFFER_BIT);
+      |       ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1631:21: note: 'glClear' has been explicitly marked deprecated here
+ 1631 | GLAPI void APIENTRY glClear (GLbitfield mask) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:383:7: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  383 |       glFlush();
+      |       ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:408:3: warning: 'glDisable' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  408 |   glDisable(GL_DEPTH_TEST);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1638:21: note: 'glDisable' has been explicitly marked deprecated here
+ 1638 | GLAPI void APIENTRY glDisable (GLenum cap) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:409:3: warning: 'glGenBuffers' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  409 |   glGenBuffers(1, &pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1823:21: note: 'glGenBuffers' has been explicitly marked deprecated here
+ 1823 | GLAPI void APIENTRY glGenBuffers (GLsizei n, GLuint *buffers) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:410:3: warning: 'glBindBuffer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  410 |   glBindBuffer(GL_ARRAY_BUFFER, pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1821:21: note: 'glBindBuffer' has been explicitly marked deprecated here
+ 1821 | GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:411:3: warning: 'glBufferData' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  411 |   glBufferData(GL_ARRAY_BUFFER, sizeof(pixel_vertexes), pixel_vertexes, GL_DYNAMIC_DRAW); // 4 points buff
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1825:21: note: 'glBufferData' has been explicitly marked deprecated here
+ 1825 | GLAPI void APIENTRY glBufferData (GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:414:3: warning: 'glGenTextures' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  414 |   glGenTextures(1, &pixel_texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1730:21: note: 'glGenTextures' has been explicitly marked deprecated here
+ 1730 | GLAPI void APIENTRY glGenTextures (GLsizei n, GLuint *textures) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:415:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  415 |   glBindTexture(GL_TEXTURE_2D, pixel_texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:416:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  416 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:417:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  417 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:418:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  418 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:419:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  419 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:424:3: warning: 'glTexImage2D' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  424 |   glTexImage2D(
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1629:21: note: 'glTexImage2D' has been explicitly marked deprecated here
+ 1629 | GLAPI void APIENTRY glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:436:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  436 |   glUseProgram(glsl.pixel_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:437:28: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  437 |   glsl.loc_pixel_texture = glGetUniformLocation(glsl.pixel_program, "texture");
+      |                            ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:439:29: warning: 'glGetAttribLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  439 |   glsl.loc_pixel_position = glGetAttribLocation(glsl.pixel_program, "position");
+      |                             ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1875:22: note: 'glGetAttribLocation' has been explicitly marked deprecated here
+ 1875 | GLAPI GLint APIENTRY glGetAttribLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:442:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  442 |   glUseProgram(glsl.image_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:443:28: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  443 |   glsl.loc_image_texture = glGetUniformLocation(glsl.image_program, "texture");
+      |                            ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:444:24: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  444 |   glsl.loc_image_pos = glGetUniformLocation(glsl.image_program, "imagepos");
+      |                        ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:445:25: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  445 |   glsl.loc_image_size = glGetUniformLocation(glsl.image_program, "imagesize");
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:446:32: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  446 |   glsl.loc_image_winhalfsize = glGetUniformLocation(glsl.image_program, "winhalfsize");
+      |                                ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:447:29: warning: 'glGetAttribLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  447 |   glsl.loc_image_position = glGetAttribLocation(glsl.image_program, "position");
+      |                             ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1875:22: note: 'glGetAttribLocation' has been explicitly marked deprecated here
+ 1875 | GLAPI GLint APIENTRY glGetAttribLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:450:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  450 |   glUseProgram(glsl.font_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:451:27: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  451 |   glsl.loc_font_texture = glGetUniformLocation(glsl.font_program, "texture");
+      |                           ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:452:25: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  452 |   glsl.loc_font_color = glGetUniformLocation(glsl.font_program, "color");
+      |                         ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:453:28: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  453 |   glsl.loc_font_posinwin = glGetUniformLocation(glsl.font_program, "fontposinwin");
+      |                            ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:454:30: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  454 |   glsl.loc_font_posinatlas = glGetUniformLocation(glsl.font_program, "fontposinatlas");
+      |                              ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:455:29: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  455 |   glsl.loc_font_atlassize = glGetUniformLocation(glsl.font_program, "fontatlassize");
+      |                             ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:456:31: warning: 'glGetUniformLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  456 |   glsl.loc_font_winhalfsize = glGetUniformLocation(glsl.font_program, "winhalfsize");
+      |                               ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1881:22: note: 'glGetUniformLocation' has been explicitly marked deprecated here
+ 1881 | GLAPI GLint APIENTRY glGetUniformLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:457:28: warning: 'glGetAttribLocation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  457 |   glsl.loc_font_position = glGetAttribLocation(glsl.font_program, "position");
+      |                            ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1875:22: note: 'glGetAttribLocation' has been explicitly marked deprecated here
+ 1875 | GLAPI GLint APIENTRY glGetAttribLocation (GLuint program, const GLchar *name) OPENGL_DEPRECATED(10.5, 10.14);
+      |                      ^
+mlx_new_window.m:460:3: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  460 |   glFlush();
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:472:24: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+  472 |   if ([NSOpenGLContext currentContext] != [self openGLContext])
+      |                        ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+mlx_new_window.m:499:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  499 |   glBindTexture(GL_TEXTURE_2D, pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:500:3: warning: 'glTexSubImage2D' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  500 |   glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_BGRA, GL_UNSIGNED_BYTE, (GLvoid *)(&color));
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1727:21: note: 'glTexSubImage2D' has been explicitly marked deprecated here
+ 1727 | GLAPI void APIENTRY glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:510:3: warning: 'glDeleteBuffers' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  510 |   glDeleteBuffers(1, &pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1822:21: note: 'glDeleteBuffers' has been explicitly marked deprecated here
+ 1822 | GLAPI void APIENTRY glDeleteBuffers (GLsizei n, const GLuint *buffers) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:511:3: warning: 'glDeleteTextures' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  511 |   glDeleteTextures(1, &pixel_texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1729:21: note: 'glDeleteTextures' has been explicitly marked deprecated here
+ 1729 | GLAPI void APIENTRY glDeleteTextures (GLsizei n, const GLuint *textures) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:512:3: warning: 'glDeleteProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  512 |   glDeleteProgram(glsl.pixel_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1867:21: note: 'glDeleteProgram' has been explicitly marked deprecated here
+ 1867 | GLAPI void APIENTRY glDeleteProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:513:3: warning: 'glDeleteProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  513 |   glDeleteProgram(glsl.image_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1867:21: note: 'glDeleteProgram' has been explicitly marked deprecated here
+ 1867 | GLAPI void APIENTRY glDeleteProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:514:3: warning: 'glDeleteShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  514 |   glDeleteShader(glsl.pixel_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1868:21: note: 'glDeleteShader' has been explicitly marked deprecated here
+ 1868 | GLAPI void APIENTRY glDeleteShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:515:3: warning: 'glDeleteShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  515 |   glDeleteShader(glsl.pixel_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1868:21: note: 'glDeleteShader' has been explicitly marked deprecated here
+ 1868 | GLAPI void APIENTRY glDeleteShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:516:3: warning: 'glDeleteShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  516 |   glDeleteShader(glsl.image_vshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1868:21: note: 'glDeleteShader' has been explicitly marked deprecated here
+ 1868 | GLAPI void APIENTRY glDeleteShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:517:3: warning: 'glDeleteShader' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  517 |   glDeleteShader(glsl.image_fshader);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1868:21: note: 'glDeleteShader' has been explicitly marked deprecated here
+ 1868 | GLAPI void APIENTRY glDeleteShader (GLuint shader) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:542:3: warning: 'glClearColor' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  542 |   glClearColor(0, 0, 0, 0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1632:21: note: 'glClearColor' has been explicitly marked deprecated here
+ 1632 | GLAPI void APIENTRY glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:543:3: warning: 'glClear' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  543 |   glClear(GL_COLOR_BUFFER_BIT);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1631:21: note: 'glClear' has been explicitly marked deprecated here
+ 1631 | GLAPI void APIENTRY glClear (GLbitfield mask) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:552:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  552 |   glUseProgram(glsl.image_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:554:3: warning: 'glActiveTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  554 |   glActiveTexture(GL_TEXTURE0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1769:21: note: 'glActiveTexture' has been explicitly marked deprecated here
+ 1769 | GLAPI void APIENTRY glActiveTexture (GLenum texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:555:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  555 |   glBindTexture(GL_TEXTURE_2D, imgctx->texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:556:3: warning: 'glUniform1i' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  556 |   glUniform1i(glsl.loc_image_texture, 0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1897:21: note: 'glUniform1i' has been explicitly marked deprecated here
+ 1897 | GLAPI void APIENTRY glUniform1i (GLint location, GLint v0) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:558:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  558 |   glUniform2f(glsl.loc_image_winhalfsize, size_x/2, size_y/2);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:559:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  559 |   glUniform2f(glsl.loc_image_pos, x, size_y - y);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:560:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  560 |   glUniform2f(glsl.loc_image_size, img->width, -img->height);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:562:3: warning: 'glBindBuffer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  562 |   glBindBuffer(GL_ARRAY_BUFFER, imgctx->vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1821:21: note: 'glBindBuffer' has been explicitly marked deprecated here
+ 1821 | GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:563:3: warning: 'glVertexAttribPointer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  563 |   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GLfloat), (void*)0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1949:21: note: 'glVertexAttribPointer' has been explicitly marked deprecated here
+ 1949 | GLAPI void APIENTRY glVertexAttribPointer (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:564:3: warning: 'glEnableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  564 |   glEnableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1871:21: note: 'glEnableVertexAttribArray' has been explicitly marked deprecated here
+ 1871 | GLAPI void APIENTRY glEnableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:566:3: warning: 'glEnable' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  566 |   glEnable(GL_BLEND);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1639:21: note: 'glEnable' has been explicitly marked deprecated here
+ 1639 | GLAPI void APIENTRY glEnable (GLenum cap) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:567:3: warning: 'glBlendFunc' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  567 |   glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);  // src alpha 0xFF : keep dst
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1642:21: note: 'glBlendFunc' has been explicitly marked deprecated here
+ 1642 | GLAPI void APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:568:3: warning: 'glBlendEquation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  568 |   glBlendEquation(GL_FUNC_ADD);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1752:21: note: 'glBlendEquation' has been explicitly marked deprecated here
+ 1752 | GLAPI void APIENTRY glBlendEquation (GLenum mode) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:570:3: warning: 'glDrawArrays' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  570 |   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1719:21: note: 'glDrawArrays' has been explicitly marked deprecated here
+ 1719 | GLAPI void APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:571:3: warning: 'glDisableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  571 |   glDisableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1870:21: note: 'glDisableVertexAttribArray' has been explicitly marked deprecated here
+ 1870 | GLAPI void APIENTRY glDisableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:587:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  587 |   glUseProgram(glsl.font_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:589:3: warning: 'glActiveTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  589 |   glActiveTexture(GL_TEXTURE0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1769:21: note: 'glActiveTexture' has been explicitly marked deprecated here
+ 1769 | GLAPI void APIENTRY glActiveTexture (GLenum texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:590:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  590 |   glBindTexture(GL_TEXTURE_2D, imgctx->texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:591:3: warning: 'glUniform1i' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  591 |   glUniform1i(glsl.loc_font_texture, 0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1897:21: note: 'glUniform1i' has been explicitly marked deprecated here
+ 1897 | GLAPI void APIENTRY glUniform1i (GLint location, GLint v0) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:592:3: warning: 'glUniform4fv' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  592 |   glUniform4fv(glsl.loc_font_color, 1, color_tab);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1904:21: note: 'glUniform4fv' has been explicitly marked deprecated here
+ 1904 | GLAPI void APIENTRY glUniform4fv (GLint location, GLsizei count, const GLfloat *value) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:594:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  594 |   glUniform2f(glsl.loc_font_winhalfsize, size_x/2, size_y/2);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:595:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  595 |   glUniform2f(glsl.loc_font_posinwin, x, size_y - 1 - y);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:596:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  596 |   glUniform2f(glsl.loc_font_posinatlas, gx, gy);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:597:3: warning: 'glUniform2f' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  597 |   glUniform2f(glsl.loc_font_atlassize, img->width, img->height);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1894:21: note: 'glUniform2f' has been explicitly marked deprecated here
+ 1894 | GLAPI void APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:599:3: warning: 'glBindBuffer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  599 |   glBindBuffer(GL_ARRAY_BUFFER, imgctx->vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1821:21: note: 'glBindBuffer' has been explicitly marked deprecated here
+ 1821 | GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:600:3: warning: 'glVertexAttribPointer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  600 |   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GLfloat), (void*)0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1949:21: note: 'glVertexAttribPointer' has been explicitly marked deprecated here
+ 1949 | GLAPI void APIENTRY glVertexAttribPointer (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:601:3: warning: 'glEnableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  601 |   glEnableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1871:21: note: 'glEnableVertexAttribArray' has been explicitly marked deprecated here
+ 1871 | GLAPI void APIENTRY glEnableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:603:3: warning: 'glEnable' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  603 |   glEnable(GL_BLEND);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1639:21: note: 'glEnable' has been explicitly marked deprecated here
+ 1639 | GLAPI void APIENTRY glEnable (GLenum cap) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:604:3: warning: 'glBlendFunc' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  604 |   glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);  // src alpha 0xFF : keep dst
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1642:21: note: 'glBlendFunc' has been explicitly marked deprecated here
+ 1642 | GLAPI void APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:605:3: warning: 'glBlendEquation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  605 |   glBlendEquation(GL_FUNC_ADD);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1752:21: note: 'glBlendEquation' has been explicitly marked deprecated here
+ 1752 | GLAPI void APIENTRY glBlendEquation (GLenum mode) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:607:3: warning: 'glDrawArrays' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  607 |   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1719:21: note: 'glDrawArrays' has been explicitly marked deprecated here
+ 1719 | GLAPI void APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:608:3: warning: 'glDisableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  608 |   glDisableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1870:21: note: 'glDisableVertexAttribArray' has been explicitly marked deprecated here
+ 1870 | GLAPI void APIENTRY glDisableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:618:3: warning: 'glUseProgram' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  618 |   glUseProgram(glsl.pixel_program);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1892:21: note: 'glUseProgram' has been explicitly marked deprecated here
+ 1892 | GLAPI void APIENTRY glUseProgram (GLuint program) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:620:3: warning: 'glActiveTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  620 |   glActiveTexture(GL_TEXTURE0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1769:21: note: 'glActiveTexture' has been explicitly marked deprecated here
+ 1769 | GLAPI void APIENTRY glActiveTexture (GLenum texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:621:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  621 |   glBindTexture(GL_TEXTURE_2D, pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:622:3: warning: 'glUniform1i' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  622 |   glUniform1i(glsl.loc_pixel_texture, 0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1897:21: note: 'glUniform1i' has been explicitly marked deprecated here
+ 1897 | GLAPI void APIENTRY glUniform1i (GLint location, GLint v0) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:624:3: warning: 'glBindBuffer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  624 |   glBindBuffer(GL_ARRAY_BUFFER, pixel_vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1821:21: note: 'glBindBuffer' has been explicitly marked deprecated here
+ 1821 | GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:625:3: warning: 'glVertexAttribPointer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  625 |   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GLfloat), (void*)0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1949:21: note: 'glVertexAttribPointer' has been explicitly marked deprecated here
+ 1949 | GLAPI void APIENTRY glVertexAttribPointer (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:626:3: warning: 'glEnableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  626 |   glEnableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1871:21: note: 'glEnableVertexAttribArray' has been explicitly marked deprecated here
+ 1871 | GLAPI void APIENTRY glEnableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:628:3: warning: 'glEnable' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  628 |   glEnable(GL_BLEND);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1639:21: note: 'glEnable' has been explicitly marked deprecated here
+ 1639 | GLAPI void APIENTRY glEnable (GLenum cap) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:629:3: warning: 'glBlendFunc' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  629 |   glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);  // src alpha 0xFF : keep dst
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1642:21: note: 'glBlendFunc' has been explicitly marked deprecated here
+ 1642 | GLAPI void APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:630:3: warning: 'glBlendEquation' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  630 |   glBlendEquation(GL_FUNC_ADD);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1752:21: note: 'glBlendEquation' has been explicitly marked deprecated here
+ 1752 | GLAPI void APIENTRY glBlendEquation (GLenum mode) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:632:3: warning: 'glDrawArrays' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  632 |   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1719:21: note: 'glDrawArrays' has been explicitly marked deprecated here
+ 1719 | GLAPI void APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:633:3: warning: 'glDisableVertexAttribArray' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  633 |   glDisableVertexAttribArray(0);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1870:21: note: 'glDisableVertexAttribArray' has been explicitly marked deprecated here
+ 1870 | GLAPI void APIENTRY glDisableVertexAttribArray (GLuint index) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:637:3: warning: 'glTexImage2D' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  637 |   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size_x, size_y, 0, GL_BGRA, GL_UNSIGNED_BYTE, pixtexbuff);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1629:21: note: 'glTexImage2D' has been explicitly marked deprecated here
+ 1629 | GLAPI void APIENTRY glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:752:4: warning: 'glDeleteBuffers' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  752 |           glDeleteBuffers(1, &(ctx->vbuffer));
+      |           ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1822:21: note: 'glDeleteBuffers' has been explicitly marked deprecated here
+ 1822 | GLAPI void APIENTRY glDeleteBuffers (GLsizei n, const GLuint *buffers) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_window.m:753:4: warning: 'glDeleteTextures' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  753 |           glDeleteTextures(1, &(ctx->texture));
+      |           ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1729:21: note: 'glDeleteTextures' has been explicitly marked deprecated here
+ 1729 | GLAPI void APIENTRY glDeleteTextures (GLsizei n, const GLuint *textures) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+122 warnings generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_init_loop.o mlx_init_loop.m
+In file included from mlx_init_loop.m:9:
+./mlx_new_window.h:29:21: warning: 'NSOpenGLView' is deprecated: first deprecated in macOS 10.14 - Please use MTKView instead. [-Wdeprecated-declarations]
+   29 | @interface MlxWin : NSOpenGLView
+      |                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGLView.h:18:12: note: 'NSOpenGLView' has been explicitly marked deprecated here
+   18 | @interface NSOpenGLView : NSView
+      |            ^
+In file included from mlx_init_loop.m:9:
+./mlx_new_window.h:32:3: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   32 |   NSOpenGLContext       *ctx;
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+In file included from mlx_init_loop.m:9:
+./mlx_new_window.h:45:74: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   45 | - (id) initWithRect: (NSRect)rect andTitle: (NSString *)title pfaAttrs: (NSOpenGLPixelFormatAttribute *)attrs;
+      |                                                                          ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+In file included from mlx_init_loop.m:9:
+./mlx_new_window.h:52:4: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   52 | - (NSOpenGLContext *) ctx;
+      |    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+mlx_init_loop.m:33:4: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   33 |           glFlush();
+      |           ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_init_loop.m:62:32: warning: 'NSApplicationActivateIgnoringOtherApps' is deprecated: first deprecated in macOS 14.0 - ignoringOtherApps is deprecated in macOS 14 and will have no effect. [-Wdeprecated-declarations]
+   62 |       [app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+      |                                ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSRunningApplication.h:27:5: note: 'NSApplicationActivateIgnoringOtherApps' has been explicitly marked deprecated here
+   27 |     NSApplicationActivateIgnoringOtherApps API_DEPRECATED("ignoringOtherApps is deprecated in macOS 14 and will have no effect.", macos(10.6, 14.0)) = 1 << 1
+      |     ^
+mlx_init_loop.m:69:66: warning: 'NSApplicationActivateIgnoringOtherApps' is deprecated: first deprecated in macOS 14.0 - ignoringOtherApps is deprecated in macOS 14 and will have no effect. [-Wdeprecated-declarations]
+   69 |   [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+      |                                                                  ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSRunningApplication.h:27:5: note: 'NSApplicationActivateIgnoringOtherApps' has been explicitly marked deprecated here
+   27 |     NSApplicationActivateIgnoringOtherApps API_DEPRECATED("ignoringOtherApps is deprecated in macOS 14 and will have no effect.", macos(10.6, 14.0)) = 1 << 1
+      |     ^
+mlx_init_loop.m:72:32: warning: passing arguments to 'mlx_new_image' without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   72 |   new_mlx->font = mlx_new_image(new_mlx, (FONT_WIDTH+2)*95, FONT_HEIGHT);
+      |                                ^
+mlx_init_loop.m:160:4: warning: 'glFlush' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  160 |           glFlush();
+      |           ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1641:21: note: 'glFlush' has been explicitly marked deprecated here
+ 1641 | GLAPI void APIENTRY glFlush (void) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+9 warnings generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_new_image.o mlx_new_image.m
+In file included from mlx_new_image.m:11:
+./mlx_new_window.h:29:21: warning: 'NSOpenGLView' is deprecated: first deprecated in macOS 10.14 - Please use MTKView instead. [-Wdeprecated-declarations]
+   29 | @interface MlxWin : NSOpenGLView
+      |                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGLView.h:18:12: note: 'NSOpenGLView' has been explicitly marked deprecated here
+   18 | @interface NSOpenGLView : NSView
+      |            ^
+In file included from mlx_new_image.m:11:
+./mlx_new_window.h:32:3: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   32 |   NSOpenGLContext       *ctx;
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+In file included from mlx_new_image.m:11:
+./mlx_new_window.h:45:74: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   45 | - (id) initWithRect: (NSRect)rect andTitle: (NSString *)title pfaAttrs: (NSOpenGLPixelFormatAttribute *)attrs;
+      |                                                                          ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+In file included from mlx_new_image.m:11:
+./mlx_new_window.h:52:4: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   52 | - (NSOpenGLContext *) ctx;
+      |    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+In file included from mlx_new_image.m:10:
+./mlx_int.h:100:7: warning: a function declaration without a prototype is deprecated in all versions of C and is treated as a zero-parameter prototype in C23, conflicting with a subsequent definition [-Wdeprecated-non-prototype]
+  100 | void    *mlx_new_image();
+      |          ^
+mlx_new_image.m:15:10: note: conflicting prototype is here
+   15 | void    *mlx_new_image(mlx_ptr_t *mlx_ptr, int width, int height)
+      |          ^
+mlx_new_image.m:54:3: warning: 'glGenTextures' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   54 |   glGenTextures(1, &(imgctx->texture));
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1730:21: note: 'glGenTextures' has been explicitly marked deprecated here
+ 1730 | GLAPI void APIENTRY glGenTextures (GLsizei n, GLuint *textures) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:55:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   55 |   glBindTexture(GL_TEXTURE_2D, imgctx->texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:56:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   56 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:57:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   57 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:58:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   58 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:59:3: warning: 'glTexParameteri' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   59 |   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1626:21: note: 'glTexParameteri' has been explicitly marked deprecated here
+ 1626 | GLAPI void APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:60:3: warning: 'glTexImage2D' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   60 |   glTexImage2D(
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1629:21: note: 'glTexImage2D' has been explicitly marked deprecated here
+ 1629 | GLAPI void APIENTRY glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:68:3: warning: 'glGenBuffers' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   68 |   glGenBuffers(1, &(imgctx->vbuffer));
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1823:21: note: 'glGenBuffers' has been explicitly marked deprecated here
+ 1823 | GLAPI void APIENTRY glGenBuffers (GLsizei n, GLuint *buffers) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:69:3: warning: 'glBindBuffer' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   69 |   glBindBuffer(GL_ARRAY_BUFFER, imgctx->vbuffer);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1821:21: note: 'glBindBuffer' has been explicitly marked deprecated here
+ 1821 | GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:70:3: warning: 'glBufferData' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   70 |   glBufferData(GL_ARRAY_BUFFER, sizeof(img->vertexes), img->vertexes, GL_DYNAMIC_DRAW); // 4 points buff
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1825:21: note: 'glBufferData' has been explicitly marked deprecated here
+ 1825 | GLAPI void APIENTRY glBufferData (GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:87:3: warning: 'glBindTexture' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   87 |   glBindTexture(GL_TEXTURE_2D, imgctx->texture);
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1728:21: note: 'glBindTexture' has been explicitly marked deprecated here
+ 1728 | GLAPI void APIENTRY glBindTexture (GLenum target, GLuint texture) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:88:3: warning: 'glTexImage2D' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   88 |   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, img_ptr->width, img_ptr->height, 0,
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1629:21: note: 'glTexImage2D' has been explicitly marked deprecated here
+ 1629 | GLAPI void APIENTRY glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:180:8: warning: 'glDeleteBuffers' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  180 |               glDeleteBuffers(1, &(ctx->next->vbuffer));
+      |               ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1822:21: note: 'glDeleteBuffers' has been explicitly marked deprecated here
+ 1822 | GLAPI void APIENTRY glDeleteBuffers (GLsizei n, const GLuint *buffers) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+mlx_new_image.m:181:8: warning: 'glDeleteTextures' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated. (Define GL_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+  181 |               glDeleteTextures(1, &(ctx->next->texture));
+      |               ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl3.h:1729:21: note: 'glDeleteTextures' has been explicitly marked deprecated here
+ 1729 | GLAPI void APIENTRY glDeleteTextures (GLsizei n, const GLuint *textures) OPENGL_DEPRECATED(10.5, 10.14);
+      |                     ^
+19 warnings generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_xpm.o mlx_xpm.c
+mlx_xpm.c:160:17: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  160 |   if (!(line = f(info,&pos,info_size)) ||
+      |                 ^
+mlx_xpm.c:184:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  184 |       if (!(line = f(info,&pos,info_size)) ||
+      |                     ^
+mlx_xpm.c:217:28: warning: passing arguments to 'mlx_new_image' without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  217 |   if (!(img = mlx_new_image(xvar,width,height)))
+      |                            ^
+mlx_xpm.c:227:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  227 |       if (!(line = f(info,&pos,info_size)))
+      |                     ^
+4 warnings generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_int_str_to_wordtab.o mlx_int_str_to_wordtab.c
+cc -O2 -DSTRINGPUTX11   -c -o mlx_png.o mlx_png.c
+mlx_png.c:373:28: warning: passing arguments to 'mlx_new_image' without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  373 |   if (!(img = mlx_new_image(xvar, pi.width, pi.height)))
+      |                            ^
+1 warning generated.
+cc -O2 -DSTRINGPUTX11   -c -o mlx_mouse.o mlx_mouse.m
+In file included from mlx_mouse.m:7:
+./mlx_new_window.h:29:21: warning: 'NSOpenGLView' is deprecated: first deprecated in macOS 10.14 - Please use MTKView instead. [-Wdeprecated-declarations]
+   29 | @interface MlxWin : NSOpenGLView
+      |                     ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGLView.h:18:12: note: 'NSOpenGLView' has been explicitly marked deprecated here
+   18 | @interface NSOpenGLView : NSView
+      |            ^
+In file included from mlx_mouse.m:7:
+./mlx_new_window.h:32:3: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   32 |   NSOpenGLContext       *ctx;
+      |   ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+In file included from mlx_mouse.m:7:
+./mlx_new_window.h:45:74: warning: 'NSOpenGLPixelFormatAttribute' is deprecated: first deprecated in macOS 10.14 - OpenGL API deprecated; please use Metal and MetalKit.  (Define GL_SILENCE_DEPRECATION to silence these warnings.) [-Wdeprecated-declarations]
+   45 | - (id) initWithRect: (NSRect)rect andTitle: (NSString *)title pfaAttrs: (NSOpenGLPixelFormatAttribute *)attrs;
+      |                                                                          ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:101:18: note: 'NSOpenGLPixelFormatAttribute' has been explicitly marked deprecated here
+  101 | typedef uint32_t NSOpenGLPixelFormatAttribute NS_OPENGL_DEPRECATED(10.0, 10.14);
+      |                  ^
+In file included from mlx_mouse.m:7:
+./mlx_new_window.h:52:4: warning: 'NSOpenGLContext' is deprecated: first deprecated in macOS 10.14 - Please use Metal or MetalKit. [-Wdeprecated-declarations]
+   52 | - (NSOpenGLContext *) ctx;
+      |    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSOpenGL.h:184:12: note: 'NSOpenGLContext' has been explicitly marked deprecated here
+  184 | @interface NSOpenGLContext : NSObject <NSLocking>
+      |            ^
+4 warnings generated.
+ar -r libmlx.a mlx_shaders.o mlx_new_window.o mlx_init_loop.o mlx_new_image.o mlx_xpm.o mlx_int_str_to_wordtab.o mlx_png.o mlx_mouse.o
+ar: creating archive libmlx.a
+ranlib libmlx.a
+duplicate symbol '_timer_elapsed_ms' in:
+    /Users/yoshin/dev/working/miniRT/build/render/metrics_time.o
+    /Users/yoshin/dev/working/miniRT/build/utils/timer.o
+duplicate symbol '_timer_elapsed_us' in:
+    /Users/yoshin/dev/working/miniRT/build/render/metrics_time.o
+    /Users/yoshin/dev/working/miniRT/build/utils/timer.o
+duplicate symbol '_timer_start' in:
+    /Users/yoshin/dev/working/miniRT/build/render/metrics_time.o
+    /Users/yoshin/dev/working/miniRT/build/utils/timer.o
+ld: 3 duplicate symbols
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [miniRT] Error 1

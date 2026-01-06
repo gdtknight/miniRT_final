@@ -6,11 +6,12 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:30:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/12/19 21:30:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/01/04 18:15:00 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render_state.h"
+#include "render/render_quality.h"
 #include "window.h"
 #include <stdlib.h>
 
@@ -48,79 +49,4 @@ void	render_state_update(t_render_state *state)
 	{
 		state->quality = state->target_quality;
 	}
-}
-
-void	quality_set_mode(t_render_state *state, t_quality_mode mode)
-{
-	state->quality = mode;
-	state->target_quality = mode;
-	if (mode == QUALITY_HIGH)
-		state->metrics.quality_mode = 1;
-	else
-		state->metrics.quality_mode = 0;
-}
-
-int	quality_should_upgrade(t_render_state *state)
-{
-	long	elapsed;
-
-	if (state->interaction.is_interacting)
-		return (0);
-	if (state->quality == state->target_quality)
-		return (0);
-	elapsed = timer_elapsed_us(&state->interaction.last_interaction);
-	return (elapsed > 1000000);
-}
-
-void	quality_handle_interaction(t_render_state *state)
-{
-	state->interaction.is_interacting = 1;
-	state->interaction.interaction_count++;
-	timer_start(&state->interaction.last_interaction);
-	if (state->adaptive_enabled && state->target_quality == QUALITY_HIGH)
-		state->quality = QUALITY_LOW;
-}
-
-void	progressive_init(t_progressive_state *prog, int width, int height,
-		int tile_size)
-{
-	int	tiles_x;
-	int	tiles_y;
-
-	prog->tile_size = tile_size;
-	tiles_x = (width + tile_size - 1) / tile_size;
-	tiles_y = (height + tile_size - 1) / tile_size;
-	prog->total_tiles = tiles_x * tiles_y;
-	prog->current_tile = 0;
-	prog->tiles_completed = 0;
-	prog->enabled = 1;
-}
-
-int	progressive_next_tile(t_progressive_state *prog, t_tile_rect *rect)
-{
-	int	tiles_x;
-	int	tile_x;
-	int	tile_y;
-
-	if (!prog->enabled || prog->current_tile >= prog->total_tiles)
-		return (0);
-	tiles_x = (800 + prog->tile_size - 1) / prog->tile_size;
-	tile_x = prog->current_tile % tiles_x;
-	tile_y = prog->current_tile / tiles_x;
-	rect->x = tile_x * prog->tile_size;
-	rect->y = tile_y * prog->tile_size;
-	rect->w = prog->tile_size;
-	rect->h = prog->tile_size;
-	if (rect->x + rect->w > WINDOW_WIDTH)
-		rect->w = WINDOW_WIDTH - rect->x;
-	if (rect->y + rect->h > WINDOW_HEIGHT)
-		rect->h = WINDOW_HEIGHT - rect->y;
-	prog->current_tile++;
-	return (1);
-}
-
-void	progressive_reset(t_progressive_state *prog)
-{
-	prog->current_tile = 0;
-	prog->tiles_completed = 0;
 }

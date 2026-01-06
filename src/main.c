@@ -81,7 +81,6 @@ int	main(int argc, char **argv)
 	}
 	if (initialize_scene_and_render(argv[1], &scene, &render) != 0)
 		return (1);
-	render_scene(scene, render->mlx, render->win);
 	mlx_loop(render->mlx);
 	return (0);
 }

@@ -14,9 +14,6 @@
 #include "hud.h"
 #include "window.h"
 
-int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y,
-		int color, char *string);
-
 void	keyguide_render_background(t_render *render)
 {
 	int				x;
@@ -46,6 +43,27 @@ void	keyguide_render_background(t_render *render)
 	}
 }
 
+static void	keyguide_render_camera_section(t_render *render, int *y)
+{
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 10, *y, KEYGUIDE_COLOR_TEXT, "Camera:");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "W/X - Fwd/Back");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "A/D - Left/Right");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "Q/Z - Up/Down");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "E/C - Pitch");
+	*y += KEYGUIDE_LINE_HEIGHT;
+	mlx_string_put(render->mlx, render->win,
+		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "S - Reset");
+}
+
 void	keyguide_render_content(t_render *render)
 {
 	int	y;
@@ -63,23 +81,7 @@ void	keyguide_render_content(t_render *render)
 	mlx_string_put(render->mlx, render->win,
 		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "H - Toggle HUD");
 	y += KEYGUIDE_SECTION_GAP + KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 10, y, KEYGUIDE_COLOR_TEXT, "Camera:");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "W/X - Fwd/Back");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "A/D - Left/Right");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "Q/Z - Up/Down");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "E/C - Pitch");
-	y += KEYGUIDE_LINE_HEIGHT;
-	mlx_string_put(render->mlx, render->win,
-		render->keyguide.x + 20, y, KEYGUIDE_COLOR_TEXT, "S - Reset");
+	keyguide_render_camera_section(render, &y);
 }
 
 void	keyguide_render_content2(t_render *render, int *y)

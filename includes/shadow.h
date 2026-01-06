@@ -87,8 +87,8 @@ void			set_shadow_softness(t_shadow_config *config, double softness);
  * @param base_bias Base bias value
  * @return Adjusted bias value
  */
-double			calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir, 
-		double base_bias);
+double			calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir,
+					double base_bias);
 
 /**
  * @brief Generate shadow sample offset
@@ -101,8 +101,8 @@ double			calculate_shadow_bias(t_vec3 normal, t_vec3 light_dir,
  * @param total_samples Total number of samples
  * @return Offset vector
  */
-t_vec3			generate_shadow_sample_offset(double radius, 
-		int sample_index, int total_samples);
+t_vec3			generate_shadow_sample_offset(double radius,
+					int sample_index, int total_samples);
 
 /**
  * @brief Calculate shadow factor using multiple shadow rays
@@ -116,8 +116,8 @@ t_vec3			generate_shadow_sample_offset(double radius,
  * @param config Shadow configuration
  * @return Shadow factor (0.0-1.0)
  */
-double			calculate_shadow_factor(t_scene *scene, t_vec3 point, 
-		t_vec3 light_pos, t_shadow_config *config);
+double			calculate_shadow_factor(t_scene *scene, t_vec3 point,
+					t_vec3 light_pos, t_shadow_config *config);
 
 /**
  * @brief Calculate distance-based shadow attenuation
@@ -129,8 +129,8 @@ double			calculate_shadow_factor(t_scene *scene, t_vec3 point,
  * @param softness Softness factor
  * @return Attenuation factor (0.0-1.0)
  */
-double			calculate_shadow_attenuation(double distance, 
-		double max_distance, double softness);
+double			calculate_shadow_attenuation(double distance,
+					double max_distance, double softness);
 
 /**
  * @brief Test if point is in shadow (single ray)
@@ -143,7 +143,7 @@ double			calculate_shadow_attenuation(double distance,
  * @param bias Shadow bias offset
  * @return 1 if in shadow, 0 if lit
  */
-int				is_in_shadow(t_scene *scene, t_vec3 point, 
-		t_vec3 light_pos, double bias);
+int				is_in_shadow(t_scene *scene, t_vec3 point,
+					t_vec3 light_pos, double bias);
 
 #endif

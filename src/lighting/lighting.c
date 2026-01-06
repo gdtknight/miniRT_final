@@ -87,12 +87,18 @@ t_color	apply_lighting(t_scene *scene, t_hit *hit)
 	view_dir = vec3_normalize(vec3_subtract(scene->camera.position,
 				hit->point));
 	lighting_factor = calc_lighting_factor(scene, hit, light_dir, view_dir);
-	result.r = hit->color.r * (scene->ambient.ratio
-			+ lighting_factor * scene->light.brightness);
-	result.g = hit->color.g * (scene->ambient.ratio
-			+ lighting_factor * scene->light.brightness);
-	result.b = hit->color.b * (scene->ambient.ratio
-			+ lighting_factor * scene->light.brightness);
+	result.r = (hit->color.r / 255.0) * (scene->ambient.ratio
+			* (scene->ambient.color.r / 255.0)
+			+ lighting_factor * scene->light.brightness
+			* (scene->light.color.r / 255.0)) * 255.0;
+	result.g = (hit->color.g / 255.0) * (scene->ambient.ratio
+			* (scene->ambient.color.g / 255.0)
+			+ lighting_factor * scene->light.brightness
+			* (scene->light.color.g / 255.0)) * 255.0;
+	result.b = (hit->color.b / 255.0) * (scene->ambient.ratio
+			* (scene->ambient.color.b / 255.0)
+			+ lighting_factor * scene->light.brightness
+			* (scene->light.color.b / 255.0)) * 255.0;
 	clamp_color(&result);
 	return (result);
 }

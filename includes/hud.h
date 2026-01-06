@@ -40,6 +40,15 @@ typedef struct s_pixel_params
 	int		bpp;
 }	t_pixel_params;
 
+/* Performance text rendering parameters */
+typedef struct s_perf_text
+{
+	char	*prefix;
+	char	*value;
+	char	*suffix;
+	int		*y;
+}	t_perf_text;
+
 /* Alpha blending utilities */
 int		blend_colors(int bg_color, int fg_color, double alpha);
 int		get_red(int color);
@@ -233,8 +242,10 @@ int		hud_get_global_index(t_selection sel, t_scene *scene);
 /*
 ** Convert global linear index to selection (type, index).
 ** Used internally for Tab navigation logic.
+** Output parameter: sel - pointer to selection structure to fill.
 */
-t_selection	hud_get_selection_from_global(int global_idx, t_scene *scene);
+void	hud_get_selection_from_global(t_selection *sel, int idx,
+			t_scene *scene);
 
 /*
 ** Format floating point number to string with 2 decimal places.
@@ -242,6 +253,13 @@ t_selection	hud_get_selection_from_global(int global_idx, t_scene *scene);
 ** Buffer must be at least 32 bytes.
 */
 void	hud_format_float(char *buffer, double value);
+
+/*
+** Internal helper functions for formatting
+*/
+void	ft_strcpy(char *dst, const char *src);
+int		ft_numlen(int n);
+void	ft_itoa_buf(char *buf, int n);
 
 /*
 ** Format vec3 to string "(x, y, z)" with 2 decimal places.

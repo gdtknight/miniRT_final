@@ -13,9 +13,6 @@
 #include "hud.h"
 #include "metrics.h"
 
-int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y,
-		int color, char *string);
-
 static void	render_perf_header(t_render *render, int *y)
 {
 	mlx_string_put(render->mlx, render->win,
@@ -36,34 +33,44 @@ static int	copy_str(char *dst, char *src, int max_len)
 	return (i);
 }
 
-static void	concat_and_print(t_render *render, int *y, char *prefix,
-		char *value, char *suffix)
+static void	concat_and_print(t_render *render, t_perf_text *params)
 {
 	char	line[128];
 	int		len;
 
-	len = copy_str(line, prefix, 128);
-	len += copy_str(line + len, value, 128 - len);
-	if (suffix)
-		len += copy_str(line + len, suffix, 128 - len);
+	len = copy_str(line, params->prefix, 128);
+	len += copy_str(line + len, params->value, 128 - len);
+	if (params->suffix)
+		len += copy_str(line + len, params->suffix, 128 - len);
 	line[len] = '\0';
 	mlx_string_put(render->mlx, render->win,
-		HUD_MARGIN_X + 10, *y, HUD_COLOR_TEXT, line);
-	*y += HUD_LINE_HEIGHT;
+		HUD_MARGIN_X + 10, *params->y, HUD_COLOR_TEXT, line);
+	*params->y += HUD_LINE_HEIGHT;
 }
 
 static void	render_perf_basic(t_render *render, int *y)
 {
 	t_metrics	*m;
 	char		buf[64];
+	t_perf_text	params;
 
 	m = &render->scene->render_state.metrics;
+	params.y = y;
 	hud_format_fps(buf, m->fps);
-	concat_and_print(render, y, "FPS: ", buf, NULL);
+	params.prefix = "FPS: ";
+	params.value = buf;
+	params.suffix = NULL;
+	concat_and_print(render, &params);
 	hud_format_time_ms(buf, m->render_time_us);
-	concat_and_print(render, y, "Frame: ", buf, "ms");
+	params.prefix = "Frame: ";
+	params.value = buf;
+	params.suffix = "ms";
+	concat_and_print(render, &params);
 	hud_format_bvh_status(buf, render->scene->render_state.bvh_enabled);
-	concat_and_print(render, y, "BVH: ", buf, NULL);
+	params.prefix = "BVH: ";
+	params.value = buf;
+	params.suffix = NULL;
+	concat_and_print(render, &params);
 }
 
 void	hud_render_performance(t_render *render, int *y)

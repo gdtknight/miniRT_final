@@ -6,61 +6,11 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 00:00:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/12/19 00:00:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/04 00:00:00 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hud.h"
-
-static void	ft_strcpy(char *dst, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-}
-
-static int	ft_numlen(int n)
-{
-	int	len;
-
-	len = 0;
-	if (n <= 0)
-		len = 1;
-	while (n)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
-}
-
-static void	ft_itoa_buf(char *buf, int n)
-{
-	int		len;
-	long	num;
-
-	num = n;
-	if (num < 0)
-	{
-		buf[0] = '-';
-		num = -num;
-	}
-	len = ft_numlen(n);
-	buf[len] = '\0';
-	while (len > 0 && num >= 0)
-	{
-		buf[--len] = (num % 10) + '0';
-		num /= 10;
-		if (n < 0 && len == 1)
-			break ;
-	}
-}
 
 void	hud_format_float(char *buffer, double value)
 {
@@ -127,25 +77,4 @@ void	hud_format_color(char *buffer, t_color color)
 	ft_strcpy(buffer + i, " B:");
 	i += 3;
 	ft_itoa_buf(buffer + i, color.b);
-}
-
-void	hud_format_fps(char *buf, double fps)
-{
-	hud_format_float(buf, fps);
-}
-
-void	hud_format_time_ms(char *buf, long time_us)
-{
-	double	time_ms;
-
-	time_ms = time_us / 1000.0;
-	hud_format_float(buf, time_ms);
-}
-
-void	hud_format_bvh_status(char *buf, int enabled)
-{
-	if (enabled)
-		ft_strcpy(buf, "ON");
-	else
-		ft_strcpy(buf, "OFF");
 }

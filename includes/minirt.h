@@ -110,7 +110,6 @@ void	cleanup_all(t_scene *scene, void *render);
 ** Uses image buffer for fast rendering.
 ** Supports low quality mode (half resolution) for interactive preview.
 */
-void	render_scene(t_scene *scene, void *mlx, void *win);
 void	render_scene_to_buffer(t_scene *scene, t_render *render);
 /* Calculate final color at hit point using lighting and shadows */
 t_color	apply_lighting(t_scene *scene, t_hit *hit);

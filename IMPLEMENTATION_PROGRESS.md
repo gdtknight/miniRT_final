@@ -1,121 +1,113 @@
-# HUD Feature Implementation Progress
+# Norminette Compliance - Implementation Progress
 
-## Date: 2025-12-19
+**Started**: 2026-01-04  
+**Current Status**: IN PROGRESS  
+**Errors**: 77 → 69 (10.4% complete)
 
-## Status: Phase 2 Complete (Foundational), Phase 3 Partial
+## Completed Work
 
-### Completed Tasks
+### Phase 1: Setup & Baseline ✅
+- [X] Established norminette baseline (77 errors confirmed)
+- [X] Error distribution analysis completed
+- [X] Build verification successful
+- [X] Created BASELINE.md documentation
+- [X] Created validation scripts
 
-#### Phase 1: Setup ✅
-- [X] T001: Created HUD module directory `src/hud/`
-- [X] T002: Copied API contract header to `includes/hud.h`
-- [X] T003: Updated Makefile with HUD source files
-- [X] T004: Updated `includes/window.h` with `t_hud_state` and `shift_pressed`
+### Phase 2: File Splitting (Started)
 
-#### Phase 2: Foundational ✅
-- [X] T005: Implemented HUD initialization in `hud_init.c`
-- [X] T006: Implemented HUD cleanup in `hud_init.c`
-- [X] T007: Implemented background creation helper
-- [X] T008: Implemented page calculation helper
-- [X] T009: Implemented float formatting utility in `hud_format.c`
-- [X] T010: Implemented vec3 formatting utility
-- [X] T011: Implemented color formatting utility
-- [X] T012: Integrated HUD initialization into `window.c`
-- [X] T013: Integrated HUD cleanup into `window.c`
-- [X] T014: Initialized shift_pressed flag
+#### Completed Splits:
+1. **metrics.c** → 3 files (8 errors fixed ✅)
+   - `metrics_time.c` (3 functions): timer_start, timer_elapsed_us, timer_elapsed_ms
+   - `metrics_frame.c` (5 functions): metrics_init, metrics_start_frame, metrics_end_frame, calculate_fps_internal, metrics_log_render
+   - `metrics_counters.c` (5 functions): metrics_add_ray, metrics_add_intersect_test, metrics_add_bvh_node_visit, metrics_add_bvh_skip, metrics_add_bvh_box_test
+   - **Result**: 69 errors remaining (from 77)
+   - **Build**: ✅ Successful
+   - **Norminette**: ✅ All new files pass
 
-#### Phase 3: User Story 1 (Partial) ⚠️
-- [X] T015-T020: Basic rendering functions implemented
-- [X] T021: HUD rendering integrated into render loop
-- [X] T049: Toggle function implemented
-- [X] T056-T061: Navigation functions implemented
+## Remaining Work
 
-### Build Status
-- ✅ Project compiles successfully
-- ✅ All HUD source files compile without errors
-- ⚠️ Norminette violations need fixing (see below)
+### High Priority Files (37 TOO_MANY_FUNCS errors)
+1. **hud_render.c** (19 functions) → 14 errors - HIGHEST IMPACT
+2. **bvh_build.c** (11 functions) → 6 errors
+3. **render_state.c** (9 functions) → 4 errors
+4. **aabb.c** (9 functions) → 5 errors
+5. **hud_format.c** (9 functions) → 4 errors
+6. **window.c** (8 functions) → 4 errors
 
-### Norminette Issues to Fix
-1. **hud_render.c**: Too many functions (needs splitting into 3-4 files)
-2. **hud_format.c**: Too many functions (split format helpers)
-3. **hud_navigation.c**: Too many functions (split navigation logic)
-4. **mlx_string_put**: More than 4 arguments (need wrapper)
-5. Some functions exceed 25 lines (need refactoring)
+### Medium Priority (TOO_MANY_LINES errors)
+- render.c (1 error)
+- window.c (2 errors)
+- keyguide_render.c (1 error)
 
-### Next Steps
-1. Split hud_render.c into:
-   - hud_render.c (main entry + dirty flag logic)
-   - hud_render_camera.c (camera info rendering)
-   - hud_render_light.c (ambient + light rendering)
-   - hud_render_objects.c (object list rendering)
+### Low Priority (Formatting & Parameters)
+- Header formatting (10 errors)
+- Parameter counts (6 errors)
+- Variable counts (1 error)
+- Miscellaneous (2 errors)
 
-2. Create wrapper for mlx_string_put:
-   ```c
-   void hud_put_text(t_render *r, int x, int y, char *str);
-   ```
+## Next Steps
 
-3. Split format functions if needed
+### Immediate Actions:
+1. Split hud_render.c (19 functions → 4 files): Would eliminate 14 errors
+2. Split bvh_build.c (11 functions → 3 files): Would eliminate 6 errors  
+3. Split render_state.c (9 functions → 2 files): Would eliminate 4 errors
 
-4. Test with scene files:
-   - scenes/test_all_objects.rt
-   - scenes/test_camera_angle.rt
-   - scenes/perf_test_20_spheres.rt
+### Expected Progress:
+- After completing these 3 files: **45 errors → 21 errors** (71% complete)
 
-5. Manual testing checklist:
-   - [ ] HUD displays on startup
-   - [ ] H key toggles visibility
-   - [ ] Camera info updates when moving (W/A/S/D)
-   - [ ] Tab cycles through objects
-   - [ ] No memory leaks (valgrind)
+## Files Modified
 
-### Implementation Architecture
+### Created:
+- src/render/metrics_time.c
+- src/render/metrics_frame.c
+- src/render/metrics_counters.c
+- scripts/validate_norminette.sh
+- BASELINE.md
+- IMPLEMENTATION_PROGRESS.md
 
+### Removed:
+- src/render/metrics.c (replaced by 3 split files)
+
+### Modified:
+- Makefile (updated SRCS to use new metrics files)
+
+## Build & Validation
+
+### Build Status: ✅ PASSING
 ```
-includes/
-├── hud.h          # API contract (from contracts/hud_api.h)
-└── window.h       # Extended with t_hud_state
-
-src/hud/
-├── hud_init.c          # Lifecycle (init, cleanup, background creation)
-├── hud_format.c        # Text formatting (float, vec3, color)
-├── hud_render.c        # Main render logic
-├── hud_render_camera.c # Camera section rendering
-├── hud_render_light.c  # Ambient/Light section rendering
-├── hud_render_objects.c# Object list rendering
-├── hud_navigation.c    # Tab/Shift+Tab, page up/down
-└── hud_toggle.c        # Toggle visibility
-
-src/window/
-└── window.c       # Integrated HUD calls (init, cleanup, render, keys)
+make clean && make
+✓ miniRT compiled successfully!
 ```
 
-### Key Features Implemented
-- ✅ HUD initialization with semi-transparent background
-- ✅ Text formatting (floats with 2 decimals, vec3, colors)
-- ✅ Camera position/direction display
-- ✅ Ambient light info display
-- ✅ Light source info display
-- ✅ Object navigation (Tab/Shift+Tab)
-- ✅ Page navigation (Up/Down arrows)
-- ✅ Toggle visibility (H key)
-- ✅ Dirty flag optimization
-- ✅ Shift key tracking
+### Norminette Status:
+```
+Total errors: 69 (down from 77)
 
-### Performance
-- Background image: Created once, reused
-- Dirty flag: Only renders when needed
-- Est. render time: <2ms (not yet measured)
+Breakdown:
+  45 TOO_MANY_FUNCS
+   6 TOO_MANY_ARGS
+   5 TOO_MANY_LINES
+   5 TOO_FEW_TAB
+   5 SPC_BEFORE_NL
+   1 TOO_MANY_VARS_FUNC
+   1 PREPROC_CONSTANT
+   1 MISALIGNED_FUNC_DECL
+```
 
-### Testing Status
-- Build: ✅ Compiles successfully
-- Norminette: ⚠️ Needs refactoring
-- Runtime: ⏳ Not yet tested
-- Memory leaks: ⏳ Not yet tested
-- Manual testing: ⏳ Not yet performed
+## Lessons Learned
 
-### Estimated Remaining Work
-- 2-3 hours: Fix norminette violations
-- 1 hour: Manual testing and debugging
-- 1 hour: Performance validation
-- Total: ~4-5 hours to complete MVP (User Story 1)
+1. **File Splitting Strategy**: Grouping by functionality (time, frame lifecycle, counters) keeps related functions together
+2. **Build System**: Makefile updates must be done carefully to maintain compilation
+3. **Validation**: Incremental norminette checks after each change prevent regressions
+4. **Static Functions**: Helper functions (like calculate_fps_internal) can stay private to their module
 
+## Time Estimate
+
+- **Time Spent**: ~2 hours (setup + 1 file split)
+- **Remaining Estimate**: ~8-10 hours for remaining 69 errors
+- **Total Project**: ~10-12 hours
+
+---
+
+**Last Updated**: 2026-01-04  
+**Next Milestone**: Complete hud_render.c split

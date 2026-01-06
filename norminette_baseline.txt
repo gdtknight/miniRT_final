@@ -1,0 +1,104 @@
+Setting locale to en_US
+main.c: OK!
+trace.c: OK!
+render.c: Error!
+Error: TOO_MANY_LINES       (line:  94, col:   1):	Function has more than 25 lines
+metrics_frame.c: OK!
+camera.c: OK!
+metrics_counters.c: OK!
+metrics_calc.c: OK!
+render_state.c: Error!
+Error: TOO_MANY_FUNCS       (line:  75, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  84, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  99, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 122, col:   1):	[92mToo many functions in file[0m
+timer.c: OK!
+timer_basic.c: OK!
+ft_atof.c: OK!
+error.c: OK!
+cleanup.c: OK!
+ft_atoi.c: OK!
+parse_validation.c: OK!
+parse_objects.c: OK!
+parse_elements.c: OK!
+parser.c: OK!
+vector.c: OK!
+vector_ops.c: OK!
+window.c: Error!
+Error: TOO_MANY_LINES       (line: 309, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 311, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 330, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 354, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 383, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 451, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 457, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 482, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 509, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 555, col:   1):	Function has more than 25 lines
+shadow_test.c: OK!
+lighting.c: OK!
+shadow_config.c: OK!
+shadow_attenuation.c: OK!
+shadow_calc.c: OK!
+keyguide_cleanup.c: OK!
+keyguide_init.c: OK!
+keyguide_render.c: Error!
+Error: TOO_MANY_ARGS        (line:  18, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_LINES       (line:  83, col:   1):	Function has more than 25 lines
+bvh_init.c: OK!
+aabb_shapes.c: OK!
+bounds.c: OK!
+aabb.c: OK!
+bvh_traverse.c: OK!
+bvh_build.c: Error!
+Error: TOO_MANY_FUNCS       (line: 101, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 129, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 145, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 155, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 172, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 198, col:   1):	[92mToo many functions in file[0m
+aabb_basic.c: OK!
+intersections.c: OK!
+intersect_cylinder.c: OK!
+hud_render.c: Error!
+Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_FUNCS       (line:  85, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 104, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 133, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 154, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 181, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 194, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 215, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 242, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 268, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 297, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 315, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 340, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 358, col:   1):	[92mToo many functions in file[0m
+hud_format_helpers.c: OK!
+hud_format.c: OK!
+hud_navigation.c: OK!
+hud_init.c: OK!
+hud_toggle.c: OK!
+hud_color_extract.c: OK!
+hud_performance.c: Error!
+Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_ARGS        (line:  40, col:  35):	[91mFunction has more than 4 arguments[0m
+hud_transparency.c: OK!
+hud_format_simple.c: OK!
+hud_color.c: OK!
+hud.h: Error!
+Error: MISALIGNED_FUNC_DECL (line: 237, col:  13):	Misaligned function declaration
+spatial.h: OK!
+parser.h: OK!
+window.h: Error!
+Error: TOO_MANY_ARGS        (line: 107, col:  41):	[91mFunction has more than 4 arguments[0m
+Error: TOO_MANY_ARGS        (line: 117, col:  45):	[91mFunction has more than 4 arguments[0m
+keyguide.h: OK!
+render_state.h: OK!
+objects.h: OK!
+ray.h: OK!
+shadow.h: OK!
+vec3.h: OK!
+minirt.h: OK!
+metrics.h: OK!

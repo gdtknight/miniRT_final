@@ -35,11 +35,18 @@ endif
 
 SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/hud/hud_color.c \
+			  $(SRC_DIR)/hud/hud_color_extract.c \
 			  $(SRC_DIR)/hud/hud_format.c \
+			  $(SRC_DIR)/hud/hud_format_helpers.c \
+			  $(SRC_DIR)/hud/hud_format_simple.c \
 			  $(SRC_DIR)/hud/hud_init.c \
 			  $(SRC_DIR)/hud/hud_navigation.c \
 			  $(SRC_DIR)/hud/hud_performance.c \
 			  $(SRC_DIR)/hud/hud_render.c \
+			  $(SRC_DIR)/hud/hud_text.c \
+			  $(SRC_DIR)/hud/hud_scene.c \
+			  $(SRC_DIR)/hud/hud_objects.c \
+			  $(SRC_DIR)/hud/hud_obj_render.c \
 			  $(SRC_DIR)/hud/hud_toggle.c \
 			  $(SRC_DIR)/hud/hud_transparency.c \
 			  $(SRC_DIR)/keyguide/keyguide_init.c \
@@ -59,21 +66,39 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/ray/intersections.c \
 			  $(SRC_DIR)/ray/intersect_cylinder.c \
 			  $(SRC_DIR)/render/camera.c \
-			  $(SRC_DIR)/render/metrics.c \
+			  $(SRC_DIR)/render/metrics_frame.c \
+			  $(SRC_DIR)/render/metrics_counters.c \
 			  $(SRC_DIR)/render/metrics_calc.c \
 			  $(SRC_DIR)/render/render.c \
 			  $(SRC_DIR)/render/render_state.c \
+			  $(SRC_DIR)/render/render_quality.c \
+			  $(SRC_DIR)/render/render_progressive.c \
 			  $(SRC_DIR)/render/trace.c \
 			  $(SRC_DIR)/spatial/aabb.c \
+			  $(SRC_DIR)/spatial/aabb_basic.c \
+			  $(SRC_DIR)/spatial/aabb_shapes.c \
 			  $(SRC_DIR)/spatial/bounds.c \
-			  $(SRC_DIR)/spatial/bvh_build.c \
+			  $(SRC_DIR)/spatial/bvh_lifecycle.c \
+			  $(SRC_DIR)/spatial/bvh_build_partition.c \
+			  $(SRC_DIR)/spatial/bvh_build_split.c \
+			  $(SRC_DIR)/spatial/bvh_build_core.c \
 			  $(SRC_DIR)/spatial/bvh_init.c \
 			  $(SRC_DIR)/spatial/bvh_traverse.c \
 			  $(SRC_DIR)/utils/cleanup.c \
 			  $(SRC_DIR)/utils/error.c \
 			  $(SRC_DIR)/utils/ft_atoi.c \
 			  $(SRC_DIR)/utils/ft_atof.c \
-			  $(SRC_DIR)/window/window.c
+			  $(SRC_DIR)/utils/timer.c \
+			  $(SRC_DIR)/window/window_init.c \
+			  $(SRC_DIR)/window/window_lifecycle.c \
+			  $(SRC_DIR)/window/window_events.c \
+			  $(SRC_DIR)/window/window_key_handlers.c \
+			  $(SRC_DIR)/window/window_loop.c \
+			  $(SRC_DIR)/window/window_camera.c \
+			  $(SRC_DIR)/window/window_selection.c \
+			  $(SRC_DIR)/window/window_select_helpers.c \
+			  $(SRC_DIR)/window/window_select_cycle.c \
+			  $(SRC_DIR)/window/window_objects.c
 
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

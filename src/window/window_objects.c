@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window_objects.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
+/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minirt.h"
+#include "window.h"
+#include "window/window_internal.h"
+
+/*
+** Move the currently selected object by the given delta vector.
+*/
+static void	move_selected_object(t_render *render, t_vec3 move)
+{
+	if (render->selection.type == OBJ_SPHERE
+		&& render->selection.index < render->scene->sphere_count)
+		render->scene->spheres[render->selection.index].center
+			= vec3_add(render->scene->spheres[render->selection.index].center,
+				move);
+	else if (render->selection.type == OBJ_PLANE
+		&& render->selection.index < render->scene->plane_count)
+		render->scene->planes[render->selection.index].point
+			= vec3_add(render->scene->planes[render->selection.index].point,
+				move);
+	else if (render->selection.type == OBJ_CYLINDER
+		&& render->selection.index < render->scene->cylinder_count)
+		render->scene->cylinders[render->selection.index].center
+			= vec3_add(render->scene->cylinders[render->selection.index].center,
+				move);
+}
+
+/*
+** Handle object movement with RTFGVB keys.
+** R/T: X axis, F/G: Y axis, V/B: Z axis
+*/
+void	handle_object_move(t_render *render, int keycode)
+{
+	t_vec3	move;
+	double	step;
+
+	step = 1.0;
+	move = (t_vec3){0, 0, 0};
+	if (keycode == KEY_R)
+		move.x = -step;
+	else if (keycode == KEY_T)
+		move.x = step;
+	else if (keycode == KEY_F)
+		move.y = -step;
+	else if (keycode == KEY_G)
+		move.y = step;
+	else if (keycode == KEY_V)
+		move.z = -step;
+	else if (keycode == KEY_B)
+		move.z = step;
+	else
+		return ;
+	move_selected_object(render, move);
+}
+
+/*
+** Handle light movement with Insert/Delete/Home/End/PgUp/PgDn keys.
+** Insert/Delete: X axis, Home/End: Y axis, PgUp/PgDn: Z axis
+*/
+void	handle_light_move(t_render *render, int keycode)
+{
+	t_vec3	move;
+	double	step;
+
+	step = 1.0;
+	move = (t_vec3){0, 0, 0};
+	if (keycode == KEY_INSERT)
+		move.x = step;
+	else if (keycode == KEY_DELETE)
+		move.x = -step;
+	else if (keycode == KEY_HOME)
+		move.y = step;
+	else if (keycode == KEY_END)
+		move.y = -step;
+	else if (keycode == KEY_PGUP)
+		move.z = step;
+	else if (keycode == KEY_PGDN)
+		move.z = -step;
+	else
+		return ;
+	render->scene->light.position = vec3_add(render->scene->light.position,
+			move);
+}

@@ -114,19 +114,12 @@ t_color	trace_ray(t_scene *scene, t_ray *ray)
 	metrics_add_ray(&scene->render_state.metrics);
 	hit_found = 0;
 	hit.distance = INFINITY;
-	if (scene->render_state.bvh_enabled && scene->render_state.bvh)
-	{
-		hit_found = bvh_intersect(scene->render_state.bvh, *ray, &hit, scene);
-	}
-	else
-	{
-		if (check_sphere_intersections(scene, ray, &hit))
-			hit_found = 1;
-		if (check_plane_intersections(scene, ray, &hit))
-			hit_found = 1;
-		if (check_cylinder_intersections(scene, ray, &hit))
-			hit_found = 1;
-	}
+	if (check_sphere_intersections(scene, ray, &hit))
+		hit_found = 1;
+	if (check_plane_intersections(scene, ray, &hit))
+		hit_found = 1;
+	if (check_cylinder_intersections(scene, ray, &hit))
+		hit_found = 1;
 	if (hit_found)
 		return (apply_lighting(scene, &hit));
 	return ((t_color){0, 0, 0});

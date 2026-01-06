@@ -1,77 +1,37 @@
 Setting locale to en_US
-main.c: Error!
-Error: TOO_MANY_LINES       (line:  79, col:   1):	Function has more than 25 lines
+main.c: OK!
 trace.c: OK!
-metrics.c: Error!
-Error: TOO_MANY_FUNCS       (line:  70, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  93, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 102, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 108, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 114, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 120, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 126, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 132, col:   1):	[92mToo many functions in file[0m
+render_progressive.c: OK!
 render.c: Error!
-Error: TOO_MANY_VARS_FUNC   (line:  75, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_LINES       (line:  99, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 133, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line:  94, col:   1):	Function has more than 25 lines
+metrics_frame.c: OK!
 camera.c: OK!
+metrics_counters.c: OK!
 metrics_calc.c: OK!
-render_state.c: Error!
-Error: TERNARY_FBIDDEN      (line:  57, col:  58):	Ternaries are forbidden
-Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  81, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  96, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_ARGS        (line:  97, col:  16):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_FUNCS       (line: 120, col:   1):	[92mToo many functions in file[0m
-timer.c: Error!
-Error: TOO_MANY_FUNCS       (line:  54, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  62, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  67, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  77, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  82, col:   1):	[92mToo many functions in file[0m
+render_state.c: OK!
+render_quality.c: OK!
+timer.c: OK!
+timer_basic.c: OK!
 ft_atof.c: OK!
 error.c: OK!
 cleanup.c: OK!
 ft_atoi.c: OK!
 parse_validation.c: OK!
 parse_objects.c: OK!
-parse_elements.c: Error!
-Error: TOO_MANY_LINES       (line:  80, col:   1):	Function has more than 25 lines
+parse_elements.c: OK!
 parser.c: OK!
 vector.c: OK!
 vector_ops.c: OK!
-window.c: Error!
-Error: TOO_FEW_TAB          (line: 139, col:   1):	Missing tabs for indent level
-Error: TOO_FEW_TAB          (line: 172, col:   1):	Missing tabs for indent level
-Error: LINE_TOO_LONG        (line: 213, col:  82):	[94mline too long[0m
-Error: TERNARY_FBIDDEN      (line: 218, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 219, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 222, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 223, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 226, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 227, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 243, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 244, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 246, col:  46):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 248, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 254, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 255, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 257, col:  44):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 263, col:  25):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 264, col:  29):	Ternaries are forbidden
-Error: TERNARY_FBIDDEN      (line: 266, col:  43):	Ternaries are forbidden
-Error: TOO_MANY_LINES       (line: 273, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 275, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 294, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 318, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 347, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_LINES       (line: 415, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 421, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 446, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 473, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_LINES       (line: 519, col:   1):	Function has more than 25 lines
+window_lifecycle.c: OK!
+window_init.c: OK!
+window_loop.c: OK!
+window_select_helpers.c: OK!
+window_select_cycle.c: OK!
+window_objects.c: OK!
+window_selection.c: OK!
+window_key_handlers.c: OK!
+window_camera.c: OK!
+window_events.c: OK!
 shadow_test.c: OK!
 lighting.c: OK!
 shadow_config.c: OK!
@@ -80,58 +40,53 @@ shadow_calc.c: OK!
 keyguide_cleanup.c: OK!
 keyguide_init.c: OK!
 keyguide_render.c: Error!
-Error: TOO_MANY_ARGS        (line:  18, col:  33):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_LINES       (line:  79, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line:  80, col:   1):	Function has more than 25 lines
 bvh_init.c: OK!
+aabb_shapes.c: OK!
 bounds.c: OK!
-aabb.c: Error!
-Error: TOO_MANY_FUNCS       (line:  66, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line:  86, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 102, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 114, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_LINES       (line: 162, col:   1):	Function has more than 25 lines
-bvh_traverse.c: Error!
-Error: TOO_MANY_ARGS        (line:  58, col:  76):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_VARS_FUNC   (line:  89, col:   1):	[91mToo many variables declarations in a function[0m
-bvh_build.c: Error!
-Error: TOO_MANY_ARGS        (line:  74, col:  35):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_FUNCS       (line: 101, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 129, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_VARS_FUNC   (line: 137, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_LINES       (line: 167, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 169, col:   1):	[92mToo many functions in file[0m
+aabb.c: OK!
+bvh_build_split.c: OK!
+bvh_traverse.c: OK!
+bvh_build_partition.c: OK!
+bvh_lifecycle.c: OK!
+bvh_build_core.c: OK!
+aabb_basic.c: OK!
 intersections.c: OK!
 intersect_cylinder.c: OK!
-hud_render.c: Error!
-Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_LINES       (line:  84, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 105, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 134, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 155, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 182, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_LINES       (line: 218, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 220, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 247, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 273, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 302, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 320, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 345, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 363, col:   1):	[92mToo many functions in file[0m
-hud_format.c: Error!
-Error: TOO_MANY_FUNCS       (line: 113, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 132, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 137, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 145, col:   1):	[92mToo many functions in file[0m
-Error: EMPTY_LINE_EOF       (line: 152, col:   1):	Empty line at end of file
-hud_navigation.c: Error!
-Error: TOO_MANY_FUNCS       (line:  90, col:   1):	[92mToo many functions in file[0m
+hud_render.c: OK!
+hud_format_helpers.c: OK!
+hud_format.c: OK!
+hud_navigation.c: OK!
 hud_init.c: OK!
+hud_objects.c: OK!
+hud_scene.c: OK!
 hud_toggle.c: OK!
-hud_performance.c: Error!
-Error: TOO_MANY_ARGS        (line:  17, col:  33):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_LINES       (line:  74, col:   1):	Function has more than 25 lines
-hud_transparency.c: Error!
-Error: TOO_MANY_FUNCS       (line:  50, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_ARGS        (line:  50, col:  68):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_FUNCS       (line:  58, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_ARGS        (line:  59, col:  28):	[91mFunction has more than 4 arguments[0m
+hud_color_extract.c: OK!
+hud_performance.c: OK!
+hud_obj_render.c: OK!
+hud_text.c: OK!
+hud_transparency.c: OK!
+hud_format_simple.c: OK!
+hud_color.c: OK!
+hud_text.h: OK!
+hud_obj_render.h: OK!
+hud.h: Error!
+Error: MISALIGNED_FUNC_DECL (line: 246, col:  13):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 247, col:   1):	Extra tabs for indent level
+spatial.h: OK!
+parser.h: OK!
+window.h: OK!
+keyguide.h: OK!
+render_state.h: OK!
+objects.h: OK!
+ray.h: OK!
+shadow.h: OK!
+vec3.h: OK!
+minirt.h: OK!
+metrics.h: OK!
+hud_objects.h: OK!
+hud_scene.h: OK!
+render_quality.h: OK!
+render_progressive.h: OK!
+window_internal.h: OK!
+bvh_internal.h: OK!

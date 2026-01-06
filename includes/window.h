@@ -14,11 +14,13 @@
 # define WINDOW_H
 
 # include "minirt.h"
+# include "mlx.h"
 
 /* Window resolution constants - MacBook M1 13-inch native resolution */
 # define WINDOW_WIDTH 1440
 # define WINDOW_HEIGHT 900
-# define ASPECT_RATIO (1440.0 / 900.0)
+# define ASPECT_RATIO_NUM 1440.0
+# define ASPECT_RATIO_DEN 900.0
 
 /* Object type enumeration for selection */
 typedef enum e_obj_type
@@ -93,30 +95,5 @@ int			handle_key(int keycode, void *param);
 int			handle_key_release(int keycode, void *param);
 /* Main rendering loop */
 int			render_loop(void *param);
-
-/* Initialize MLX connection */
-void		*mlx_init(void);
-/* Create new window with specified dimensions and title */
-void		*mlx_new_window(void *mlx_ptr, int width, int height,
-				char *title);
-/* Start MLX event loop */
-int			mlx_loop(void *mlx_ptr);
-/* Register event handler for window events */
-int			mlx_hook(void *win_ptr, int event, int mask,
-				int (*f)(), void *param);
-/* Register keyboard event handler */
-int			mlx_key_hook(void *win_ptr, int (*f)(), void *param);
-/* Create new image buffer */
-void		*mlx_new_image(void *mlx_ptr, int width, int height);
-/* Get image data address for direct pixel manipulation */
-char		*mlx_get_data_addr(void *img_ptr, int *bpp, int *size_line,
-				int *endian);
-/* Display image buffer to window */
-int			mlx_put_image_to_window(void *mlx_ptr, void *win_ptr,
-				void *img_ptr, int x, int y);
-/* Destroy image buffer */
-int			mlx_destroy_image(void *mlx_ptr, void *img_ptr);
-/* Register loop hook for continuous rendering */
-int			mlx_loop_hook(void *mlx_ptr, int (*f)(), void *param);
 
 #endif
