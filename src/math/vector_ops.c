@@ -18,6 +18,14 @@
 ** Returns scalar: a.x * b.x + a.y * b.y + a.z * b.z
 ** Used for projections and angle calculations.
 */
+/**
+ * @brief vec3 dot 함수 - 내적 수행
+ *
+ * @param a 파라미터
+ * @param b 파라미터
+ *
+ * @return double 반환값
+ */
 double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
@@ -28,6 +36,14 @@ double	vec3_dot(t_vec3 a, t_vec3 b)
 ** Returns vector perpendicular to both input vectors.
 ** Right-hand rule determines direction.
 */
+/**
+ * @brief vec3 cross 함수 - 외적 수행
+ *
+ * @param a 파라미터
+ * @param b 파라미터
+ *
+ * @return t_vec3 반환값
+ */
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	result;
@@ -42,6 +58,13 @@ t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 ** Calculate magnitude (length) of vector.
 ** Returns sqrt(x² + y² + z²)
 */
+/**
+ * @brief vec3 magnitude 함수
+ *
+ * @param v 파라미터
+ *
+ * @return double 반환값
+ */
 double	vec3_magnitude(t_vec3 v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
@@ -51,6 +74,13 @@ double	vec3_magnitude(t_vec3 v)
 ** Normalize vector to unit length (magnitude = 1).
 ** Returns zero vector if input magnitude is zero.
 */
+/**
+ * @brief vec3 normalize 함수 - 정규화 수행
+ *
+ * @param v 파라미터
+ *
+ * @return t_vec3 반환값
+ */
 t_vec3	vec3_normalize(t_vec3 v)
 {
 	double	mag;

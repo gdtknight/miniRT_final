@@ -14,6 +14,13 @@
 #include "spatial/bvh_internal.h"
 #include <stdlib.h>
 
+/**
+ * @brief choose split axis 함수
+ *
+ * @param bounds 파라미터
+ *
+ * @return int 반환값
+ */
 int	choose_split_axis(t_aabb bounds)
 {
 	int		axis;
@@ -30,6 +37,14 @@ int	choose_split_axis(t_aabb bounds)
 	return (axis);
 }
 
+/**
+ * @brief calculate split position 함수 - 계산 수행
+ *
+ * @param bounds 파라미터
+ * @param axis 파라미터
+ *
+ * @return double 반환값
+ */
 double	calculate_split_position(t_aabb bounds, int axis)
 {
 	if (axis == 0)

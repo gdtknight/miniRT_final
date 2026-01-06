@@ -16,6 +16,13 @@
 /*
 ** Find next object type after sphere.
 */
+/**
+ * @brief next type from sphere 함수
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	next_type_from_sphere(t_scene *scene)
 {
 	if (scene->plane_count > 0)
@@ -29,6 +36,13 @@ int	next_type_from_sphere(t_scene *scene)
 /*
 ** Find next object type after plane.
 */
+/**
+ * @brief next type from plane 함수
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	next_type_from_plane(t_scene *scene)
 {
 	if (scene->cylinder_count > 0)
@@ -42,6 +56,13 @@ int	next_type_from_plane(t_scene *scene)
 /*
 ** Find next object type after cylinder.
 */
+/**
+ * @brief next type from cylinder 함수
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	next_type_from_cylinder(t_scene *scene)
 {
 	if (scene->sphere_count > 0)

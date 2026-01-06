@@ -28,6 +28,14 @@ void	progressive_init(t_progressive_state *prog, int width, int height,
 	prog->enabled = 1;
 }
 
+/**
+ * @brief progressive next tile 함수
+ *
+ * @param prog 파라미터
+ * @param rect 파라미터
+ *
+ * @return int 반환값
+ */
 int	progressive_next_tile(t_progressive_state *prog, t_tile_rect *rect)
 {
 	int	tiles_x;
@@ -51,6 +59,11 @@ int	progressive_next_tile(t_progressive_state *prog, t_tile_rect *rect)
 	return (1);
 }
 
+/**
+ * @brief progressive reset 함수 - 설정 수행
+ *
+ * @param prog 파라미터
+ */
 void	progressive_reset(t_progressive_state *prog)
 {
 	prog->current_tile = 0;

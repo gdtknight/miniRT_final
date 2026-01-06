@@ -20,6 +20,15 @@
 ** Solves: ||ray.origin + t*ray.direction - sphere.center||² = radius²
 ** Returns closest positive t value, or -1 if no intersection.
 */
+/**
+ * @brief calculate sphere t 함수 - 계산 수행
+ *
+ * @param oc 파라미터
+ * @param ray 파라미터
+ * @param radius_squared 파라미터
+ *
+ * @return double 반환값
+ */
 static double	calculate_sphere_t(t_vec3 oc, t_ray *ray, double radius_squared)
 {
 	double	a;
@@ -45,6 +54,15 @@ static double	calculate_sphere_t(t_vec3 oc, t_ray *ray, double radius_squared)
 ** Uses quadratic equation to find intersection points.
 ** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
 */
+/**
+ * @brief intersect sphere 함수 - 교차 검사 수행
+ *
+ * @param ray 파라미터
+ * @param sphere 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit)
 {
 	t_vec3	oc;
@@ -66,6 +84,15 @@ int	intersect_sphere(t_ray *ray, t_sphere *sphere, t_hit *hit)
 ** Plane equation: dot(point - plane.point, plane.normal) = 0
 ** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
 */
+/**
+ * @brief intersect plane 함수 - 교차 검사 수행
+ *
+ * @param ray 파라미터
+ * @param plane 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	intersect_plane(t_ray *ray, t_plane *plane, t_hit *hit)
 {
 	double	denom;

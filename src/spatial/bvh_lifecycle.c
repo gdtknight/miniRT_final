@@ -28,6 +28,11 @@ t_bvh	*bvh_create(void)
 	return (bvh);
 }
 
+/**
+ * @brief bvh node destroy 함수 - 제거 및 메모리 해제 수행
+ *
+ * @param node 파라미터
+ */
 void	bvh_node_destroy(t_bvh_node *node)
 {
 	if (!node)
@@ -39,6 +44,11 @@ void	bvh_node_destroy(t_bvh_node *node)
 	free(node);
 }
 
+/**
+ * @brief bvh destroy 함수 - 제거 및 메모리 해제 수행
+ *
+ * @param bvh 파라미터
+ */
 void	bvh_destroy(t_bvh *bvh)
 {
 	if (!bvh)

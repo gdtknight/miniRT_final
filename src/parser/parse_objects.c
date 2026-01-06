@@ -32,6 +32,14 @@ static char	*skip_to_next_token(char *token)
 ** Format: sp <x,y,z> <diameter> <R,G,B>
 ** Validates diameter is positive.
 */
+/**
+ * @brief parse sphere 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_sphere(char *line, t_scene *scene)
 {
 	char		*token;
@@ -63,6 +71,14 @@ int	parse_sphere(char *line, t_scene *scene)
 ** Format: pl <x,y,z> <nx,ny,nz> <R,G,B>
 ** Normalizes the normal vector.
 */
+/**
+ * @brief parse plane 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_plane(char *line, t_scene *scene)
 {
 	char		*token;
@@ -92,6 +108,14 @@ int	parse_plane(char *line, t_scene *scene)
 ** Validates both dimensions are positive.
 ** Computes precomputed cached values for optimization.
 */
+/**
+ * @brief parse cylinder params 함수 - 파싱 수행
+ *
+ * @param token 파라미터
+ * @param cylinder 파라미터
+ *
+ * @return int 반환값
+ */
 static int	parse_cylinder_params(char *token, t_cylinder *cylinder)
 {
 	token = skip_to_next_token(token);
@@ -111,6 +135,14 @@ static int	parse_cylinder_params(char *token, t_cylinder *cylinder)
 ** Format: cy <x,y,z> <nx,ny,nz> <diameter> <height> <R,G,B>
 ** Normalizes the axis vector.
 */
+/**
+ * @brief parse cylinder 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_cylinder(char *line, t_scene *scene)
 {
 	char		*token;

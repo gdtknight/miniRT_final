@@ -13,6 +13,14 @@
 #include "window.h"
 #include "hud.h"
 
+/**
+ * @brief hud get global index 함수 - 조회 수행
+ *
+ * @param sel 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	hud_get_global_index(t_selection sel, t_scene *scene)
 {
 	if (sel.type == OBJ_SPHERE)
@@ -32,6 +40,13 @@ void	hud_get_selection_from_global(t_selection *sel, int idx,
 		sel->type = OBJ_SPHERE;
 		sel->index = idx;
 	}
+/**
+ * @brief if 함수
+ *
+ * @param scene->plane_count 파라미터
+ *
+ * @return else 반환값
+ */
 	else if (idx < scene->sphere_count + scene->plane_count)
 	{
 		sel->type = OBJ_PLANE;
@@ -44,6 +59,11 @@ void	hud_get_selection_from_global(t_selection *sel, int idx,
 	}
 }
 
+/**
+ * @brief hud select next 함수
+ *
+ * @param render 파라미터
+ */
 void	hud_select_next(t_render *render)
 {
 	int	total_objects;
@@ -60,6 +80,11 @@ void	hud_select_next(t_render *render)
 	render->hud.dirty = 1;
 }
 
+/**
+ * @brief hud select prev 함수
+ *
+ * @param render 파라미터
+ */
 void	hud_select_prev(t_render *render)
 {
 	int	total_objects;
@@ -76,6 +101,12 @@ void	hud_select_prev(t_render *render)
 	render->hud.dirty = 1;
 }
 
+/**
+ * @brief hud change page 함수
+ *
+ * @param render 파라미터
+ * @param direction 파라미터
+ */
 void	hud_change_page(t_render *render, int direction)
 {
 	if (render->hud.total_pages <= 1)

@@ -14,6 +14,14 @@
 #include "minirt.h"
 #include "window.h"
 
+/**
+ * @brief get object bounds 함수 - 조회 수행
+ *
+ * @param ref 파라미터
+ * @param scene_ptr 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	get_object_bounds(t_object_ref ref, void *scene_ptr)
 {
 	t_scene	*scene;
@@ -32,6 +40,14 @@ t_aabb	get_object_bounds(t_object_ref ref, void *scene_ptr)
 				scene->planes[ref.index].normal));
 }
 
+/**
+ * @brief get object center 함수 - 조회 수행
+ *
+ * @param ref 파라미터
+ * @param scene_ptr 파라미터
+ *
+ * @return t_vec3 반환값
+ */
 t_vec3	get_object_center(t_object_ref ref, void *scene_ptr)
 {
 	t_scene	*scene;

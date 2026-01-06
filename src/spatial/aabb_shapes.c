@@ -14,6 +14,14 @@
 #include "minirt.h"
 #include <math.h>
 
+/**
+ * @brief aabb for sphere 함수
+ *
+ * @param center 파라미터
+ * @param radius 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	aabb_for_sphere(t_vec3 center, double radius)
 {
 	t_aabb	box;
@@ -47,6 +55,14 @@ t_aabb	aabb_for_cylinder(t_vec3 center, t_vec3 axis, double radius,
 	return (box);
 }
 
+/**
+ * @brief aabb for plane 함수
+ *
+ * @param point 파라미터
+ * @param normal 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	aabb_for_plane(t_vec3 point, t_vec3 normal)
 {
 	t_aabb	box;

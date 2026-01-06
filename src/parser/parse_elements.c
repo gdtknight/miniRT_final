@@ -19,6 +19,14 @@
 ** Format: A <ratio> <R,G,B>
 ** Validates ratio is in range [0.0, 1.0].
 */
+/**
+ * @brief parse ambient 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_ambient(char *line, t_scene *scene)
 {
 	char	*token;
@@ -57,6 +65,14 @@ static char	*skip_to_next_token(char *token)
 ** Format: C <x,y,z> <nx,ny,nz> <fov>
 ** Normalizes direction vector and validates FOV range [0, 180].
 */
+/**
+ * @brief parse camera 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_camera(char *line, t_scene *scene)
 {
 	char	*token;
@@ -87,6 +103,14 @@ int	parse_camera(char *line, t_scene *scene)
 ** Format: L <x,y,z> <brightness> <R,G,B>
 ** Validates brightness is in range [0.0, 1.0].
 */
+/**
+ * @brief parse light 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_light(char *line, t_scene *scene)
 {
 	char	*token;

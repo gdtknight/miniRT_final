@@ -12,6 +12,13 @@
 
 #include "hud.h"
 
+/**
+ * @brief get pixel 함수 - 조회 수행
+ *
+ * @param params 파라미터
+ *
+ * @return int 반환값
+ */
 int	get_pixel(t_pixel_params *params)
 {
 	char	*pixel;
@@ -21,6 +28,12 @@ int	get_pixel(t_pixel_params *params)
 	return (*(int *)pixel);
 }
 
+/**
+ * @brief set pixel 함수 - 설정 수행
+ *
+ * @param params 파라미터
+ * @param color 파라미터
+ */
 void	set_pixel(t_pixel_params *params, int color)
 {
 	char	*pixel;

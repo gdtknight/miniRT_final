@@ -13,6 +13,11 @@
 #include "window.h"
 #include "hud.h"
 
+/**
+ * @brief hud toggle 함수
+ *
+ * @param render 파라미터
+ */
 void	hud_toggle(t_render *render)
 {
 	render->hud.visible = !render->hud.visible;

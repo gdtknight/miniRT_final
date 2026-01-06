@@ -12,30 +12,55 @@
 
 #include "metrics.h"
 
+/**
+ * @brief metrics add ray 함수 - 추가 수행
+ *
+ * @param metrics 파라미터
+ */
 void	metrics_add_ray(t_metrics *metrics)
 {
 	if (metrics)
 		metrics->rays_traced++;
 }
 
+/**
+ * @brief metrics add intersect test 함수 - 추가 수행
+ *
+ * @param metrics 파라미터
+ */
 void	metrics_add_intersect_test(t_metrics *metrics)
 {
 	if (metrics)
 		metrics->intersect_tests++;
 }
 
+/**
+ * @brief metrics add bvh node visit 함수 - 추가 수행
+ *
+ * @param metrics 파라미터
+ */
 void	metrics_add_bvh_node_visit(t_metrics *metrics)
 {
 	if (metrics)
 		metrics->bvh_nodes_visited++;
 }
 
+/**
+ * @brief metrics add bvh skip 함수 - 추가 수행
+ *
+ * @param metrics 파라미터
+ */
 void	metrics_add_bvh_skip(t_metrics *metrics)
 {
 	if (metrics)
 		metrics->bvh_tests_skipped++;
 }
 
+/**
+ * @brief metrics add bvh box test 함수 - 추가 수행
+ *
+ * @param metrics 파라미터
+ */
 void	metrics_add_bvh_box_test(t_metrics *metrics)
 {
 	if (metrics)

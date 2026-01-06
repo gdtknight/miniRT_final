@@ -86,6 +86,15 @@ int	intersect_cylinder_cap(t_ray *ray, t_cylinder *cyl, t_hit *hit,
 ** Test ray-cylinder body intersection (side surface).
 ** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
 */
+/**
+ * @brief intersect cylinder body 함수 - 교차 검사 수행
+ *
+ * @param ray 파라미터
+ * @param cyl 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	intersect_cylinder_body(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 {
 	t_cyl_calc	calc;
@@ -112,6 +121,15 @@ int	intersect_cylinder_body(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 ** Checks body, top cap, and bottom cap, returns closest hit.
 ** Returns 1 if hit and closer than current hit->distance, 0 otherwise.
 */
+/**
+ * @brief intersect cylinder 함수 - 교차 검사 수행
+ *
+ * @param ray 파라미터
+ * @param cylinder 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	intersect_cylinder(t_ray *ray, t_cylinder *cylinder, t_hit *hit)
 {
 	int		hit_found;

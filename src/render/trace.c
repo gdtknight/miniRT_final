@@ -21,6 +21,13 @@
 ** Iterates through object array and updates hit with closest intersection.
 ** Returns 1 if any intersection found, 0 otherwise.
 */
+/**
+ * @brief check intersections generic 함수 - 확인 수행
+ *
+ * @param params 파라미터
+ *
+ * @return int 반환값
+ */
 static int	check_intersections_generic(t_intersect_params *params)
 {
 	t_hit	temp_hit;
@@ -51,6 +58,15 @@ static int	check_intersections_generic(t_intersect_params *params)
 ** Updates hit info with closest sphere intersection.
 ** Returns 1 if any sphere was hit, 0 otherwise.
 */
+/**
+ * @brief check sphere intersections 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	check_sphere_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	t_intersect_params	params;
@@ -69,6 +85,15 @@ int	check_sphere_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Updates hit info with closest plane intersection.
 ** Returns 1 if any plane was hit, 0 otherwise.
 */
+/**
+ * @brief check plane intersections 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	check_plane_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	t_intersect_params	params;
@@ -87,6 +112,15 @@ int	check_plane_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Updates hit info with closest cylinder intersection.
 ** Returns 1 if any cylinder was hit, 0 otherwise.
 */
+/**
+ * @brief check cylinder intersections 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 int	check_cylinder_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	t_intersect_params	params;
@@ -106,6 +140,14 @@ int	check_cylinder_intersections(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Uses BVH acceleration if enabled, otherwise brute force.
 ** Returns lit color if object hit, black if no intersection.
 */
+/**
+ * @brief trace ray 함수
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ *
+ * @return t_color 반환값
+ */
 t_color	trace_ray(t_scene *scene, t_ray *ray)
 {
 	t_hit	hit;

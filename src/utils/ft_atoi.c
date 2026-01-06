@@ -13,6 +13,13 @@
 /*
 ** Check if character is whitespace (space, tab, newline, etc).
 */
+/**
+ * @brief ft isspace 함수
+ *
+ * @param c 파라미터
+ *
+ * @return int 반환값
+ */
 static int	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n'
@@ -22,6 +29,13 @@ static int	ft_isspace(char c)
 /*
 ** Check if character is a digit (0-9).
 */
+/**
+ * @brief ft isdigit 함수
+ *
+ * @param c 파라미터
+ *
+ * @return int 반환값
+ */
 static int	ft_isdigit(char c)
 {
 	return (c >= '0' && c <= '9');
@@ -32,6 +46,13 @@ static int	ft_isdigit(char c)
 ** Skips leading whitespace, handles optional +/- sign.
 ** Stops at first non-digit character.
 */
+/**
+ * @brief ft atoi 함수
+ *
+ * @param str 파라미터
+ *
+ * @return int 반환값
+ */
 int	ft_atoi(const char *str)
 {
 	int	result;

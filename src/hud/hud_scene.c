@@ -14,6 +14,12 @@
 #include "hud.h"
 #include "hud_text.h"
 
+/**
+ * @brief hud render camera 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_camera(t_render *render, int *y)
 {
 	mlx_string_put(render->mlx, render->win, HUD_MARGIN_X + 10,
@@ -23,6 +29,12 @@ void	hud_render_camera(t_render *render, int *y)
 	format_and_print_vec3(render, y, "dir", render->scene->camera.direction);
 }
 
+/**
+ * @brief render camera fov 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	render_camera_fov(t_render *render, int *y)
 {
 	char	buf[64];
@@ -42,6 +54,12 @@ void	render_camera_fov(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief hud render ambient 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_ambient(t_render *render, int *y)
 {
 	char	buf[128];
@@ -71,6 +89,12 @@ void	hud_render_ambient(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief hud render light 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_light(t_render *render, int *y)
 {
 	char	buf[128];
@@ -92,6 +116,12 @@ void	hud_render_light(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief render light bright 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	render_light_bright(t_render *render, int *y)
 {
 	char	buf[128];

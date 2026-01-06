@@ -13,6 +13,14 @@
 #include "spatial.h"
 #include "minirt.h"
 
+/**
+ * @brief min double 함수
+ *
+ * @param a 파라미터
+ * @param b 파라미터
+ *
+ * @return double 반환값
+ */
 double	min_double(double a, double b)
 {
 	if (a < b)
@@ -20,6 +28,14 @@ double	min_double(double a, double b)
 	return (b);
 }
 
+/**
+ * @brief max double 함수
+ *
+ * @param a 파라미터
+ * @param b 파라미터
+ *
+ * @return double 반환값
+ */
 double	max_double(double a, double b)
 {
 	if (a > b)
@@ -27,6 +43,14 @@ double	max_double(double a, double b)
 	return (b);
 }
 
+/**
+ * @brief aabb create 함수 - 생성 수행
+ *
+ * @param min 파라미터
+ * @param max 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	aabb_create(t_vec3 min, t_vec3 max)
 {
 	t_aabb	box;
@@ -36,6 +60,14 @@ t_aabb	aabb_create(t_vec3 min, t_vec3 max)
 	return (box);
 }
 
+/**
+ * @brief aabb merge 함수
+ *
+ * @param a 파라미터
+ * @param b 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	aabb_merge(t_aabb a, t_aabb b)
 {
 	t_aabb	result;
@@ -49,6 +81,13 @@ t_aabb	aabb_merge(t_aabb a, t_aabb b)
 	return (result);
 }
 
+/**
+ * @brief aabb surface area 함수
+ *
+ * @param box 파라미터
+ *
+ * @return double 반환값
+ */
 double	aabb_surface_area(t_aabb box)
 {
 	double	dx;

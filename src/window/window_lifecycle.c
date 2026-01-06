@@ -21,6 +21,13 @@
 ** Handle window close event (X button clicked).
 ** Cleans up resources and exits program.
 */
+/**
+ * @brief close window 함수
+ *
+ * @param param 파라미터
+ *
+ * @return int 반환값
+ */
 int	close_window(void *param)
 {
 	t_render	*render;

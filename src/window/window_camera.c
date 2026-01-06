@@ -19,6 +19,12 @@
 ** Handle camera movement based on WASDQZ keys.
 ** W/X: Forward/Backward, A/D: Left/Right, Q/Z: Up/Down
 */
+/**
+ * @brief handle camera move 함수
+ *
+ * @param render 파라미터
+ * @param keycode 파라미터
+ */
 void	handle_camera_move(t_render *render, int keycode)
 {
 	t_vec3	right;
@@ -36,8 +42,22 @@ void	handle_camera_move(t_render *render, int keycode)
 		move = vec3_multiply(right, -step);
 	else if (keycode == KEY_D)
 		move = vec3_multiply(right, step);
+/**
+ * @brief if 함수
+ *
+ * @param KEY_Q 파라미터
+ *
+ * @return else 반환값
+ */
 	else if (keycode == KEY_Q)
 		move = (t_vec3){0, step, 0};
+/**
+ * @brief if 함수
+ *
+ * @param KEY_Z 파라미터
+ *
+ * @return else 반환값
+ */
 	else if (keycode == KEY_Z)
 		move = (t_vec3){0, -step, 0};
 	else
@@ -50,6 +70,12 @@ void	handle_camera_move(t_render *render, int keycode)
 ** Handle camera pitch rotation based on E/C keys.
 ** Rotates camera around the right vector.
 */
+/**
+ * @brief handle camera pitch 함수
+ *
+ * @param render 파라미터
+ * @param keycode 파라미터
+ */
 void	handle_camera_pitch(t_render *render, int keycode)
 {
 	t_vec3	right;
@@ -82,6 +108,11 @@ void	handle_camera_pitch(t_render *render, int keycode)
 /*
 ** Reset camera to initial position and direction.
 */
+/**
+ * @brief handle camera reset 함수 - 설정 수행
+ *
+ * @param render 파라미터
+ */
 void	handle_camera_reset(t_render *render)
 {
 	render->scene->camera.position = render->scene->camera.initial_position;

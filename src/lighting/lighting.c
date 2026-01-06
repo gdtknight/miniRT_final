@@ -20,6 +20,11 @@
 ** Clamp color values to valid range [0, 255].
 ** Prevents overflow in final pixel color values.
 */
+/**
+ * @brief clamp color 함수
+ *
+ * @param result 파라미터
+ */
 static void	clamp_color(t_color *result)
 {
 	if (result->r > 255)
@@ -75,6 +80,14 @@ static double	calc_lighting_factor(t_scene *scene, t_hit *hit,
 ** Combines ambient light with diffuse reflection and specular highlights.
 ** Takes into account shadow factor to darken occluded areas.
 */
+/**
+ * @brief apply lighting 함수
+ *
+ * @param scene 파라미터
+ * @param hit 파라미터
+ *
+ * @return t_color 반환값
+ */
 t_color	apply_lighting(t_scene *scene, t_hit *hit)
 {
 	t_vec3	light_dir;

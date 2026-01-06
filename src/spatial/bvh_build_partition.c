@@ -14,6 +14,15 @@
 #include "spatial/bvh_internal.h"
 #include "minirt.h"
 
+/**
+ * @brief compute bounds 함수 - 연산 수행
+ *
+ * @param objects 파라미터
+ * @param count 파라미터
+ * @param scene 파라미터
+ *
+ * @return t_aabb 반환값
+ */
 t_aabb	compute_bounds(t_object_ref *objects, int count, void *scene)
 {
 	t_aabb	bounds;
@@ -37,6 +46,13 @@ t_aabb	compute_bounds(t_object_ref *objects, int count, void *scene)
 	return (bounds);
 }
 
+/**
+ * @brief partition objects 함수
+ *
+ * @param params 파라미터
+ *
+ * @return int 반환값
+ */
 int	partition_objects(t_partition_params *params)
 {
 	int				i;

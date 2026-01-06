@@ -19,6 +19,15 @@
 ** Check if shadow ray intersects any sphere in the scene.
 ** Returns 1 if intersection found, 0 otherwise.
 */
+/**
+ * @brief check sphere shadow 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 static int	check_sphere_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	int	i;
@@ -37,6 +46,15 @@ static int	check_sphere_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Check if shadow ray intersects any plane in the scene.
 ** Returns 1 if intersection found, 0 otherwise.
 */
+/**
+ * @brief check plane shadow 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 static int	check_plane_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	int	i;
@@ -55,6 +73,15 @@ static int	check_plane_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Check if shadow ray intersects any cylinder in the scene.
 ** Returns 1 if intersection found, 0 otherwise.
 */
+/**
+ * @brief check cylinder shadow 함수 - 확인 수행
+ *
+ * @param scene 파라미터
+ * @param ray 파라미터
+ * @param hit 파라미터
+ *
+ * @return int 반환값
+ */
 static int	check_cylinder_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 {
 	int	i;
@@ -74,6 +101,16 @@ static int	check_cylinder_shadow(t_scene *scene, t_ray *ray, t_hit *hit)
 ** Casts shadow ray from point toward light.
 ** Returns 1 if any object blocks the light, 0 if fully lit.
 */
+/**
+ * @brief is in shadow 함수
+ *
+ * @param scene 파라미터
+ * @param point 파라미터
+ * @param light_pos 파라미터
+ * @param bias 파라미터
+ *
+ * @return int 반환값
+ */
 int	is_in_shadow(t_scene *scene, t_vec3 point, t_vec3 light_pos, double bias)
 {
 	t_ray	shadow_ray;

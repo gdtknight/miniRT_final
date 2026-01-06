@@ -23,6 +23,13 @@ void	handle_hud_keys(t_render *render, int keycode);
 /*
 ** Check if key is a movement or transformation key.
 */
+/**
+ * @brief is movement key 함수
+ *
+ * @param keycode 파라미터
+ *
+ * @return int 반환값
+ */
 static int	is_movement_key(int keycode)
 {
 	return (keycode == KEY_W || keycode == KEY_X || keycode == KEY_A
@@ -38,6 +45,14 @@ static int	is_movement_key(int keycode)
 ** Handle keyboard input events with interactive controls.
 ** Uses dirty flag and low quality rendering for smooth interaction.
 */
+/**
+ * @brief handle key 함수
+ *
+ * @param keycode 파라미터
+ * @param param 파라미터
+ *
+ * @return int 반환값
+ */
 int	handle_key(int keycode, void *param)
 {
 	t_render	*render;
@@ -48,6 +63,13 @@ int	handle_key(int keycode, void *param)
 	handle_hud_keys(render, keycode);
 	if (keycode == KEY_BRACKET_LEFT || keycode == KEY_BRACKET_RIGHT)
 		handle_object_selection(render, keycode);
+/**
+ * @brief if 함수
+ *
+ * @param KEY_I 파라미터
+ *
+ * @return else 반환값
+ */
 	else if (keycode == KEY_I)
 	{
 		render->scene->render_state.show_info
@@ -65,6 +87,14 @@ int	handle_key(int keycode, void *param)
 ** Handle key release events.
 ** Switches to high quality rendering when interaction stops.
 */
+/**
+ * @brief handle key release 함수
+ *
+ * @param keycode 파라미터
+ * @param param 파라미터
+ *
+ * @return int 반환값
+ */
 int	handle_key_release(int keycode, void *param)
 {
 	t_render	*render;

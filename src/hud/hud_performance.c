@@ -13,6 +13,12 @@
 #include "hud.h"
 #include "metrics.h"
 
+/**
+ * @brief render perf header 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 static void	render_perf_header(t_render *render, int *y)
 {
 	mlx_string_put(render->mlx, render->win,
@@ -20,6 +26,15 @@ static void	render_perf_header(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief copy str 함수
+ *
+ * @param dst 파라미터
+ * @param src 파라미터
+ * @param max_len 파라미터
+ *
+ * @return int 반환값
+ */
 static int	copy_str(char *dst, char *src, int max_len)
 {
 	int	i;
@@ -33,6 +48,12 @@ static int	copy_str(char *dst, char *src, int max_len)
 	return (i);
 }
 
+/**
+ * @brief concat and print 함수
+ *
+ * @param render 파라미터
+ * @param params 파라미터
+ */
 static void	concat_and_print(t_render *render, t_perf_text *params)
 {
 	char	line[128];
@@ -48,6 +69,12 @@ static void	concat_and_print(t_render *render, t_perf_text *params)
 	*params->y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief render perf basic 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 static void	render_perf_basic(t_render *render, int *y)
 {
 	t_metrics	*m;
@@ -73,6 +100,12 @@ static void	render_perf_basic(t_render *render, int *y)
 	concat_and_print(render, &params);
 }
 
+/**
+ * @brief hud render performance 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_performance(t_render *render, int *y)
 {
 	render_perf_header(render, y);

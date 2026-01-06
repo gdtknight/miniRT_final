@@ -13,11 +13,23 @@
 #include "metrics.h"
 #include <stdlib.h>
 
+/**
+ * @brief timer start 함수
+ *
+ * @param tv 파라미터
+ */
 void	timer_start(struct timeval *tv)
 {
 	gettimeofday(tv, 0);
 }
 
+/**
+ * @brief timer elapsed us 함수
+ *
+ * @param start 파라미터
+ *
+ * @return long 반환값
+ */
 long	timer_elapsed_us(struct timeval *start)
 {
 	struct timeval	now;
@@ -29,6 +41,13 @@ long	timer_elapsed_us(struct timeval *start)
 	return (elapsed);
 }
 
+/**
+ * @brief timer elapsed ms 함수
+ *
+ * @param start 파라미터
+ *
+ * @return double 반환값
+ */
 double	timer_elapsed_ms(struct timeval *start)
 {
 	return (timer_elapsed_us(start) / 1000.0);

@@ -52,6 +52,14 @@ static char	*read_line(int fd)
 ** Identifies element type by prefix and calls appropriate parser.
 ** Returns 1 on success, 0 on error. Skips empty lines and comments.
 */
+/**
+ * @brief parse line 함수 - 파싱 수행
+ *
+ * @param line 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 static int	parse_line(char *line, t_scene *scene)
 {
 	while (*line == ' ' || *line == '\t')
@@ -78,6 +86,14 @@ static int	parse_line(char *line, t_scene *scene)
 ** Opens file, reads line by line, and dispatches to element parsers.
 ** Returns 1 on success, 0 on error.
 */
+/**
+ * @brief parse scene 함수 - 파싱 수행
+ *
+ * @param filename 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_scene(const char *filename, t_scene *scene)
 {
 	int		fd;
@@ -109,6 +125,13 @@ int	parse_scene(const char *filename, t_scene *scene)
 ** Validate that scene contains all required elements.
 ** Checks for ambient light, camera, light source, and at least one object.
 */
+/**
+ * @brief validate scene 함수 - 검증 수행
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	validate_scene(t_scene *scene)
 {
 	if (!scene->has_ambient)

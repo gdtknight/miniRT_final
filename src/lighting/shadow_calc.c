@@ -65,6 +65,14 @@ t_vec3	generate_shadow_sample_offset(double radius, int sample_index,
 /*
 ** Cast single shadow ray with offset.
 */
+/**
+ * @brief sample shadow ray 함수
+ *
+ * @param params 파라미터
+ * @param index 파라미터
+ *
+ * @return int 반환값
+ */
 static int	sample_shadow_ray(t_shadow_sample *params, int index)
 {
 	t_vec3	offset;

@@ -25,6 +25,14 @@ t_color		trace_ray(t_scene *scene, t_ray *ray);
 ** Write color directly to image buffer for fast rendering.
 ** Converts RGB color to packed integer and writes to memory.
 */
+/**
+ * @brief put pixel to buffer 함수
+ *
+ * @param render 파라미터
+ * @param x 파라미터
+ * @param y 파라미터
+ * @param color 파라미터
+ */
 static void	put_pixel_to_buffer(t_render *render, int x, int y, t_color color)
 {
 	int		offset;
@@ -42,6 +50,14 @@ static void	put_pixel_to_buffer(t_render *render, int x, int y, t_color color)
 ** Converts screen space to normalized device coordinates.
 ** Creates camera ray, traces it, and writes resulting color to buffer.
 */
+/**
+ * @brief render pixel 함수 - 렌더링 수행
+ *
+ * @param scene 파라미터
+ * @param render 파라미터
+ * @param x 파라미터
+ * @param y 파라미터
+ */
 static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 {
 	t_ray	ray;
@@ -59,6 +75,14 @@ static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 /*
 ** Draw a 2x2 pixel block with the same color for low quality rendering.
 */
+/**
+ * @brief draw pixel block 함수 - 그리기 수행
+ *
+ * @param render 파라미터
+ * @param x 파라미터
+ * @param y 파라미터
+ * @param color 파라미터
+ */
 static void	draw_pixel_block(t_render *render, int x, int y, t_color color)
 {
 	put_pixel_to_buffer(render, x, y, color);
@@ -76,6 +100,12 @@ static void	draw_pixel_block(t_render *render, int x, int y, t_color color)
 ** Render scene at reduced resolution for fast preview.
 ** Uses 2x2 pixel blocks to achieve 4x speedup.
 */
+/**
+ * @brief render low quality 함수 - 렌더링 수행
+ *
+ * @param scene 파라미터
+ * @param render 파라미터
+ */
 static void	render_low_quality(t_scene *scene, t_render *render)
 {
 	int		x;
@@ -106,6 +136,12 @@ static void	render_low_quality(t_scene *scene, t_render *render)
 ** Uses low quality mode if requested for faster preview.
 ** Otherwise renders at full 800x600 resolution.
 */
+/**
+ * @brief render scene to buffer 함수 - 렌더링 수행
+ *
+ * @param scene 파라미터
+ * @param render 파라미터
+ */
 void	render_scene_to_buffer(t_scene *scene, t_render *render)
 {
 	int		x;

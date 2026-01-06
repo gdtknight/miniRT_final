@@ -12,11 +12,26 @@
 
 #include "metrics.h"
 
+/**
+ * @brief calculate fps 함수 - 계산 수행
+ *
+ * @param m 파라미터
+ *
+ * @return double 반환값
+ */
 double	calculate_fps(t_metrics *m)
 {
 	return (m->fps);
 }
 
+/**
+ * @brief calculate bvh efficiency 함수 - 계산 수행
+ *
+ * @param m 파라미터
+ * @param object_count 파라미터
+ *
+ * @return double 반환값
+ */
 double	calculate_bvh_efficiency(t_metrics *m, int object_count)
 {
 	long	naive_tests;
@@ -33,6 +48,13 @@ double	calculate_bvh_efficiency(t_metrics *m, int object_count)
 	return (efficiency * 100.0);
 }
 
+/**
+ * @brief calculate avg tests per ray 함수 - 계산 수행
+ *
+ * @param m 파라미터
+ *
+ * @return double 반환값
+ */
 double	calculate_avg_tests_per_ray(t_metrics *m)
 {
 	if (m->rays_traced == 0)

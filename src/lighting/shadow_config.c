@@ -17,6 +17,11 @@
 ** 16 samples for soft shadows with subtle edge softness.
 ** Bias scale of 2.0 prevents shadow acne artifacts.
 */
+/**
+ * @brief init shadow config 함수 - 초기화 수행
+ *
+ * @return t_shadow_config 반환값
+ */
 t_shadow_config	init_shadow_config(void)
 {
 	t_shadow_config	config;
@@ -32,6 +37,13 @@ t_shadow_config	init_shadow_config(void)
 ** Validate shadow configuration parameters are within valid ranges.
 ** Ensures samples >= 1, softness in [0.0, 1.0], and bias_scale >= 0.
 */
+/**
+ * @brief validate shadow config 함수 - 검증 수행
+ *
+ * @param config 파라미터
+ *
+ * @return int 반환값
+ */
 int	validate_shadow_config(t_shadow_config *config)
 {
 	if (!config)
@@ -49,6 +61,12 @@ int	validate_shadow_config(t_shadow_config *config)
 ** Set number of shadow samples for soft shadow quality.
 ** More samples = smoother shadows but slower rendering.
 */
+/**
+ * @brief set shadow samples 함수 - 설정 수행
+ *
+ * @param config 파라미터
+ * @param samples 파라미터
+ */
 void	set_shadow_samples(t_shadow_config *config, int samples)
 {
 	if (config && samples >= 1)
@@ -59,6 +77,12 @@ void	set_shadow_samples(t_shadow_config *config, int samples)
 ** Set shadow edge softness factor.
 ** 0.0 = hard edges, 1.0 = very soft edges.
 */
+/**
+ * @brief set shadow softness 함수 - 설정 수행
+ *
+ * @param config 파라미터
+ * @param softness 파라미터
+ */
 void	set_shadow_softness(t_shadow_config *config, double softness)
 {
 	if (config && softness >= 0.0 && softness <= 1.0)

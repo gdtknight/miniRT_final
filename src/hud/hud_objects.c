@@ -15,6 +15,12 @@
 #include "hud_text.h"
 #include "hud_obj_render.h"
 
+/**
+ * @brief render object header 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 static void	render_object_header(t_render *render, int *y)
 {
 	char	buf[64];
@@ -40,6 +46,13 @@ static void	render_object_header(t_render *render, int *y)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief render object by index 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param g_idx 파라미터
+ * @param y 파라미터
+ */
 static void	render_object_by_index(t_render *render, int g_idx, int *y)
 {
 	t_selection	sel;
@@ -58,6 +71,12 @@ static void	render_object_by_index(t_render *render, int g_idx, int *y)
 		render_cylinder_obj(render, sel.index, y, color);
 }
 
+/**
+ * @brief hud render objects 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_objects(t_render *render, int *y)
 {
 	int	total_objects;

@@ -18,6 +18,11 @@
 ** Free memory allocated for scene structure.
 ** Scene contains all objects, lights, and configuration.
 */
+/**
+ * @brief cleanup scene 함수 - 정리 수행
+ *
+ * @param scene 파라미터
+ */
 void	cleanup_scene(t_scene *scene)
 {
 	if (!scene)
@@ -30,6 +35,11 @@ void	cleanup_scene(t_scene *scene)
 ** Free memory allocated for render context.
 ** Destroys MLX image buffer and frees render structure.
 */
+/**
+ * @brief cleanup render 함수 - 정리 수행
+ *
+ * @param param 파라미터
+ */
 void	cleanup_render(void *param)
 {
 	t_render	*render;
@@ -46,6 +56,12 @@ void	cleanup_render(void *param)
 ** Clean up all allocated resources (scene and render context).
 ** Should be called before program exit.
 */
+/**
+ * @brief cleanup all 함수 - 정리 수행
+ *
+ * @param scene 파라미터
+ * @param param 파라미터
+ */
 void	cleanup_all(t_scene *scene, void *param)
 {
 	cleanup_render(param);

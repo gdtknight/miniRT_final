@@ -68,6 +68,14 @@ t_bvh_node	*bvh_build_recursive(t_object_ref *objects, int count,
 	return (create_split_node(&sp));
 }
 
+/**
+ * @brief bvh build 함수 - 빌드 수행
+ *
+ * @param bvh 파라미터
+ * @param objects 파라미터
+ * @param count 파라미터
+ * @param scene 파라미터
+ */
 void	bvh_build(t_bvh *bvh, t_object_ref *objects, int count, void *scene)
 {
 	if (!bvh || count == 0)

@@ -12,6 +12,12 @@
 
 #include "hud.h"
 
+/**
+ * @brief ft strcpy 함수
+ *
+ * @param dst 파라미터
+ * @param src 파라미터
+ */
 void	ft_strcpy(char *dst, const char *src)
 {
 	int	i;
@@ -25,6 +31,13 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
+/**
+ * @brief ft numlen 함수
+ *
+ * @param n 파라미터
+ *
+ * @return int 반환값
+ */
 int	ft_numlen(int n)
 {
 	int	len;
@@ -40,6 +53,12 @@ int	ft_numlen(int n)
 	return (len);
 }
 
+/**
+ * @brief ft itoa buf 함수
+ *
+ * @param buf 파라미터
+ * @param n 파라미터
+ */
 void	ft_itoa_buf(char *buf, int n)
 {
 	int		len;

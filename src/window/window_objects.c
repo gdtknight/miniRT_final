@@ -17,6 +17,12 @@
 /*
 ** Move the currently selected object by the given delta vector.
 */
+/**
+ * @brief move selected object 함수
+ *
+ * @param render 파라미터
+ * @param move 파라미터
+ */
 static void	move_selected_object(t_render *render, t_vec3 move)
 {
 	if (render->selection.type == OBJ_SPHERE
@@ -40,6 +46,12 @@ static void	move_selected_object(t_render *render, t_vec3 move)
 ** Handle object movement with RTFGVB keys.
 ** R/T: X axis, F/G: Y axis, V/B: Z axis
 */
+/**
+ * @brief handle object move 함수
+ *
+ * @param render 파라미터
+ * @param keycode 파라미터
+ */
 void	handle_object_move(t_render *render, int keycode)
 {
 	t_vec3	move;
@@ -68,6 +80,12 @@ void	handle_object_move(t_render *render, int keycode)
 ** Handle light movement with Insert/Delete/Home/End/PgUp/PgDn keys.
 ** Insert/Delete: X axis, Home/End: Y axis, PgUp/PgDn: Z axis
 */
+/**
+ * @brief handle light move 함수
+ *
+ * @param render 파라미터
+ * @param keycode 파라미터
+ */
 void	handle_light_move(t_render *render, int keycode)
 {
 	t_vec3	move;

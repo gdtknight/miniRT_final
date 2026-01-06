@@ -19,6 +19,13 @@
 ** Outputs "Error\n" followed by custom message.
 ** Returns 0 to indicate failure (convention for parse functions).
 */
+/**
+ * @brief print error 함수
+ *
+ * @param message 파라미터
+ *
+ * @return int 반환값
+ */
 int	print_error(const char *message)
 {
 	write(2, "Error\n", 6);
@@ -34,6 +41,11 @@ int	print_error(const char *message)
 ** Print error message and exit program with failure status.
 ** Used for unrecoverable errors.
 */
+/**
+ * @brief error exit 함수
+ *
+ * @param message 파라미터
+ */
 void	error_exit(const char *message)
 {
 	print_error(message);

@@ -13,11 +13,22 @@
 #include "window.h"
 #include "hud.h"
 
+/**
+ * @brief hud mark dirty 함수
+ *
+ * @param render 파라미터
+ */
 void	hud_mark_dirty(t_render *render)
 {
 	render->hud.dirty = 1;
 }
 
+/**
+ * @brief hud render background row 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	hud_render_background_row(t_render *render, int y)
 {
 	int				x;
@@ -40,6 +51,11 @@ void	hud_render_background_row(t_render *render, int y)
 	}
 }
 
+/**
+ * @brief hud render background 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	hud_render_background(t_render *render)
 {
 	int	y;
@@ -70,6 +86,14 @@ void	format_and_print_vec3(t_render *render, int *y,
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief copy str to buf 함수
+ *
+ * @param dst 파라미터
+ * @param src 파라미터
+ *
+ * @return int 반환값
+ */
 int	copy_str_to_buf(char *dst, char *src)
 {
 	int	i;

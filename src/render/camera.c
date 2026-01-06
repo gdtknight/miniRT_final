@@ -21,6 +21,12 @@
 ** Creates orthonormal basis from camera direction.
 ** Assumes world up is (0, 1, 0) for calculating right vector.
 */
+/**
+ * @brief init camera calc 함수 - 초기화 수행
+ *
+ * @param camera 파라미터
+ * @param calc 파라미터
+ */
 static void	init_camera_calc(t_camera *camera, t_cam_calc *calc)
 {
 	calc->aspect_ratio = ASPECT_RATIO_NUM / ASPECT_RATIO_DEN;
@@ -35,6 +41,15 @@ static void	init_camera_calc(t_camera *camera, t_cam_calc *calc)
 ** x, y in range [-1, 1] where (0,0) is center of screen.
 ** Calculates ray direction based on camera FOV and orientation.
 */
+/**
+ * @brief create camera ray 함수 - 생성 수행
+ *
+ * @param camera 파라미터
+ * @param x 파라미터
+ * @param y 파라미터
+ *
+ * @return t_ray 반환값
+ */
 t_ray	create_camera_ray(t_camera *camera, double x, double y)
 {
 	t_ray		ray;

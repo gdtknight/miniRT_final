@@ -13,6 +13,14 @@
 #include "spatial.h"
 #include "minirt.h"
 
+/**
+ * @brief update bounds 함수 - 업데이트 수행
+ *
+ * @param tmin 파라미터
+ * @param tmax 파라미터
+ * @param t0 파라미터
+ * @param t1 파라미터
+ */
 static void	update_bounds(double *tmin, double *tmax, double t0, double t1)
 {
 	if (t0 > t1)
@@ -27,6 +35,16 @@ static void	update_bounds(double *tmin, double *tmax, double t0, double t1)
 	}
 }
 
+/**
+ * @brief aabb intersect 함수 - 교차 검사 수행
+ *
+ * @param box 파라미터
+ * @param ray 파라미터
+ * @param t_min 파라미터
+ * @param t_max 파라미터
+ *
+ * @return int 반환값
+ */
 int	aabb_intersect(t_aabb box, t_ray ray, double *t_min, double *t_max)
 {
 	double	t[2];

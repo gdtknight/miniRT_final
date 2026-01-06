@@ -14,6 +14,11 @@
 #include "hud.h"
 #include "window.h"
 
+/**
+ * @brief keyguide render background 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	keyguide_render_background(t_render *render)
 {
 	int				x;
@@ -43,6 +48,12 @@ void	keyguide_render_background(t_render *render)
 	}
 }
 
+/**
+ * @brief keyguide render camera section 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 static void	keyguide_render_camera_section(t_render *render, int *y)
 {
 	mlx_string_put(render->mlx, render->win,
@@ -64,6 +75,11 @@ static void	keyguide_render_camera_section(t_render *render, int *y)
 		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "S - Reset");
 }
 
+/**
+ * @brief keyguide render content 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	keyguide_render_content(t_render *render)
 {
 	int	y;
@@ -84,6 +100,12 @@ void	keyguide_render_content(t_render *render)
 	keyguide_render_camera_section(render, &y);
 }
 
+/**
+ * @brief keyguide render content2 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param y 파라미터
+ */
 void	keyguide_render_content2(t_render *render, int *y)
 {
 	*y += KEYGUIDE_SECTION_GAP + KEYGUIDE_LINE_HEIGHT;
@@ -112,6 +134,11 @@ void	keyguide_render_content2(t_render *render, int *y)
 		render->keyguide.x + 20, *y, KEYGUIDE_COLOR_TEXT, "I - Info");
 }
 
+/**
+ * @brief keyguide render 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	keyguide_render(t_render *render)
 {
 	int	y;

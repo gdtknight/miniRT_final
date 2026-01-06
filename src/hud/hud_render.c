@@ -16,6 +16,11 @@
 #include "hud_scene.h"
 #include "hud_objects.h"
 
+/**
+ * @brief hud render content 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	hud_render_content(t_render *render)
 {
 	int	y;
@@ -34,6 +39,11 @@ void	hud_render_content(t_render *render)
 	hud_render_performance(render, &y);
 }
 
+/**
+ * @brief hud render 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ */
 void	hud_render(t_render *render)
 {
 	if (!render->hud.visible)

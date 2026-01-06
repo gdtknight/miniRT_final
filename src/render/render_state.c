@@ -15,6 +15,11 @@
 #include "window.h"
 #include <stdlib.h>
 
+/**
+ * @brief render state init 함수 - 초기화 수행
+ *
+ * @param state 파라미터
+ */
 void	render_state_init(t_render_state *state)
 {
 	state->quality = QUALITY_HIGH;
@@ -34,6 +39,11 @@ void	render_state_init(t_render_state *state)
 	state->show_info = 1;
 }
 
+/**
+ * @brief render state cleanup 함수 - 정리 수행
+ *
+ * @param state 파라미터
+ */
 void	render_state_cleanup(t_render_state *state)
 {
 	if (state->bvh)
@@ -43,6 +53,11 @@ void	render_state_cleanup(t_render_state *state)
 	}
 }
 
+/**
+ * @brief render state update 함수 - 렌더링 수행
+ *
+ * @param state 파라미터
+ */
 void	render_state_update(t_render_state *state)
 {
 	if (state->adaptive_enabled && quality_should_upgrade(state))

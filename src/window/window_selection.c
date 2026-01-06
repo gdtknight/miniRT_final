@@ -25,6 +25,11 @@ void	cycle_backward_cylinder(t_render *render);
 /*
 ** Cycle to previous object type when index goes negative.
 */
+/**
+ * @brief cycle type backward 함수
+ *
+ * @param render 파라미터
+ */
 static void	cycle_type_backward(t_render *render)
 {
 	if (render->selection.type == OBJ_SPHERE)
@@ -36,6 +41,11 @@ static void	cycle_type_backward(t_render *render)
 /*
 ** Handle selection increment (right bracket key).
 */
+/**
+ * @brief select next object 함수
+ *
+ * @param render 파라미터
+ */
 static void	select_next_object(t_render *render)
 {
 	if (render->selection.type == OBJ_NONE)
@@ -56,6 +66,11 @@ static void	select_next_object(t_render *render)
 /*
 ** Handle selection decrement (left bracket key).
 */
+/**
+ * @brief select prev object 함수
+ *
+ * @param render 파라미터
+ */
 static void	select_prev_object(t_render *render)
 {
 	if (render->selection.type == OBJ_NONE)
@@ -77,6 +92,12 @@ static void	select_prev_object(t_render *render)
 ** Handle object selection with bracket keys.
 ** Right bracket: next object, Left bracket: previous object
 */
+/**
+ * @brief handle object selection 함수
+ *
+ * @param render 파라미터
+ * @param keycode 파라미터
+ */
 void	handle_object_selection(t_render *render, int keycode)
 {
 	int	total;

@@ -13,6 +13,14 @@
 #include "hud.h"
 #include <stdlib.h>
 
+/**
+ * @brief hud create background 함수 - 생성 수행
+ *
+ * @param hud 파라미터
+ * @param mlx 파라미터
+ *
+ * @return int 반환값
+ */
 int	hud_create_background(t_hud_state *hud, void *mlx)
 {
 	int	x;
@@ -39,6 +47,13 @@ int	hud_create_background(t_hud_state *hud, void *mlx)
 	return (0);
 }
 
+/**
+ * @brief hud calculate total pages 함수 - 계산 수행
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 int	hud_calculate_total_pages(t_scene *scene)
 {
 	int	total_objects;
@@ -53,6 +68,15 @@ int	hud_calculate_total_pages(t_scene *scene)
 	return (total_pages);
 }
 
+/**
+ * @brief hud init 함수 - 초기화 수행
+ *
+ * @param hud 파라미터
+ * @param mlx 파라미터
+ * @param win 파라미터
+ *
+ * @return int 반환값
+ */
 int	hud_init(t_hud_state *hud, void *mlx, void *win)
 {
 	(void)win;
@@ -67,6 +91,12 @@ int	hud_init(t_hud_state *hud, void *mlx, void *win)
 	return (0);
 }
 
+/**
+ * @brief hud cleanup 함수 - 정리 수행
+ *
+ * @param hud 파라미터
+ * @param mlx 파라미터
+ */
 void	hud_cleanup(t_hud_state *hud, void *mlx)
 {
 	if (hud->bg_img)

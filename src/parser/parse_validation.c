@@ -18,6 +18,15 @@
 ** Check if value is within specified range [min, max] inclusive.
 ** Used for parameter validation during parsing.
 */
+/**
+ * @brief in range 함수
+ *
+ * @param value 파라미터
+ * @param min 파라미터
+ * @param max 파라미터
+ *
+ * @return int 반환값
+ */
 int	in_range(double value, double min, double max)
 {
 	return (value >= min && value <= max);
@@ -28,6 +37,14 @@ int	in_range(double value, double min, double max)
 ** Format: "x,y,z" where x, y, z are floating point numbers.
 ** Returns 1 on success, 0 on parsing error.
 */
+/**
+ * @brief parse vector 함수 - 파싱 수행
+ *
+ * @param str 파라미터
+ * @param vec 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_vector(char *str, t_vec3 *vec)
 {
 	char	*token;
@@ -54,6 +71,14 @@ int	parse_vector(char *str, t_vec3 *vec)
 ** Format: "R,G,B" where R, G, B are integers in range [0, 255].
 ** Returns 1 on success, 0 on parsing or validation error.
 */
+/**
+ * @brief parse color 함수 - 파싱 수행
+ *
+ * @param str 파라미터
+ * @param color 파라미터
+ *
+ * @return int 반환값
+ */
 int	parse_color(char *str, t_color *color)
 {
 	char	*token;

@@ -69,6 +69,14 @@ static int	initialize_scene_and_render(char *filename, t_scene **scene,
 ** Validates arguments, initializes scene, parses input file,
 ** creates window, and starts rendering loop.
 */
+/**
+ * @brief miniRT 프로그램 메인 함수
+ *
+ * @param argc 명령행 인자 개수
+ * @param argv 명령행 인자 배열
+ *
+ * @return int 프로그램 종료 코드 (0: 성공, 1: 실패)
+ */
 int	main(int argc, char **argv)
 {
 	t_scene		*scene;

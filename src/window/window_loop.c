@@ -25,6 +25,13 @@
 ** Main rendering loop hook.
 ** Only re-renders when dirty flag is set.
 */
+/**
+ * @brief render loop 함수 - 렌더링 수행
+ *
+ * @param param 파라미터
+ *
+ * @return int 반환값
+ */
 int	render_loop(void *param)
 {
 	t_render	*render;

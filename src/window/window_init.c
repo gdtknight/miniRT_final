@@ -23,6 +23,12 @@ void	render_scene_to_buffer(t_scene *scene, t_render *render);
 /*
 ** Initialize render structure fields with default values.
 */
+/**
+ * @brief init render state 함수 - 초기화 수행
+ *
+ * @param render 파라미터
+ * @param scene 파라미터
+ */
 static void	init_render_state(t_render *render, t_scene *scene)
 {
 	render->scene = scene;
@@ -37,6 +43,14 @@ static void	init_render_state(t_render *render, t_scene *scene)
 ** Initialize HUD and keyguide components.
 ** Returns -1 on failure.
 */
+/**
+ * @brief init ui components 함수 - 초기화 수행
+ *
+ * @param render 파라미터
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 static int	init_ui_components(t_render *render, t_scene *scene)
 {
 	if (hud_init(&render->hud, render->mlx, render->win) == -1)
@@ -57,6 +71,11 @@ static int	init_ui_components(t_render *render, t_scene *scene)
 /*
 ** Register MLX event hooks for window events.
 */
+/**
+ * @brief register hooks 함수
+ *
+ * @param render 파라미터
+ */
 static void	register_hooks(t_render *render)
 {
 	mlx_hook(render->win, 17, 0, close_window, render);
@@ -69,6 +88,13 @@ static void	register_hooks(t_render *render)
 ** Initialize MLX connection and image buffer.
 ** Returns 0 on success, -1 on failure.
 */
+/**
+ * @brief init mlx 함수 - 초기화 수행
+ *
+ * @param render 파라미터
+ *
+ * @return int 반환값
+ */
 static int	init_mlx(t_render *render)
 {
 	render->mlx = mlx_init();

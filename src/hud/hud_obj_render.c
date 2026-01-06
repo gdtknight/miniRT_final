@@ -13,6 +13,14 @@
 #include "window.h"
 #include "hud.h"
 
+/**
+ * @brief render sphere obj 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param idx 파라미터
+ * @param y 파라미터
+ * @param color 파라미터
+ */
 void	render_sphere_obj(t_render *render, int idx, int *y, int color)
 {
 	char	buf[128];
@@ -40,6 +48,14 @@ void	render_sphere_obj(t_render *render, int idx, int *y, int color)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief render plane obj 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param idx 파라미터
+ * @param y 파라미터
+ * @param color 파라미터
+ */
 void	render_plane_obj(t_render *render, int idx, int *y, int color)
 {
 	char	buf[128];
@@ -66,6 +82,14 @@ void	render_plane_obj(t_render *render, int idx, int *y, int color)
 	*y += HUD_LINE_HEIGHT;
 }
 
+/**
+ * @brief render cylinder obj 함수 - 렌더링 수행
+ *
+ * @param render 파라미터
+ * @param idx 파라미터
+ * @param y 파라미터
+ * @param color 파라미터
+ */
 void	render_cylinder_obj(t_render *render, int idx, int *y, int color)
 {
 	char	buf[128];

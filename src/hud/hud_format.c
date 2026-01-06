@@ -12,6 +12,12 @@
 
 #include "hud.h"
 
+/**
+ * @brief hud format float 함수
+ *
+ * @param buffer 파라미터
+ * @param value 파라미터
+ */
 void	hud_format_float(char *buffer, double value)
 {
 	int		int_part;
@@ -37,6 +43,12 @@ void	hud_format_float(char *buffer, double value)
 	ft_itoa_buf(buffer + i, frac_part);
 }
 
+/**
+ * @brief hud format vec3 함수
+ *
+ * @param buffer 파라미터
+ * @param vec 파라미터
+ */
 void	hud_format_vec3(char *buffer, t_vec3 vec)
 {
 	int	i;
@@ -60,6 +72,12 @@ void	hud_format_vec3(char *buffer, t_vec3 vec)
 	buffer[i + 1] = '\0';
 }
 
+/**
+ * @brief hud format color 함수
+ *
+ * @param buffer 파라미터
+ * @param color 파라미터
+ */
 void	hud_format_color(char *buffer, t_color color)
 {
 	int	i;

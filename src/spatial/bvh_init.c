@@ -15,11 +15,25 @@
 #include "window.h"
 #include <stdlib.h>
 
+/**
+ * @brief count objects 함수
+ *
+ * @param scene 파라미터
+ *
+ * @return int 반환값
+ */
 static int	count_objects(t_scene *scene)
 {
 	return (scene->sphere_count + scene->plane_count + scene->cylinder_count);
 }
 
+/**
+ * @brief fill spheres 함수
+ *
+ * @param scene 파라미터
+ * @param refs 파라미터
+ * @param idx 파라미터
+ */
 static void	fill_spheres(t_scene *scene, t_object_ref *refs, int *idx)
 {
 	int	i;
@@ -34,6 +48,13 @@ static void	fill_spheres(t_scene *scene, t_object_ref *refs, int *idx)
 	}
 }
 
+/**
+ * @brief fill planes cylinders 함수
+ *
+ * @param scene 파라미터
+ * @param refs 파라미터
+ * @param idx 파라미터
+ */
 static void	fill_planes_cylinders(t_scene *scene, t_object_ref *refs, int *idx)
 {
 	int	i;
@@ -56,6 +77,12 @@ static void	fill_planes_cylinders(t_scene *scene, t_object_ref *refs, int *idx)
 	}
 }
 
+/**
+ * @brief fill object refs 함수
+ *
+ * @param scene 파라미터
+ * @param refs 파라미터
+ */
 static void	fill_object_refs(t_scene *scene, t_object_ref *refs)
 {
 	int	idx;
@@ -65,6 +92,11 @@ static void	fill_object_refs(t_scene *scene, t_object_ref *refs)
 	fill_planes_cylinders(scene, refs, &idx);
 }
 
+/**
+ * @brief scene build bvh 함수 - 빌드 수행
+ *
+ * @param scene 파라미터
+ */
 void	scene_build_bvh(t_scene *scene)
 {
 	t_object_ref	*refs;
