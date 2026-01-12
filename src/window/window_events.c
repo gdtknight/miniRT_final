@@ -6,19 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:30:58 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
 #include "window/window_internal.h"
-#include "hud.h"
-
-/* Forward declarations from window_key_handlers.c */
-void	handle_camera_keys(t_render *render, int keycode);
-void	handle_transform_keys(t_render *render, int keycode);
-void	handle_hud_keys(t_render *render, int keycode);
 
 /*
 ** Check if key is a movement or transformation key.

@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "bvh_vis.h"
-#include "minirt.h"
-#include "window.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -51,32 +49,25 @@ void	format_bounding_box(t_aabb bounds, char *buffer, int compact)
 			bounds.max.x, bounds.max.y, bounds.max.z);
 }
 
-void	format_object_list(t_object_ref *objects, int count, char *buffer,
-			void *scene_ptr)
+void	format_object_list(t_object_ref *objects, int count, char *buffer)
 {
-	int			i;
-	char		*id;
-	t_scene		*scene;
+	int		i;
+	char	temp[16];
+	int		len;
 
-	scene = (t_scene *)scene_ptr;
 	strcpy(buffer, "Objects: [");
 	i = 0;
 	while (i < count)
 	{
-		id = NULL;
-		if (objects[i].type == OBJ_SPHERE)
-			id = scene->spheres[objects[i].index].id;
-		else if (objects[i].type == OBJ_PLANE)
-			id = scene->planes[objects[i].index].id;
-		else if (objects[i].type == OBJ_CYLINDER)
-			id = scene->cylinders[objects[i].index].id;
-		if (id)
-			strcat(buffer, id);
+		snprintf(temp, sizeof(temp), "%d", objects[i].index);
+		strcat(buffer, temp);
 		if (i < count - 1)
 			strcat(buffer, ", ");
 		i++;
 	}
-	strcat(buffer, "]");
+	len = strlen(buffer);
+	buffer[len] = ']';
+	buffer[len + 1] = '\0';
 }
 
 void	format_node_compact(t_bvh_node *node, t_node_info *info)

@@ -13,10 +13,10 @@
 #ifndef RAY_H
 # define RAY_H
 
-# include "vec3.h"
-# include "objects.h"
 # include <stdbool.h>
 # include <stddef.h>
+# include "vec3.h"
+# include "objects.h"
 
 /* Ray with origin point and normalized direction vector */
 typedef struct s_ray

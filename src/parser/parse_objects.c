@@ -13,6 +13,7 @@
 #include "minirt.h"
 #include "parser.h"
 #include "vec3.h"
+#include <stdio.h>
 
 /*
 ** Helper function to skip current token and advance to next.
@@ -59,6 +60,7 @@ int	parse_sphere(char *line, t_scene *scene)
 		return (print_error("Sphere diameter must be positive"));
 	sphere->radius = sphere->diameter / 2.0;
 	sphere->radius_squared = sphere->radius * sphere->radius;
+	snprintf(sphere->id, 8, "sp-%d", scene->sphere_count + 1);
 	token = skip_to_next_token(token);
 	if (!parse_color(token, &sphere->color))
 		return (0);
@@ -96,6 +98,7 @@ int	parse_plane(char *line, t_scene *scene)
 	if (!parse_vector(token, &plane->normal))
 		return (print_error("Invalid plane normal"));
 	plane->normal = vec3_normalize(plane->normal);
+	snprintf(plane->id, 8, "pl-%d", scene->plane_count + 1);
 	token = skip_to_next_token(token);
 	if (!parse_color(token, &plane->color))
 		return (0);
@@ -160,6 +163,7 @@ int	parse_cylinder(char *line, t_scene *scene)
 	if (!parse_vector(token, &cylinder->axis))
 		return (print_error("Invalid cylinder axis"));
 	cylinder->axis = vec3_normalize(cylinder->axis);
+	snprintf(cylinder->id, 8, "cy-%d", scene->cylinder_count + 1);
 	if (!parse_cylinder_params(token, cylinder))
 		return (0);
 	token = skip_to_next_token(skip_to_next_token(token));

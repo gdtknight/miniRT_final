@@ -6,13 +6,12 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:30:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:15:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:32:35 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render_state.h"
 #include "render/render_quality.h"
-#include "window.h"
 #include <stdlib.h>
 
 /**

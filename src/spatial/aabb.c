@@ -6,12 +6,11 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:30:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/04 00:00:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:32:29 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "spatial.h"
-#include "minirt.h"
 
 /**
  * @brief update bounds 함수 - 업데이트 수행

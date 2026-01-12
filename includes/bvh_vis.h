@@ -58,10 +58,11 @@ typedef struct s_traverse_ctx
 {
 	t_prefix_state	*prefix;
 	t_vis_config	*config;
+	void			*scene;
 }	t_traverse_ctx;
 
 /* Public API */
-void			bvh_visualize(t_bvh *bvh, t_vis_config *config);
+void			bvh_visualize(t_bvh *bvh, t_vis_config *config, void *scene);
 t_vis_config	bvh_vis_default_config(void);
 
 /* Initialization and configuration */
@@ -77,7 +78,7 @@ t_node_info		format_node_info(t_bvh_node *node, t_vis_config *config);
 int				is_leaf_node(t_bvh_node *node);
 void			format_bounding_box(t_aabb bounds, char *buffer, int compact);
 void			format_object_list(t_object_ref *objects, int count,
-					char *buffer);
+					char *buffer, void *scene);
 void			format_node_compact(t_bvh_node *node, t_node_info *info);
 
 /* Statistics */

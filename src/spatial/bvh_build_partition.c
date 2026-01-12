@@ -6,13 +6,12 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:45:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:55:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:32:11 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "spatial.h"
 #include "spatial/bvh_internal.h"
-#include "minirt.h"
 
 /**
  * @brief compute bounds 함수 - 연산 수행

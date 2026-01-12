@@ -31,6 +31,7 @@ typedef struct s_sphere
 	t_color	color;
 	double	radius;
 	double	radius_squared;
+	char	id[8];
 }	t_sphere;
 
 /* Infinite plane defined by a point, normal vector, and color */
@@ -39,6 +40,7 @@ typedef struct s_plane
 	t_vec3	point;
 	t_vec3	normal;
 	t_color	color;
+	char	id[8];
 }	t_plane;
 
 /* Finite cylinder defined by center, axis, diameter, height, and color */
@@ -52,6 +54,7 @@ typedef struct s_cylinder
 	double	radius;
 	double	radius_squared;
 	double	half_height;
+	char	id[8];
 }	t_cylinder;
 
 #endif

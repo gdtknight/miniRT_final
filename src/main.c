@@ -90,7 +90,7 @@ static int	initialize_scene_and_render(char *filename, t_scene **scene,
 	if (bvh_vis && (*scene)->render_state.bvh)
 	{
 		(*scene)->render_state.bvh->visualize = 1;
-		bvh_visualize((*scene)->render_state.bvh, NULL);
+		bvh_visualize((*scene)->render_state.bvh, NULL, *scene);
 	}
 	*render = init_window(*scene);
 	if (!*render)

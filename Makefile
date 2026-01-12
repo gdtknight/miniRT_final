@@ -93,6 +93,7 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/spatial/bvh_traverse.c \
 			  $(SRC_DIR)/utils/cleanup.c \
 			  $(SRC_DIR)/utils/error.c \
+			  $(SRC_DIR)/utils/format_object_id.c \
 			  $(SRC_DIR)/utils/ft_atoi.c \
 			  $(SRC_DIR)/utils/ft_atof.c \
 			  $(SRC_DIR)/utils/timer.c \

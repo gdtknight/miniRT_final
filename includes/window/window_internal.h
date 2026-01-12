@@ -94,6 +94,20 @@ void	handle_object_selection(t_render *render, int keycode);
 void	handle_object_move(t_render *render, int keycode);
 void	handle_light_move(t_render *render, int keycode);
 
+/* Key handler functions */
+void	handle_hud_keys(t_render *render, int keycode);
+void	handle_camera_keys(t_render *render, int keycode);
+void	handle_transform_keys(t_render *render, int keycode);
+
+/* Selection helper functions */
+void	cycle_type_forward(t_render *render);
+void	cycle_backward_sphere(t_render *render);
+void	cycle_backward_plane(t_render *render);
+void	cycle_backward_cylinder(t_render *render);
+int		next_type_from_sphere(t_scene *scene);
+int		next_type_from_plane(t_scene *scene);
+int		next_type_from_cylinder(t_scene *scene);
+
 /* Forward declaration for re-rendering */
 void	render_scene_to_buffer(t_scene *scene, t_render *render);
 

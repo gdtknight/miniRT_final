@@ -6,18 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:44:57 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
 #include "window/window_internal.h"
-
-/* Forward declarations from window_select_cycle.c */
-int	next_type_from_sphere(t_scene *scene);
-int	next_type_from_plane(t_scene *scene);
-int	next_type_from_cylinder(t_scene *scene);
 
 /*
 ** Cycle to next object type when index wraps around.

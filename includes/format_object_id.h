@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hud_text.h                                         :+:      :+:    :+:   */
+/*   format_object_id.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 00:00:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 00:00:00 by yoshin           ###   ########.fr       */
+/*   Created: 2026/01/12 00:00:00 by yoshin            #+#    #+#             */
+/*   Updated: 2026/01/12 00:00:00 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HUD_TEXT_H
-# define HUD_TEXT_H
+#ifndef FORMAT_OBJECT_ID_H
+# define FORMAT_OBJECT_ID_H
 
-# include "minirt.h"
+# include "window.h"
 
-void	hud_mark_dirty(t_render *render);
-void	hud_render_background_row(t_render *render, int y);
-void	hud_render_background(t_render *render);
-void	format_and_print_vec3(t_render *render, int *y,
-			char *label, t_vec3 vec);
-int		copy_str_to_buf(char *dst, char *src);
+int		format_object_id(char *buffer, t_obj_type type, int index);
+char	*get_object_type_prefix(t_obj_type type);
 
 #endif

@@ -13,9 +13,9 @@
 #ifndef RENDER_STATE_H
 # define RENDER_STATE_H
 
+# include <sys/time.h>
 # include "metrics.h"
 # include "spatial.h"
-# include <sys/time.h>
 
 /* Quality mode for adaptive rendering */
 typedef enum e_quality_mode

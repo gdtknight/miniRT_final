@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:31:27 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include "window.h"
 #include "window/window_internal.h"
 #include "hud.h"
-
-/* Forward declarations from window_select_helpers.c */
-void	cycle_type_forward(t_render *render);
-void	set_last_index(t_render *render);
-void	cycle_backward_sphere(t_render *render);
-void	cycle_backward_plane(t_render *render);
-void	cycle_backward_cylinder(t_render *render);
 
 /*
 ** Cycle to previous object type when index goes negative.

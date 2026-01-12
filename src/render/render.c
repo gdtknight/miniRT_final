@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 15:20:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/12/19 08:57:16 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:32:45 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include "ray.h"
 #include "window.h"
 #include "pixel_timing.h"
-
-t_ray		create_camera_ray(t_camera *camera, double x, double y);
-t_color		trace_ray(t_scene *scene, t_ray *ray);
 
 /*
 ** Convert screen pixel coordinates to Normalized Device Coordinates.

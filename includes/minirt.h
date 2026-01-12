@@ -114,4 +114,9 @@ void	render_scene_to_buffer(t_scene *scene, t_render *render);
 /* Calculate final color at hit point using lighting and shadows */
 t_color	apply_lighting(t_scene *scene, t_hit *hit);
 
+/* Create camera ray for given screen coordinates (NDC space) */
+t_ray	create_camera_ray(t_camera *camera, double x, double y);
+/* Trace ray through scene and return color */
+t_color	trace_ray(t_scene *scene, t_ray *ray);
+
 #endif

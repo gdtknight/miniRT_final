@@ -53,7 +53,7 @@ void	check_edge_cases(t_bvh *bvh, t_vis_config *config)
 	}
 }
 
-void	bvh_visualize(t_bvh *bvh, t_vis_config *config)
+void	bvh_visualize(t_bvh *bvh, t_vis_config *config, void *scene)
 {
 	t_prefix_state	prefix;
 	t_bvh_stats		stats;
@@ -77,6 +77,7 @@ void	bvh_visualize(t_bvh *bvh, t_vis_config *config)
 	prefix = prefix_init();
 	ctx.prefix = &prefix;
 	ctx.config = config;
+	ctx.scene = scene;
 	bvh_visualize_tree(bvh->root, &ctx, &stats);
 	prefix_destroy(&prefix);
 }

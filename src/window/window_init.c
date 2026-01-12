@@ -6,20 +6,16 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:31:05 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
-#include "window/window_internal.h"
 #include "hud.h"
 #include "keyguide.h"
 #include "pixel_timing.h"
 #include <stdlib.h>
-
-/* Forward declaration for re-rendering */
-void	render_scene_to_buffer(t_scene *scene, t_render *render);
 
 /*
 ** Initialize render structure fields with default values.

@@ -13,7 +13,6 @@
 #ifndef HUD_H
 # define HUD_H
 
-# include "minirt.h"
 # include "window.h"
 
 /* HUD display dimensions and layout constants */

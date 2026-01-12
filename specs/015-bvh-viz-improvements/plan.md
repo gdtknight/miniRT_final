@@ -1,111 +1,128 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: BVH Tree Visualization Improvements
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `015-bvh-viz-improvements` | **Date**: 2026-01-12 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/015-bvh-viz-improvements/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-[Extract from feature spec: primary requirement + technical approach from research]
+Enhance BVH tree visualization debugging experience through unified object identification and debounced keyboard rendering. Implement lowercase object identifiers (sp-1, pl-2, cy-3) stored in each object struct, 1-second keyboard debounce with state machine (IDLE/PENDING/RENDERING), 4-slot timer pool with error handling, 8-capacity input queue, progress bar showing debounce countdown, gettimeofday() timing, and smart input cancellation on mouse/view actions. All implementations follow 42 School constraints (no pthread, no external parallelization).
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
-
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: C99 (42 School project - strict standard compliance)  
+**Primary Dependencies**: MiniLibX (42 graphics library), libft (custom C library), math.h  
+**Storage**: In-memory scene data structures (no persistent storage)  
+**Testing**: Manual testing with test scenes, valgrind memory checks  
+**Target Platform**: Linux (minilibx-linux) and macOS (minilibx-macos)
+**Project Type**: Single project (graphics application with real-time rendering)  
+**Performance Goals**: <5% CPU overhead for debounce operations, ≤2ms HUD render time, smooth 60fps interaction  
+**Constraints**: 42 School function constraints (no pthread, no fork, no SIMD), norminette compliance, 25-line function limit  
+**Scale/Scope**: Up to 100 objects per scene, BVH tree depth ~10 levels, single-threaded execution
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+**Project Structure Standards** (Principle I):
+- ✅ Feature artifacts stored in `specs/015-bvh-viz-improvements/` per standard structure
+- ✅ Source changes will be in `src/` and `includes/` directories (not scattered)
+- ✅ No deprecated files introduced; clean implementation
+
+**Code Quality Automation** (Principle II):
+- ✅ All changes MUST pass norminette (zero warnings/errors)
+- ✅ Build MUST succeed without errors
+- ✅ Valgrind MUST report zero memory leaks
+- ✅ CI pipeline will enforce all quality gates
+
+**Documentation Synchronization** (Principle III):
+- ✅ Implementation plan tracked in `specs/015-bvh-viz-improvements/plan.md`
+- ✅ Technical artifacts (research, data-model, contracts, quickstart) will be generated
+- ✅ Korean documentation in `docs/specs/015-bvh-viz-improvements/` will be synchronized
 
 **42 School Constraints Check** (Principle VII):
-- ✅ All functions used MUST be from allowed list (libc, math, mlx_*, libft, get_next_line)
-- ✅ pthread functions MUST NOT be used
-- ✅ fork/pipe/multiprocessing MUST NOT be used  
-- ✅ External parallelization libraries (SIMD, OpenMP, etc.) MUST NOT be used
-- ✅ Optimizations MUST use only allowed techniques (algorithmic, caching, math, memory layout)
+- ✅ All functions MUST be from allowed list (libc, math, mlx_*, libft, get_next_line)
+- ✅ Timer implementation uses gettimeofday() (allowed libc function)
+- ✅ pthread functions WILL NOT be used
+- ✅ fork/pipe/multiprocessing WILL NOT be used  
+- ✅ No external parallelization libraries (SIMD, OpenMP, etc.)
+- ✅ Optimizations use only allowed techniques:
+  - Algorithmic: State machine for debounce, input queue for buffering
+  - Caching: Precomputed object identifiers in structs
+  - Memory layout: Fixed-size arrays (timer pool, input queue, char id[8])
+  - Mathematical: Microsecond timestamp comparisons for timing
+
+**GATE STATUS**: ✅ PASS - No violations, all constraints satisfied
+
+**Post-Phase 1 Re-check** (2026-01-12):
+- ✅ Data model uses only fixed arrays (no dynamic allocation)
+- ✅ State machine design is algorithmic (no threading/parallelism)
+- ✅ All timer operations use gettimeofday() (allowed function)
+- ✅ Input queue uses circular buffer (standard algorithm)
+- ✅ Progress bar uses MLX primitives (allowed library)
+- ✅ Object IDs use snprintf() (allowed libc function)
+
+**Final Constitution Check**: ✅ APPROVED - Ready for Phase 2 implementation
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
+specs/015-bvh-viz-improvements/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
 ├── contracts/           # Phase 1 output (/speckit.plan command)
+│   ├── object-id-api.md      # Object identifier formatting contracts
+│   ├── debounce-timer-api.md # Timer state machine and management contracts
+│   └── progress-bar-api.md   # Progress bar rendering contracts
 └── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+includes/
+├── objects.h            # ADD: char id[8] field to t_sphere, t_plane, t_cylinder
+├── window.h             # ADD: debounce timer state to t_render
+├── debounce.h           # NEW: debounce timer API and state machine definitions
+└── hud.h                # MODIFY: progress bar rendering function
+
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── parser/
+│   ├── parse_objects.c  # MODIFY: Generate object IDs during parsing
+│   └── parse_validation.c # MODIFY: Validate object ID format in scene file
+├── debounce/            # NEW: debounce timer implementation module
+│   ├── debounce_init.c      # Timer pool initialization
+│   ├── debounce_state.c     # State machine transitions
+│   ├── debounce_timer.c     # Timer management with gettimeofday()
+│   └── debounce_queue.c     # Input queue operations
+├── hud/
+│   ├── hud_objects.c    # MODIFY: Display object IDs in unified format
+│   └── hud_progress.c   # NEW: Progress bar rendering for debounce countdown
+├── bvh_vis/
+│   └── bvh_vis_node.c   # MODIFY: Display object IDs in leaf nodes
+└── window/
+    ├── handle_key.c     # MODIFY: Route keyboard inputs through debounce
+    └── handle_mouse.c   # MODIFY: Cancel debounce on mouse actions
 
 tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+└── scenes/
+    ├── test_object_ids.rt    # NEW: Scene for testing object ID format
+    └── test_debounce.rt      # NEW: Scene for testing debounce behavior
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Single project structure with new debounce module. Changes are surgical and localized:
+- Object ID storage: 3 struct modifications in objects.h
+- Debounce system: New module with 4 files (init, state, timer, queue)
+- Integration points: Parser (ID generation), HUD (ID display), BVH vis (ID display), window handlers (debounce routing)
+- All changes follow existing miniRT patterns (header-based modules, norminette compliance)
 
 ## Complexity Tracking
 
-> **Fill ONLY if Constitution Check has violations that must be justified**
+> **No violations - this section is not applicable**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+All implementations comply with 42 School constraints and project constitution. No complexity justifications required.
