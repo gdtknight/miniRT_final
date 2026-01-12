@@ -1,0 +1,400 @@
+---
+description: "Task list for BVH Tree Visualization feature implementation"
+feature: "BVH Tree Visualization"
+created: 2026-01-12
+---
+
+# Tasks: BVH Tree Visualization
+
+**Input**: Design documents from `/specs/014-bvh-tree-visualization/`
+**Prerequisites**: plan.md (required), spec.md (required for user stories)
+
+**Tests**: This feature includes test tasks as specified in the requirements.
+
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+
+## Format: `[ID] [P?] [Story] Description`
+
+- **[P]**: Can run in parallel (different files, no dependencies)
+- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
+- Include exact file paths in descriptions
+
+## Path Conventions
+
+- **Single project**: `src/`, `tests/`, `includes/` at repository root
+- **Spatial module**: `src/spatial/`, `includes/spatial/`
+- All paths shown use absolute paths from repository root
+
+---
+
+## Phase 1: Setup (Shared Infrastructure)
+
+**Purpose**: Project initialization and basic structure for visualization module
+
+- [ ] T001 Create header file includes/spatial/bvh_visualization.h with public API declarations
+- [ ] T002 [P] Create header file includes/spatial/bvh_vis_internal.h with internal data structures (t_vis_stats, t_bvh_vis_config)
+- [ ] T003 [P] Create source file src/spatial/bvh_visualization.c with main entry point stub
+- [ ] T004 [P] Create source file src/spatial/bvh_vis_traverse.c with traversal function stubs
+- [ ] T005 [P] Create source file src/spatial/bvh_vis_format.c with formatting function stubs
+- [ ] T006 [P] Create source file src/spatial/bvh_vis_statistics.c with statistics function stubs
+- [ ] T007 [P] Create source file src/spatial/bvh_vis_prefix.c with prefix management stubs
+- [ ] T008 [P] Create source file src/spatial/bvh_vis_print.c with output primitives stubs
+- [ ] T009 Update Makefile to include new visualization source files in compilation
+- [ ] T010 Verify project structure builds without errors using make
+
+---
+
+## Phase 2: Foundational (Blocking Prerequisites)
+
+**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+
+**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+
+- [ ] T011 Define t_bvh_vis_config structure in includes/spatial/bvh_vis_internal.h (enabled, max_depth, compact_mode fields)
+- [ ] T012 [P] Define t_vis_stats structure in includes/spatial/bvh_vis_internal.h (total_nodes, leaf_count, internal_count, max_depth_seen, total_objects fields)
+- [ ] T013 Add vis_config field to t_bvh structure in includes/spatial.h
+- [ ] T014 [P] Add depth field (int) to t_bvh_node structure in includes/spatial/bvh_internal.h for storing depth at construction time
+- [ ] T015 Modify bvh_build_recursive() in src/spatial/bvh_build_core.c to set depth field for each node during construction
+- [ ] T016 [P] Implement bvh_vis_validate_config() in src/spatial/bvh_visualization.c to validate configuration parameters
+- [ ] T017 Add command-line flag parsing for --bvh-vis in src/main.c
+- [ ] T018 [P] Add command-line flag parsing for --bvh-vis-compact in src/main.c
+- [ ] T019 Initialize vis_config in scene/BVH initialization code with default values (enabled=0, max_depth=-1, compact_mode=0)
+- [ ] T020 Create test scene file scenes/test_bvh_vis_minimal.rt with 1 object for basic testing
+- [ ] T021 [P] Create test scene file scenes/test_bvh_vis_small.rt with 5 objects for small tree testing
+- [ ] T022 [P] Create test scene file scenes/test_bvh_vis_complex.rt with 20+ objects for complex tree testing
+- [ ] T023 Build project and verify all compilation units link correctly
+
+**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+
+---
+
+## Phase 3: User Story 1 - Basic Tree Visualization (Priority: P1) 🎯 MVP
+
+**Goal**: Display hierarchical ASCII tree representation of BVH structure in terminal after construction
+
+**Independent Test**: Run miniRT with --bvh-vis flag and any valid scene file; verify that ASCII tree structure appears with correct parent-child relationships
+
+### Tests for User Story 1
+
+> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+
+- [ ] T024 [P] [US1] Create unit test in tests/test_bvh_visualization.c for tree traversal with minimal tree (1 node)
+- [ ] T025 [P] [US1] Create unit test in tests/test_bvh_visualization.c for tree traversal with 3-level tree
+- [ ] T026 [P] [US1] Create integration test in tests/integration/test_vis_small.c for 5-object scene visualization
+- [ ] T027 [P] [US1] Update Makefile test target to include new test files
+
+### Implementation for User Story 1
+
+- [ ] T028 [P] [US1] Implement bvh_vis_traverse_node() in src/spatial/bvh_vis_traverse.c for recursive depth-first traversal
+- [ ] T029 [P] [US1] Implement bvh_vis_print_node_basic() in src/spatial/bvh_vis_print.c for basic node output (type only)
+- [ ] T030 [US1] Implement bvh_vis_print_tree_char() in src/spatial/bvh_vis_print.c to generate tree characters (├──, └──, │)
+- [ ] T031 [US1] Implement bvh_vis_update_prefix() in src/spatial/bvh_vis_prefix.c to manage prefix strings during traversal
+- [ ] T032 [US1] Implement bvh_vis_init_prefix() in src/spatial/bvh_vis_prefix.c to initialize prefix buffer (max 80 chars)
+- [ ] T033 [US1] Implement bvh_visualize() main entry point in src/spatial/bvh_visualization.c to orchestrate traversal
+- [ ] T034 [US1] Integrate visualization call in src/main.c after BVH construction when --bvh-vis is enabled
+- [ ] T035 [US1] Add null pointer checks and validation in bvh_visualize() for safe execution
+- [ ] T036 [US1] Test with scenes/test_bvh_vis_minimal.rt and verify ASCII tree appears
+- [ ] T037 [US1] Test with scenes/test_bvh_vis_small.rt and verify correct hierarchy
+- [ ] T038 [US1] Run unit tests and verify all US1 tests pass
+
+**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+
+---
+
+## Phase 4: User Story 2 - Node Information Display (Priority: P2)
+
+**Goal**: Display detailed information for each node including bounding box coordinates (2 decimal places), node type, object count, object IDs (0-based indices), depth level, and summary statistics
+
+**Independent Test**: Run miniRT with --bvh-vis and verify each node shows type, bounds (2 decimals), depth, and leaf nodes show object IDs; verify statistics appear after tree
+
+### Tests for User Story 2
+
+- [ ] T039 [P] [US2] Create unit test in tests/test_bvh_visualization.c for coordinate formatting to 2 decimal places
+- [ ] T040 [P] [US2] Create unit test in tests/test_bvh_visualization.c for object ID list formatting (0-based indices)
+- [ ] T041 [P] [US2] Create unit test in tests/test_bvh_vis_statistics.c for statistics calculation (avg objects/leaf)
+- [ ] T042 [P] [US2] Create integration test in tests/integration/test_vis_medium.c for 10-object scene with statistics verification
+
+### Implementation for User Story 2
+
+- [ ] T043 [P] [US2] Implement bvh_vis_format_bounds() in src/spatial/bvh_vis_format.c to format AABB coordinates to 2 decimal places
+- [ ] T044 [P] [US2] Implement bvh_vis_format_object_list() in src/spatial/bvh_vis_format.c to format object ID arrays using 0-based indices
+- [ ] T045 [US2] Implement bvh_vis_print_internal_node() in src/spatial/bvh_vis_print.c to display internal node with bounds and depth
+- [ ] T046 [US2] Implement bvh_vis_print_leaf_node() in src/spatial/bvh_vis_print.c to display leaf node with bounds, depth, object count, and object IDs
+- [ ] T047 [US2] Update bvh_vis_traverse_node() in src/spatial/bvh_vis_traverse.c to collect statistics during traversal (increment counters)
+- [ ] T048 [US2] Implement bvh_vis_calc_avg_objects() in src/spatial/bvh_vis_statistics.c to calculate average objects per leaf
+- [ ] T049 [US2] Implement bvh_vis_print_statistics() in src/spatial/bvh_vis_statistics.c to display summary statistics table
+- [ ] T050 [US2] Update bvh_visualize() in src/spatial/bvh_visualization.c to call statistics printing after tree display
+- [ ] T051 [US2] Add depth display to node output in tree visualization
+- [ ] T052 [US2] Test coordinate formatting with extreme values (very large/small coordinates)
+- [ ] T053 [US2] Test object ID display with various leaf node object counts (1, 5, 10+ objects)
+- [ ] T054 [US2] Test statistics calculation with scenes/test_bvh_vis_complex.rt
+- [ ] T055 [US2] Run unit tests and verify all US2 tests pass
+
+**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
+
+---
+
+## Phase 5: User Story 3 - Controlled Output Options (Priority: P3)
+
+**Goal**: Provide depth limiting, compact view, and enable/disable control with <1% performance overhead when enabled and zero overhead when disabled
+
+**Independent Test**: Run miniRT with different flags (--bvh-vis, --bvh-vis-compact, no flags, with depth limit) and verify output changes accordingly
+
+### Tests for User Story 3
+
+- [ ] T056 [P] [US3] Create unit test in tests/test_bvh_visualization.c for depth limiting functionality
+- [ ] T057 [P] [US3] Create unit test in tests/test_bvh_vis_format.c for compact view formatting (abbreviated bounds)
+- [ ] T058 [P] [US3] Create performance test in tests/test_vis_performance.c to measure overhead < 1% requirement
+- [ ] T059 [P] [US3] Create integration test in tests/integration/test_vis_large.c for 50-100 object scene
+
+### Implementation for User Story 3
+
+- [ ] T060 [P] [US3] Implement depth limiting logic in bvh_vis_traverse_node() in src/spatial/bvh_vis_traverse.c
+- [ ] T061 [P] [US3] Implement compact mode formatting in bvh_vis_format_bounds_compact() in src/spatial/bvh_vis_format.c
+- [ ] T062 [US3] Update bvh_vis_print_leaf_node() in src/spatial/bvh_vis_print.c to support compact mode
+- [ ] T063 [US3] Update bvh_vis_print_internal_node() in src/spatial/bvh_vis_print.c to support compact mode
+- [ ] T064 [US3] Add max_depth configuration option parsing in src/main.c (e.g., --bvh-vis-depth=5)
+- [ ] T065 [US3] Implement zero-overhead check in src/main.c: skip visualization entirely when --bvh-vis not provided
+- [ ] T066 [US3] Add edge case warning messages for deep trees (>20 levels) in bvh_vis_traverse_node()
+- [ ] T067 [US3] Add edge case warning messages for narrow terminals (<80 chars) in bvh_visualize()
+- [ ] T068 [US3] Add edge case warning messages for extreme coordinate values in bvh_vis_format_bounds()
+- [ ] T069 [US3] Test depth limiting with deep tree scene (15+ levels)
+- [ ] T070 [US3] Test compact view output and verify 40%+ line count reduction
+- [ ] T071 [US3] Test disabled mode (no --bvh-vis flag) and verify zero output
+- [ ] T072 [US3] Measure performance overhead with timing code and verify < 1%
+- [ ] T073 [US3] Run all unit tests and verify all US3 tests pass
+
+**Checkpoint**: All user stories should now be independently functional
+
+---
+
+## Phase 6: Polish & Cross-Cutting Concerns
+
+**Purpose**: Improvements that affect multiple user stories, edge cases, and final quality assurance
+
+- [ ] T074 [P] Add norminette compliance check for all new visualization files
+- [ ] T075 [P] Run valgrind on all test scenarios to verify zero memory leaks
+- [ ] T076 Handle empty scene edge case (0 objects) in bvh_visualize()
+- [ ] T077 Handle degenerate tree edge case (1-2 objects) in bvh_vis_traverse_node()
+- [ ] T078 [P] Add code comments to complex functions (traversal, prefix management)
+- [ ] T079 Create user documentation in docs/specs/014-bvh-tree-visualization/quickstart.md with usage examples
+- [ ] T080 [P] Create Korean translation of quickstart.md in same directory
+- [ ] T081 Add API documentation to includes/spatial/bvh_visualization.h header comments
+- [ ] T082 Run full integration test suite with all test scenes
+- [ ] T083 Verify terminal width handling with narrow terminal test (< 80 chars)
+- [ ] T084 Verify output fits within 80-120 character width for trees up to 10 levels
+- [ ] T085 Test with scenes/test_bvh_vis_minimal.rt and verify correct output
+- [ ] T086 Test with scenes/test_bvh_vis_small.rt and verify correct output
+- [ ] T087 Test with scenes/test_bvh_vis_complex.rt and verify correct output
+- [ ] T088 Run make and verify zero compilation errors or warnings
+- [ ] T089 Run make with strict flags (-Wall -Wextra -Werror) and verify clean build
+- [ ] T090 Final performance verification: overhead < 1%, display time < 5s for 100 objects
+- [ ] T091 Final code quality check: all norminette violations resolved
+- [ ] T092 Final memory check: valgrind reports zero leaks for all test scenarios
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Setup (Phase 1)**: No dependencies - can start immediately
+- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
+- **User Stories (Phase 3-5)**: All depend on Foundational phase completion
+  - User Story 1 (P1): Can start after Foundational - No dependencies on other stories
+  - User Story 2 (P2): Can start after Foundational - Builds on US1 but independently testable
+  - User Story 3 (P3): Can start after Foundational - Enhances US1+US2 but independently testable
+- **Polish (Phase 6)**: Depends on all desired user stories being complete
+
+### User Story Dependencies
+
+- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
+  - Provides: Basic tree visualization, ASCII art hierarchy
+  - Required for: US2 and US3 build upon this foundation
+  
+- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - May integrate with US1 but independently testable
+  - Depends on: US1 traversal infrastructure
+  - Provides: Detailed node information, statistics
+  - Required for: Full debugging capability
+  
+- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - May integrate with US1/US2 but independently testable
+  - Depends on: US1 traversal, US2 formatting
+  - Provides: Output control, performance optimization
+  - Required for: Production-ready feature
+
+### Within Each User Story
+
+- Tests MUST be written and FAIL before implementation
+- Data structures and configurations before algorithms
+- Core traversal before formatting
+- Formatting before display
+- Display before statistics
+- Story complete before moving to next priority
+
+### Parallel Opportunities
+
+**Setup Phase (Phase 1):**
+- T002-T008: All file creation tasks can run in parallel
+
+**Foundational Phase (Phase 2):**
+- T011-T012: Structure definitions can run in parallel
+- T014, T016, T018: Independent modifications can run in parallel
+- T020-T022: Test scene creation can run in parallel
+
+**User Story 1 (Phase 3):**
+- T024-T027: All test creation can run in parallel
+- T028-T029: Traversal and print basics can run in parallel
+
+**User Story 2 (Phase 4):**
+- T039-T042: All test creation can run in parallel
+- T043-T044: Formatting functions can run in parallel
+
+**User Story 3 (Phase 5):**
+- T056-T059: All test creation can run in parallel
+- T060-T061: Depth limiting and compact mode can run in parallel
+
+**Polish Phase (Phase 6):**
+- T074-T075, T079-T080: Documentation and quality checks can run in parallel
+
+---
+
+## Parallel Example: User Story 1
+
+```bash
+# Launch all tests for User Story 1 together:
+Task T024: "Create unit test in tests/test_bvh_visualization.c for minimal tree"
+Task T025: "Create unit test in tests/test_bvh_visualization.c for 3-level tree"
+Task T026: "Create integration test in tests/integration/test_vis_small.c"
+
+# Launch core implementation together:
+Task T028: "Implement bvh_vis_traverse_node() in src/spatial/bvh_vis_traverse.c"
+Task T029: "Implement bvh_vis_print_node_basic() in src/spatial/bvh_vis_print.c"
+```
+
+## Parallel Example: User Story 2
+
+```bash
+# Launch all tests for User Story 2 together:
+Task T039: "Create unit test for coordinate formatting"
+Task T040: "Create unit test for object ID list formatting"
+Task T041: "Create unit test for statistics calculation"
+Task T042: "Create integration test for 10-object scene"
+
+# Launch formatting functions together:
+Task T043: "Implement bvh_vis_format_bounds()"
+Task T044: "Implement bvh_vis_format_object_list()"
+```
+
+---
+
+## Implementation Strategy
+
+### MVP First (User Story 1 Only)
+
+1. Complete Phase 1: Setup (T001-T010)
+2. Complete Phase 2: Foundational (T011-T023) - CRITICAL - blocks all stories
+3. Complete Phase 3: User Story 1 (T024-T038)
+4. **STOP and VALIDATE**: Test User Story 1 independently with all test scenes
+5. Deploy/demo if ready - basic tree visualization working
+
+### Incremental Delivery
+
+1. Complete Setup + Foundational → Foundation ready
+2. Add User Story 1 → Test independently → Deploy/Demo (MVP! - Basic tree visualization)
+3. Add User Story 2 → Test independently → Deploy/Demo (Detailed node info + statistics)
+4. Add User Story 3 → Test independently → Deploy/Demo (Production-ready with controls)
+5. Each story adds value without breaking previous stories
+
+### Parallel Team Strategy
+
+With multiple developers:
+
+1. Team completes Setup + Foundational together (T001-T023)
+2. Once Foundational is done:
+   - Developer A: User Story 1 (T024-T038) - Core visualization
+   - Developer B: User Story 2 (T039-T055) - Node information & statistics
+   - Developer C: User Story 3 (T056-T073) - Output controls & optimization
+3. Stories complete and integrate independently
+
+**Note**: US2 and US3 do depend on US1's traversal infrastructure, so realistically US1 should complete first, then US2 and US3 can proceed in parallel.
+
+---
+
+## Task Summary
+
+**Total Tasks**: 92 tasks
+
+**Tasks per Phase**:
+- Phase 1 (Setup): 10 tasks
+- Phase 2 (Foundational): 13 tasks (BLOCKS all user stories)
+- Phase 3 (User Story 1 - P1): 15 tasks (MVP)
+- Phase 4 (User Story 2 - P2): 17 tasks
+- Phase 5 (User Story 3 - P3): 18 tasks
+- Phase 6 (Polish): 19 tasks
+
+**Tasks per User Story**:
+- User Story 1: 15 tasks (Basic tree visualization)
+- User Story 2: 17 tasks (Node information display)
+- User Story 3: 18 tasks (Controlled output options)
+
+**Parallel Opportunities Identified**: 35 tasks marked with [P]
+
+**Independent Test Criteria**:
+- US1: Run with --bvh-vis and verify ASCII tree structure appears
+- US2: Verify node details (type, bounds, depth, object IDs) and statistics display
+- US3: Test with different flags and verify output control works
+
+**Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 38 tasks
+
+---
+
+## Implementation Notes
+
+### File Organization (5+ Files)
+
+The implementation follows maximum granularity as specified:
+
+1. **bvh_visualization.c**: Main entry point and orchestration
+2. **bvh_vis_traverse.c**: Tree walking and depth tracking
+3. **bvh_vis_format.c**: Coordinate and bound formatting
+4. **bvh_vis_statistics.c**: Statistics calculation and display
+5. **bvh_vis_prefix.c**: Prefix string management for ASCII art
+6. **bvh_vis_print.c**: Low-level output primitives
+
+### Depth Storage Strategy
+
+Depth is stored as an integer field in t_bvh_node during construction (Foundational T014-T015), eliminating the need for recursive depth calculation during visualization.
+
+### Performance Requirements
+
+- Overhead < 1% of BVH construction time when enabled (verified in T072, T090)
+- Zero overhead when disabled (verified in T065, T071)
+- Display complete tree for 100 objects in < 5 seconds (verified in T090)
+
+### Edge Case Handling
+
+All edge cases are handled with informative warning messages followed by adapted display:
+- Deep trees (>20 levels): Warning + depth limiting (T066)
+- Narrow terminals (<80 chars): Warning + truncation (T067)
+- Extreme coordinates: Warning + 2-decimal formatting (T068)
+- Empty scenes: Graceful handling (T076)
+- Degenerate trees (1-2 objects): Graceful handling (T077)
+
+### Code Quality Gates
+
+- Norminette compliance: T074, T091
+- Memory leaks (valgrind): T075, T092
+- Build verification: T010, T023, T088, T089
+- Test coverage: All user stories have dedicated tests
+
+---
+
+## Notes
+
+- [P] tasks = different files, no dependencies on incomplete tasks
+- [Story] label maps task to specific user story for traceability
+- Each user story should be independently completable and testable
+- Verify tests fail before implementing (TDD approach)
+- Commit after each task or logical group
+- Stop at any checkpoint to validate story independently
+- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence

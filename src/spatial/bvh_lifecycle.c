@@ -25,6 +25,7 @@ t_bvh	*bvh_create(void)
 	bvh->enabled = 1;
 	bvh->total_nodes = 0;
 	bvh->max_depth = 0;
+	bvh->visualize = 0;
 	return (bvh);
 }
 

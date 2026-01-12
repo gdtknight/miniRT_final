@@ -111,6 +111,8 @@ int	parse_scene(const char *filename, t_scene *scene)
 		free(line);
 		line = read_line(fd);
 	}
+	if (line != NULL)
+		free(line);
 	close(fd);
 	if (success)
 	{

@@ -15,6 +15,7 @@
 #include "window/window_internal.h"
 #include "hud.h"
 #include "keyguide.h"
+#include "pixel_timing.h"
 #include <stdlib.h>
 
 /*
@@ -33,6 +34,7 @@ int	close_window(void *param)
 	t_render	*render;
 
 	render = (t_render *)param;
+	pixel_timing_cleanup(&render->pixel_timing);
 	keyguide_cleanup(&render->keyguide, render->mlx);
 	hud_cleanup(&render->hud, render->mlx);
 	cleanup_all(render->scene, render);

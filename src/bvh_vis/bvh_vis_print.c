@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh_vis_print.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/12 15:12:00 by yoshin            #+#    #+#             */
+/*   Updated: 2026/01/12 15:12:00 by yoshin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "bvh_vis.h"
+#include <stdio.h>
+
+void	print_node_line(t_prefix_state *prefix, t_node_info *info,
+			int is_last)
+{
+	prefix_print(prefix);
+	if (is_last)
+		printf("└── ");
+	else
+		printf("├── ");
+	printf("%s [depth=%d] %s", info->type, info->depth, info->bounds);
+	if (info->objects[0] != '\0')
+		printf(" %s", info->objects);
+	printf("\n");
+}
+
+void	print_warning_message(const char *message)
+{
+	fprintf(stderr, "Warning: %s\n", message);
+}

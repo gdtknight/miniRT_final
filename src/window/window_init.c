@@ -15,6 +15,7 @@
 #include "window/window_internal.h"
 #include "hud.h"
 #include "keyguide.h"
+#include "pixel_timing.h"
 #include <stdlib.h>
 
 /* Forward declaration for re-rendering */
@@ -37,6 +38,7 @@ static void	init_render_state(t_render *render, t_scene *scene)
 	render->dirty = 1;
 	render->low_quality = 0;
 	render->shift_pressed = 0;
+	pixel_timing_init(&render->pixel_timing);
 }
 
 /*

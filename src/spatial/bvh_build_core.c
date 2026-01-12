@@ -27,6 +27,7 @@ t_bvh_node	*create_leaf_node(t_object_ref *objects, int count, void *scene)
 	node->left = NULL;
 	node->right = NULL;
 	node->object_count = count;
+	node->depth = 0;
 	node->objects = malloc(sizeof(t_object_ref) * count);
 	if (!node->objects)
 	{
@@ -83,5 +84,7 @@ void	bvh_build(t_bvh *bvh, t_object_ref *objects, int count, void *scene)
 	if (bvh->root)
 		bvh_node_destroy(bvh->root);
 	bvh->root = bvh_build_recursive(objects, count, scene, 0);
+	if (bvh->root)
+		bvh->root->depth = 0;
 	bvh->total_nodes = 1;
 }

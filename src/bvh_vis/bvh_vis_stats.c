@@ -1,0 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh_vis_stats.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/12 15:14:00 by yoshin            #+#    #+#             */
+/*   Updated: 2026/01/12 15:14:00 by yoshin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "bvh_vis.h"
+#include <stdio.h>
+
+void	collect_stats_recursive(t_bvh_node *node, t_bvh_stats *stats,
+			int depth)
+{
+	if (!node || !stats)
+		return ;
+	stats->total_nodes++;
+	if (depth > stats->max_depth)
+		stats->max_depth = depth;
+	if (is_leaf_node(node))
+	{
+		stats->leaf_count++;
+		stats->total_objects += node->object_count;
+	}
+	else
+	{
+		if (node->left)
+			collect_stats_recursive(node->left, stats, depth + 1);
+		if (node->right)
+			collect_stats_recursive(node->right, stats, depth + 1);
+	}
+}
+
+void	bvh_collect_statistics(t_bvh_node *node, t_bvh_stats *stats)
+{
+	if (!stats)
+		return ;
+	stats->total_nodes = 0;
+	stats->leaf_count = 0;
+	stats->internal_count = 0;
+	stats->max_depth = 0;
+	stats->total_objects = 0;
+	stats->avg_objects_per_leaf = 0.0;
+	collect_stats_recursive(node, stats, 0);
+	stats->internal_count = stats->total_nodes - stats->leaf_count;
+	if (stats->leaf_count > 0)
+		stats->avg_objects_per_leaf = (double)stats->total_objects
+			/ stats->leaf_count;
+}
+
+void	print_statistics_summary(t_bvh_stats *stats)
+{
+	if (!stats)
+		return ;
+	printf("BVH Statistics:\n");
+	printf("  Total nodes: %d\n", stats->total_nodes);
+	printf("  Leaf nodes: %d\n", stats->leaf_count);
+	printf("  Internal nodes: %d\n", stats->internal_count);
+	printf("  Max depth: %d\n", stats->max_depth);
+	printf("  Average objects per leaf: %.2f\n", stats->avg_objects_per_leaf);
+}

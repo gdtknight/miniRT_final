@@ -42,6 +42,7 @@ typedef struct s_bvh_node
 	struct s_bvh_node	*right;
 	t_object_ref		*objects;
 	int					object_count;
+	int					depth;
 }	t_bvh_node;
 
 /* BVH tree root structure */
@@ -51,6 +52,7 @@ typedef struct s_bvh
 	int			enabled;
 	int			total_nodes;
 	int			max_depth;
+	int			visualize;
 }	t_bvh;
 
 /* Helper structure for BVH hit checking */

@@ -34,6 +34,12 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 SRCS		= $(SRC_DIR)/main.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_init.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_tree.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_node.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_stats.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_prefix.c \
+			  $(SRC_DIR)/bvh_vis/bvh_vis_print.c \
 			  $(SRC_DIR)/hud/hud_color.c \
 			  $(SRC_DIR)/hud/hud_color_extract.c \
 			  $(SRC_DIR)/hud/hud_format.c \
@@ -69,6 +75,7 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/render/metrics_frame.c \
 			  $(SRC_DIR)/render/metrics_counters.c \
 			  $(SRC_DIR)/render/metrics_calc.c \
+			  $(SRC_DIR)/render/pixel_timing.c \
 			  $(SRC_DIR)/render/render.c \
 			  $(SRC_DIR)/render/render_state.c \
 			  $(SRC_DIR)/render/render_quality.c \

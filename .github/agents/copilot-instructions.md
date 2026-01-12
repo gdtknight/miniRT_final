@@ -29,6 +29,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-15
 - Scene files (.rt format), N/A for runtime (012-code-cleanup-refactor)
 - C (C99 standard per 42 School requirements) + MiniLibX (graphics), libft (custom C library), math library (-lm) (013-norminette-compliance)
 - N/A (no persistent storage, scene files loaded at startup) (013-norminette-compliance)
+- C (C99 standard), compiled with gcc/clang with -Wall -Wextra -Werror + Standard C library (stdio.h, stdlib.h), math.h (-lm), MiniLibX graphics library, libft (custom C library), get_next_line (014-bvh-tree-visualization)
+- N/A (terminal output only, no persistence required) (014-bvh-tree-visualization)
 
 - C (C99 or later with -std=c99 or compatible) + MinilibX (X11/XQuartz graphics library), libm (math library), optional libft (001-raytracer)
 
@@ -48,9 +50,9 @@ tests/
 C (C99 or later with -std=c99 or compatible): Follow standard conventions
 
 ## Recent Changes
+- 014-bvh-tree-visualization: Added C (C99 standard), compiled with gcc/clang with -Wall -Wextra -Werror + Standard C library (stdio.h, stdlib.h), math.h (-lm), MiniLibX graphics library, libft (custom C library), get_next_line
 - 013-norminette-compliance: Added C (C99 standard per 42 School requirements) + MiniLibX (graphics), libft (custom C library), math library (-lm)
 - 012-code-cleanup-refactor: Added C (C99/C11 compatible with 42 norminette standards) + MiniLibX (graphics library), libm (math library), libft (custom C library)
-- 001-performance-optimization: Added C (C99 standard) + MiniLibX (42 School graphics library), math.h, libft (custom C library)
 
 
 <!-- MANUAL ADDITIONS START -->

@@ -14,6 +14,7 @@
 #include "parser.h"
 #include "window.h"
 #include "spatial.h"
+#include "bvh_vis.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,8 +44,39 @@ static t_scene	*init_scene(void)
 	return (scene);
 }
 
+static int	parse_args(int argc, char **argv, char **filename, int *bvh_vis)
+{
+	int	i;
+
+	*filename = NULL;
+	*bvh_vis = 0;
+	i = 1;
+	while (i < argc)
+	{
+		if (argv[i][0] == '-' && argv[i][1] == '-')
+		{
+			if (strcmp(argv[i], "--bvh-vis") == 0)
+				*bvh_vis = 1;
+			else
+			{
+				printf("Unknown option: %s\n", argv[i]);
+				return (0);
+			}
+		}
+		else if (*filename == NULL)
+			*filename = argv[i];
+		else
+		{
+			printf("Multiple scene files provided\n");
+			return (0);
+		}
+		i++;
+	}
+	return (*filename != NULL);
+}
+
 static int	initialize_scene_and_render(char *filename, t_scene **scene,
-		t_render **render)
+		t_render **render, int bvh_vis)
 {
 	*scene = init_scene();
 	if (!*scene)
@@ -55,6 +87,11 @@ static int	initialize_scene_and_render(char *filename, t_scene **scene,
 		return (1);
 	}
 	scene_build_bvh(*scene);
+	if (bvh_vis && (*scene)->render_state.bvh)
+	{
+		(*scene)->render_state.bvh->visualize = 1;
+		bvh_visualize((*scene)->render_state.bvh, NULL);
+	}
 	*render = init_window(*scene);
 	if (!*render)
 	{
@@ -81,13 +118,20 @@ int	main(int argc, char **argv)
 {
 	t_scene		*scene;
 	t_render	*render;
+	char		*filename;
+	int			bvh_vis;
 
-	if (argc != 2)
+	if (argc < 2)
 	{
-		printf("Usage: %s <scene_file.rt>\n", argv[0]);
+		printf("Usage: %s <scene_file.rt> [--bvh-vis]\n", argv[0]);
 		return (1);
 	}
-	if (initialize_scene_and_render(argv[1], &scene, &render) != 0)
+	if (!parse_args(argc, argv, &filename, &bvh_vis))
+	{
+		printf("Usage: %s <scene_file.rt> [--bvh-vis]\n", argv[0]);
+		return (1);
+	}
+	if (initialize_scene_and_render(filename, &scene, &render, bvh_vis) != 0)
 		return (1);
 	mlx_loop(render->mlx);
 	return (0);
