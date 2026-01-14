@@ -54,8 +54,8 @@ tests/
 C (C99 or later with -std=c99 or compatible): Follow standard conventions
 
 ## Recent Changes
+- 016-compliance-refactoring: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 - 015-bvh-viz-improvements: Added C99 (42 School project - strict standard compliance) + MiniLibX (42 graphics library), libft (custom C library), math.h
-- 015-bvh-viz-improvements: Added C (C99), compiled with cc -Wall -Wextra -Werror + MiniLibX (mlx_*), libm (math.h), standard C library (gettimeofday, snprintf, memcpy)
 - 015-bvh-viz-improvements: Added C (C99), compiled with cc -Wall -Wextra -Werror + MiniLibX (mlx_*), libm (math.h), standard C library (gettimeofday, snprintf, memcpy)
 
 
