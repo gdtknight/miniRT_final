@@ -77,7 +77,25 @@ As a developer working on miniRT, I need the Makefile to follow 42 School standa
 
 ---
 
-### User Story 5 - Evaluation Checklist Readiness (Priority: P3)
+### User Story 5 - Code Deduplication (Priority: P2)
+
+As a developer maintaining the miniRT codebase, I need to identify and remove duplicate source files (files with identical or substantially similar content under different names) so that the codebase is maintainable, reduces confusion, and prevents divergent implementations of the same functionality.
+
+**Why this priority**: Duplicate code increases maintenance burden, violates DRY principles, can lead to bugs when one version is updated but not others, and wastes build time. This is critical for long-term code quality and should be addressed during the refactoring phase.
+
+**Independent Test**: Can be tested by generating MD5/SHA256 hashes of all source files and identifying duplicates, or by using code similarity tools to find files with >90% identical content. Verification includes checking that all references are updated and build succeeds.
+
+**Acceptance Scenarios**:
+
+1. **Given** all source files in the project, **When** I generate content hashes (MD5/SHA256), **Then** no two different filenames have identical hashes
+2. **Given** identified duplicate files, **When** I consolidate them into a single canonical version, **Then** the build completes successfully with all tests passing
+3. **Given** removed duplicate files, **When** I check the git history, **Then** commit messages document which files were removed and which canonical version was retained
+4. **Given** the consolidated codebase, **When** I search for references to old duplicate filenames, **Then** all references point to the canonical version
+5. **Given** similar but not identical files, **When** I analyze their differences, **Then** I either merge them (if differences are trivial) or document why they must remain separate
+
+---
+
+### User Story 6 - Evaluation Checklist Readiness (Priority: P3)
 
 As a 42 School student preparing for evaluation, I need all items from miniRT_eval.pdf to be verifiable so that evaluators can successfully complete the grading process without issues.
 
@@ -104,6 +122,7 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **Concurrent modifications**: What happens if the scene file is modified while the program is running?
 - **Platform-specific differences**: How does the code handle differences between Linux (X11) and macOS (AppKit) implementations of MinilibX?
 - **Norminette corner cases**: How are long function signatures split across lines? Are all variable declarations at function start? Are all functions properly prototyped?
+- **Duplicate file edge cases**: How do we handle files that are 90% similar but have minor differences? What if duplicate files have different modification dates? What if one version has bug fixes the other doesn't?
 
 ## Requirements *(mandatory)*
 
@@ -159,6 +178,12 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **FR-037**: All helper functions MUST be static when not needed in other files
 - **FR-038**: All prototypes MUST be declared in appropriate header files before use
 
+#### Code Deduplication Requirements
+- **FR-039**: System MUST identify and remove duplicate source files (files with identical or substantially similar content but different names)
+- **FR-040**: System MUST consolidate redundant implementations of the same functionality into a single, well-named source file
+- **FR-041**: System MUST update all references (includes, Makefile, build system) when removing duplicate files
+- **FR-042**: Removed duplicate files MUST be documented in commit messages with references to the canonical version retained
+
 ### Key Entities
 
 - **Scene File (.rt)**: Text file containing scene description with required elements (Ambient, Camera, Light) and optional object definitions
@@ -212,24 +237,25 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **Assumption 6**: The existing test suite (40 scenes) represents comprehensive coverage of required functionality
 - **Assumption 7**: Current violations are limited to style (norminette) and forbidden functions (3 instances), not fundamental design flaws
 - **Assumption 8**: The existing BVH implementation, HUD system, and bonus features will be preserved if they comply with regulations
+- **Assumption 9**: Duplicate source files (if any exist) are exact or near-exact copies, not intentionally similar implementations serving different purposes
 
 ### Technical Constraints
-- **Assumption 9**: The allowed functions list from miniRT.pdf represents a complete and correct specification of permitted external functions
-- **Assumption 10**: MinilibX API functions are implicitly allowed as they are the required graphics library
-- **Assumption 11**: Standard library functions like malloc, free, open, read, write, close are allowed (verified against miniRT.pdf)
-- **Assumption 12**: Mathematical operations and library functions (math.h) are allowed when explicitly listed
+- **Assumption 10**: The allowed functions list from miniRT.pdf represents a complete and correct specification of permitted external functions
+- **Assumption 11**: MinilibX API functions are implicitly allowed as they are the required graphics library
+- **Assumption 12**: Standard library functions like malloc, free, open, read, write, close are allowed (verified against miniRT.pdf)
+- **Assumption 13**: Mathematical operations and library functions (math.h) are allowed when explicitly listed
 
 ### Scope Boundaries
-- **Assumption 13**: This refactoring focuses on compliance and code quality, not adding new features or improving rendering algorithms
-- **Assumption 14**: Visual output must remain identical or equivalent after refactoring - no changes to rendering behavior
-- **Assumption 15**: Performance characteristics (render times, memory usage) should remain similar, though minor variations are acceptable
-- **Assumption 16**: Bonus features (if present) will be maintained only if they don't violate compliance requirements
+- **Assumption 14**: This refactoring focuses on compliance and code quality, not adding new features or improving rendering algorithms
+- **Assumption 15**: Visual output must remain identical or equivalent after refactoring - no changes to rendering behavior
+- **Assumption 16**: Performance characteristics (render times, memory usage) should remain similar, though minor variations are acceptable
+- **Assumption 17**: Bonus features (if present) will be maintained only if they don't violate compliance requirements
 
 ### Validation Approach
-- **Assumption 17**: Automated norminette checks provide definitive pass/fail criteria for style compliance
-- **Assumption 18**: Manual code review simulating peer evaluation will catch edge cases not covered by automated tools
-- **Assumption 19**: Regression testing with all 40 scenes will be sufficient to verify functional preservation
-- **Assumption 20**: Memory leak detection with valgrind/leaks on representative scenes will be sufficient for memory safety verification
+- **Assumption 18**: Automated norminette checks provide definitive pass/fail criteria for style compliance
+- **Assumption 19**: Manual code review simulating peer evaluation will catch edge cases not covered by automated tools
+- **Assumption 20**: Regression testing with all 40 scenes will be sufficient to verify functional preservation
+- **Assumption 21**: Memory leak detection with valgrind/leaks on representative scenes will be sufficient for memory safety verification
 
 ## Dependencies *(optional)*
 
@@ -255,13 +281,15 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 ## Implementation Notes *(optional)*
 
 ### Priority Order for Implementation
-1. **Phase 1 - Forbidden Functions Audit**: Identify all uses of forbidden functions (current: 3 instances)
-2. **Phase 2 - Function Replacement**: Replace memcpy, memset with compliant alternatives
-3. **Phase 3 - Norminette First Pass**: Run norminette on all files, generate violation report
-4. **Phase 4 - Function Splitting**: Split functions exceeding 25 lines into helper functions
-5. **Phase 5 - Parameter Reduction**: Refactor functions with >4 parameters using structures or simplified interfaces
-6. **Phase 6 - Style Fixes**: Fix remaining style issues (variable declarations, formatting, etc.)
-7. **Phase 7 - Verification**: Run full test suite, memory checks, and final norminette validation
+1. **Phase 1 - Duplicate File Detection**: Generate file hashes and identify duplicate source files
+2. **Phase 2 - Duplicate File Consolidation**: Remove duplicates, update references, verify build
+3. **Phase 3 - Forbidden Functions Audit**: Identify all uses of forbidden functions (current: 3 instances)
+4. **Phase 4 - Function Replacement**: Replace memcpy, memset with compliant alternatives
+5. **Phase 5 - Norminette First Pass**: Run norminette on all files, generate violation report
+6. **Phase 6 - Function Splitting**: Split functions exceeding 25 lines into helper functions
+7. **Phase 7 - Parameter Reduction**: Refactor functions with >4 parameters using structures or simplified interfaces
+8. **Phase 8 - Style Fixes**: Fix remaining style issues (variable declarations, formatting, etc.)
+9. **Phase 9 - Verification**: Run full test suite, memory checks, and final norminette validation
 8. **Phase 8 - Documentation Update**: Update all affected documentation
 
 ### Common Refactoring Patterns
