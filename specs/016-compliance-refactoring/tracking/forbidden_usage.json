@@ -1,0 +1,61 @@
+{
+  "scan_date": "2026-01-14T11:35:00Z",
+  "forbidden_functions_found": [
+    {
+      "function": "strcpy",
+      "file": "src/parser/parser.c",
+      "line": 46,
+      "status": "violation",
+      "replacement": "ft_strcpy (custom implementation)",
+      "note": "Not from libft - custom implementation needed"
+    },
+    {
+      "function": "strcpy",
+      "file": "src/bvh_vis/bvh_vis_node.c",
+      "lines": [31, 33, 62, 85, 87],
+      "status": "violation",
+      "replacement": "ft_strcpy (custom implementation)",
+      "note": "Multiple uses in BVH visualization"
+    },
+    {
+      "function": "strcat",
+      "file": "src/bvh_vis/bvh_vis_node.c",
+      "lines": [74, 76, 79],
+      "status": "violation",
+      "replacement": "ft_strcat (custom implementation)",
+      "note": "String concatenation in BVH visualization"
+    },
+    {
+      "function": "memcpy",
+      "file": "src/bvh_vis/bvh_vis_prefix.c",
+      "lines": [53, 58],
+      "status": "violation",
+      "replacement": "ft_memcpy",
+      "note": "Buffer copying - priority violation"
+    },
+    {
+      "function": "memset",
+      "file": "src/main.c",
+      "line": 108,
+      "status": "violation",
+      "replacement": "ft_memset",
+      "note": "Structure initialization - priority violation"
+    }
+  ],
+  "custom_implementations_already_exist": [
+    {
+      "function": "ft_strcpy",
+      "file": "src/hud/hud_format_helpers.c",
+      "status": "compliant",
+      "note": "Custom implementation already exists, can be reused"
+    }
+  ],
+  "summary": {
+    "total_violations": 5,
+    "memcpy_count": 2,
+    "memset_count": 1,
+    "strcpy_count": 7,
+    "strcat_count": 3,
+    "priority": "HIGH - memcpy and memset are critical violations per spec"
+  }
+}

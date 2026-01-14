@@ -11,6 +11,15 @@
 /* ************************************************************************** */
 
 #include "metrics.h"
+#include <time.h>
+
+long	get_time_ns(void)
+{
+	struct timespec	ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return (ts.tv_sec * 1000000000L + ts.tv_nsec);
+}
 
 /**
  * @brief timer start 함수

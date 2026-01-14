@@ -40,13 +40,6 @@ void	hud_get_selection_from_global(t_selection *sel, int idx,
 		sel->type = OBJ_SPHERE;
 		sel->index = idx;
 	}
-/**
- * @brief if 함수
- *
- * @param scene->plane_count 파라미터
- *
- * @return else 반환값
- */
 	else if (idx < scene->sphere_count + scene->plane_count)
 	{
 		sel->type = OBJ_PLANE;

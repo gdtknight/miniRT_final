@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "bvh_vis.h"
+#include "utils.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -50,12 +51,12 @@ int	prefix_push(t_prefix_state *state, int is_last)
 		new_buffer = malloc(state->capacity * 2);
 		if (!new_buffer)
 			return (0);
-		memcpy(new_buffer, state->buffer, state->length);
+		ft_memcpy(new_buffer, state->buffer, state->length);
 		free(state->buffer);
 		state->buffer = new_buffer;
 		state->capacity *= 2;
 	}
-	memcpy(state->buffer + state->length, prefix, 4);
+	ft_memcpy(state->buffer + state->length, prefix, 4);
 	state->length = new_len;
 	state->buffer[state->length] = '\0';
 	state->level++;

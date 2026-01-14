@@ -15,6 +15,7 @@
 #include "window.h"
 #include "spatial.h"
 #include "bvh_vis.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -76,23 +77,15 @@ static int	parse_args(int argc, char **argv, char **filename, int *bvh_vis)
 	i = 1;
 	while (i < argc)
 	{
-		if (argv[i][0] == '-' && argv[i][1] == '-')
-		{
-			if (strcmp(argv[i], "--bvh-vis") == 0)
-				*bvh_vis = 1;
-			else
-			{
-				printf("Unknown option: %s\n", argv[i]);
-				return (0);
-			}
-		}
+		if (argv[i][0] == '-' && argv[i][1] == '-' &&
+			strcmp(argv[i], "--bvh-vis") == 0)
+			*bvh_vis = 1;
+		else if (argv[i][0] == '-')
+			return (printf("Unknown option: %s\n", argv[i]), 0);
 		else if (*filename == NULL)
 			*filename = argv[i];
 		else
-		{
-			printf("Multiple scene files provided\n");
-			return (0);
-		}
+			return (printf("Multiple scene files provided\n"), 0);
 		i++;
 	}
 	return (*filename != NULL);
@@ -105,7 +98,7 @@ static t_scene	*init_scene(void)
 	scene = malloc(sizeof(t_scene));
 	if (!scene)
 		return (NULL);
-	memset(scene, 0, sizeof(t_scene));
+	ft_memset(scene, 0, sizeof(t_scene));
 	scene->sphere_count = 0;
 	scene->plane_count = 0;
 	scene->cylinder_count = 0;

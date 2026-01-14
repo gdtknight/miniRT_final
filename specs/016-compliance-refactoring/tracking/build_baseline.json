@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-01-14T11:35:27Z",
+  "commit_hash": "8428e3fddaf54acc72a6de13570a28a3a2afc45a",
+  "compiler": "gcc (Ubuntu 10.5.0-1ubuntu1~22.04.2) 10.5.0",
+  "make_version": "GNU Make 4.3",
+  "build_flags": "CFLAGS		= -Wall -Wextra -Werror -I$(INC_DIR) -I$(MLX_DIR)",
+  "source_file_count": 75,
+  "header_file_count": 23,
+  "executable_size": 108984,
+  "build_time_estimate": "TBD - will be measured during implementation"
+}

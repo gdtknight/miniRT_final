@@ -57,13 +57,6 @@ int	handle_key(int keycode, void *param)
 	handle_hud_keys(render, keycode);
 	if (keycode == KEY_BRACKET_LEFT || keycode == KEY_BRACKET_RIGHT)
 		handle_object_selection(render, keycode);
-/**
- * @brief if 함수
- *
- * @param KEY_I 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_I)
 	{
 		render->scene->render_state.show_info

@@ -34,13 +34,6 @@ void	handle_camera_keys(t_render *render, int keycode)
 		render->dirty = 1;
 		hud_mark_dirty(render);
 	}
-/**
- * @brief if 함수
- *
- * @param KEY_C 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_E || keycode == KEY_C)
 	{
 		handle_camera_pitch(render, keycode);
@@ -48,13 +41,6 @@ void	handle_camera_keys(t_render *render, int keycode)
 		render->dirty = 1;
 		hud_mark_dirty(render);
 	}
-/**
- * @brief if 함수
- *
- * @param KEY_S 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_S)
 	{
 		handle_camera_reset(render);
@@ -106,13 +92,6 @@ void	handle_hud_keys(t_render *render, int keycode)
 {
 	if (keycode == KEY_H)
 		hud_toggle(render);
-/**
- * @brief if 함수
- *
- * @param KEY_TAB 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_TAB)
 	{
 		if (render->shift_pressed)

@@ -1,0 +1,29 @@
+src/parser/parser.c:46:	strcpy(line, buffer);
+src/hud/hud_format.c:61:	ft_strcpy(buffer + i, ", ");
+src/hud/hud_format.c:66:	ft_strcpy(buffer + i, ", ");
+src/hud/hud_format.c:85:	ft_strcpy(buffer, "R:");
+src/hud/hud_format.c:90:	ft_strcpy(buffer + i, " G:");
+src/hud/hud_format.c:95:	ft_strcpy(buffer + i, " B:");
+src/hud/hud_format_helpers.c:16: * @brief ft strcpy 함수
+src/hud/hud_format_helpers.c:21:void	ft_strcpy(char *dst, const char *src)
+src/hud/hud_format_simple.c:49:		ft_strcpy(buf, "ON");
+src/hud/hud_format_simple.c:51:		ft_strcpy(buf, "OFF");
+src/bvh_vis/bvh_vis_node.c:31:		strcpy(info.type, "Leaf");
+src/bvh_vis/bvh_vis_node.c:33:		strcpy(info.type, "Internal");
+src/bvh_vis/bvh_vis_node.c:62:	strcpy(buffer, "Objects: [");
+src/bvh_vis/bvh_vis_node.c:74:			strcat(buffer, id);
+src/bvh_vis/bvh_vis_node.c:76:			strcat(buffer, ", ");
+src/bvh_vis/bvh_vis_node.c:79:	strcat(buffer, "]");
+src/bvh_vis/bvh_vis_node.c:85:		strcpy(info->type, "L");
+src/bvh_vis/bvh_vis_node.c:87:		strcpy(info->type, "I");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:29:		strcpy(info.type, "Leaf");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:31:		strcpy(info.type, "Internal");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:58:	strcpy(buffer, "Objects: [");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:63:		strcat(buffer, temp);
+src/bvh_vis/bvh_vis_node.c.backup.20260112:65:			strcat(buffer, ", ");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:76:		strcpy(info->type, "L");
+src/bvh_vis/bvh_vis_node.c.backup.20260112:78:		strcpy(info->type, "I");
+src/bvh_vis/bvh_vis_prefix.c:53:		memcpy(new_buffer, state->buffer, state->length);
+src/bvh_vis/bvh_vis_prefix.c:58:	memcpy(state->buffer + state->length, prefix, 4);
+src/main.c:108:	memset(scene, 0, sizeof(t_scene));
+includes/hud.h:259:void	ft_strcpy(char *dst, const char *src);

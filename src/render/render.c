@@ -14,6 +14,7 @@
 #include "ray.h"
 #include "window.h"
 #include "pixel_timing.h"
+#include "metrics.h"
 
 /*
 ** Convert screen pixel coordinates to Normalized Device Coordinates.
@@ -62,16 +63,15 @@ static void	render_pixel(t_scene *scene, t_render *render, int x, int y)
 	t_color	color;
 	double	u;
 	double	v;
-	long	start_time;
-	long	end_time;
+	long	timing[2];
 
 	u = (2.0 * x / (double)WINDOW_WIDTH) - 1.0;
 	v = 1.0 - (2.0 * y / (double)WINDOW_HEIGHT);
 	ray = create_camera_ray(&scene->camera, u, v);
-	start_time = get_time_ns();
+	timing[0] = get_time_ns();
 	color = trace_ray(scene, &ray);
-	end_time = get_time_ns();
-	pixel_timing_add_sample(&render->pixel_timing, end_time - start_time);
+	timing[1] = get_time_ns();
+	pixel_timing_add_sample(&render->pixel_timing, timing[1] - timing[0]);
 	put_pixel_to_buffer(render, x, y, color);
 }
 

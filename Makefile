@@ -76,6 +76,7 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/render/metrics_counters.c \
 			  $(SRC_DIR)/render/metrics_calc.c \
 			  $(SRC_DIR)/render/pixel_timing.c \
+			  $(SRC_DIR)/render/pixel_timing_print.c \
 			  $(SRC_DIR)/render/render.c \
 			  $(SRC_DIR)/render/render_state.c \
 			  $(SRC_DIR)/render/render_quality.c \
@@ -96,6 +97,7 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/utils/format_object_id.c \
 			  $(SRC_DIR)/utils/ft_atoi.c \
 			  $(SRC_DIR)/utils/ft_atof.c \
+			  $(SRC_DIR)/utils/memory.c \
 			  $(SRC_DIR)/utils/timer.c \
 			  $(SRC_DIR)/window/window_init.c \
 			  $(SRC_DIR)/window/window_lifecycle.c \

@@ -1,0 +1,66 @@
+{
+  "scan_date": "2026-01-14T11:35:00Z",
+  "total_violations": 12,
+  "violations_by_type": {
+    "TOO_MANY_LINES": {
+      "count": 2,
+      "files": [
+        {
+          "file": "src/main.c",
+          "line": 99,
+          "function": "init_scene or similar",
+          "estimated_line_count": "~30-35 lines"
+        },
+        {
+          "file": "src/render/pixel_timing.c",
+          "line": 121,
+          "function": "unknown",
+          "estimated_line_count": "~30-35 lines"
+        }
+      ]
+    },
+    "TOO_MANY_FUNCS": {
+      "count": 2,
+      "files": [
+        {
+          "file": "src/render/pixel_timing.c",
+          "lines": [79, 85],
+          "note": "File has more than 5 functions"
+        }
+      ]
+    },
+    "TOO_MANY_VARS_FUNC": {
+      "count": 1,
+      "files": [
+        {
+          "file": "src/render/render.c",
+          "line": 66,
+          "function": "unknown",
+          "note": "Function declares more than 5 variables"
+        }
+      ]
+    },
+    "WRONG_SCOPE_COMMENT": {
+      "count": 7,
+      "files": [
+        {
+          "file": "src/hud/hud_layout_helpers.c",
+          "lines": [43, 45, 54, 60],
+          "note": "Comments in wrong scope"
+        },
+        {
+          "file": "src/bvh_vis/bvh_vis_stats.c",
+          "lines": [37, 51, 109],
+          "note": "Comments in wrong scope"
+        }
+      ]
+    }
+  },
+  "priority_order": [
+    "TOO_MANY_LINES (2 violations - requires function splitting)",
+    "TOO_MANY_VARS_FUNC (1 violation - requires variable reduction)",
+    "TOO_MANY_FUNCS (2 violations - requires file splitting or moving functions)",
+    "WRONG_SCOPE_COMMENT (7 violations - easiest to fix, just remove/move comments)"
+  ],
+  "summary": "Very few violations - this is excellent. Most are comment-related (easy fix). Only 2 functions need splitting."
+}

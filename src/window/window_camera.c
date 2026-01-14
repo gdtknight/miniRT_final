@@ -42,22 +42,8 @@ void	handle_camera_move(t_render *render, int keycode)
 		move = vec3_multiply(right, -step);
 	else if (keycode == KEY_D)
 		move = vec3_multiply(right, step);
-/**
- * @brief if 함수
- *
- * @param KEY_Q 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_Q)
 		move = (t_vec3){0, step, 0};
-/**
- * @brief if 함수
- *
- * @param KEY_Z 파라미터
- *
- * @return else 반환값
- */
 	else if (keycode == KEY_Z)
 		move = (t_vec3){0, -step, 0};
 	else

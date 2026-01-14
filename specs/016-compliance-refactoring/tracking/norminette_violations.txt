@@ -1,0 +1,110 @@
+src/main.c: Error!
+Error: TOO_MANY_LINES       (line:  99, col:   1):	Function has more than 25 lines
+src/lighting/lighting.c: OK!
+src/lighting/shadow_attenuation.c: OK!
+src/lighting/shadow_calc.c: OK!
+src/lighting/shadow_config.c: OK!
+src/lighting/shadow_test.c: OK!
+src/math/vector.c: OK!
+src/math/vector_ops.c: OK!
+src/parser/parse_elements.c: OK!
+src/parser/parse_objects.c: OK!
+src/parser/parse_validation.c: OK!
+src/parser/parser.c: OK!
+src/ray/intersect_cylinder.c: OK!
+src/ray/intersections.c: OK!
+src/render/camera.c: OK!
+src/render/metrics_calc.c: OK!
+src/render/metrics_counters.c: OK!
+src/render/metrics_frame.c: OK!
+src/render/pixel_timing.c: Error!
+Error: TOO_MANY_FUNCS       (line:  79, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line:  85, col:   1):	Too many functions in file
+Error: TOO_MANY_LINES       (line: 121, col:   1):	Function has more than 25 lines
+src/render/render.c: Error!
+Error: TOO_MANY_VARS_FUNC   (line:  66, col:   1):	Too many variables declarations in a function
+src/render/render_progressive.c: OK!
+src/render/render_quality.c: OK!
+src/render/render_state.c: OK!
+src/render/trace.c: OK!
+src/utils/cleanup.c: OK!
+src/utils/error.c: OK!
+src/utils/format_object_id.c: OK!
+src/utils/ft_atof.c: OK!
+src/utils/ft_atoi.c: OK!
+src/utils/timer.c: OK!
+src/utils/timer_basic.c: OK!
+src/spatial/aabb.c: OK!
+src/spatial/aabb_basic.c: OK!
+src/spatial/aabb_shapes.c: OK!
+src/spatial/bounds.c: OK!
+src/spatial/bvh_build_core.c: OK!
+src/spatial/bvh_build_partition.c: OK!
+src/spatial/bvh_build_split.c: OK!
+src/spatial/bvh_init.c: OK!
+src/spatial/bvh_lifecycle.c: OK!
+src/spatial/bvh_traverse.c: OK!
+src/hud/hud_color.c: OK!
+src/hud/hud_color_extract.c: OK!
+src/hud/hud_format.c: OK!
+src/hud/hud_format_helpers.c: OK!
+src/hud/hud_format_simple.c: OK!
+src/hud/hud_init.c: OK!
+src/hud/hud_navigation.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  43, col:   1):	Comment is invalid in this scope
+src/hud/hud_obj_render.c: OK!
+src/hud/hud_objects.c: OK!
+src/hud/hud_performance.c: OK!
+src/hud/hud_render.c: OK!
+src/hud/hud_scene.c: OK!
+src/hud/hud_text.c: OK!
+src/hud/hud_toggle.c: OK!
+src/hud/hud_transparency.c: OK!
+src/bvh_vis/bvh_vis_init.c: OK!
+src/bvh_vis/bvh_vis_node.c: OK!
+src/bvh_vis/bvh_vis_prefix.c: OK!
+src/bvh_vis/bvh_vis_print.c: OK!
+src/bvh_vis/bvh_vis_stats.c: OK!
+src/bvh_vis/bvh_vis_tree.c: OK!
+src/keyguide/keyguide_cleanup.c: OK!
+src/keyguide/keyguide_init.c: OK!
+src/keyguide/keyguide_render.c: OK!
+src/window/window_camera.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  45, col:   1):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  54, col:   1):	Comment is invalid in this scope
+src/window/window_events.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  60, col:   1):	Comment is invalid in this scope
+src/window/window_init.c: OK!
+src/window/window_key_handlers.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  37, col:   1):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  51, col:   1):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 109, col:   1):	Comment is invalid in this scope
+src/window/window_lifecycle.c: OK!
+src/window/window_loop.c: OK!
+src/window/window_objects.c: OK!
+src/window/window_select_cycle.c: OK!
+src/window/window_select_helpers.c: OK!
+src/window/window_selection.c: OK!
+includes/parser.h: OK!
+includes/vec3.h: OK!
+includes/pixel_timing.h: OK!
+includes/ray.h: OK!
+includes/render_state.h: OK!
+includes/shadow.h: OK!
+includes/spatial.h: OK!
+includes/window.h: OK!
+includes/bvh_vis.h: OK!
+includes/format_object_id.h: OK!
+includes/hud.h: OK!
+includes/hud_obj_render.h: OK!
+includes/hud_objects.h: OK!
+includes/hud_scene.h: OK!
+includes/hud_text.h: OK!
+includes/keyguide.h: OK!
+includes/metrics.h: OK!
+includes/minirt.h: OK!
+includes/objects.h: OK!
+includes/render/render_progressive.h: OK!
+includes/render/render_quality.h: OK!
+includes/spatial/bvh_internal.h: OK!
+includes/window/window_internal.h: OK!

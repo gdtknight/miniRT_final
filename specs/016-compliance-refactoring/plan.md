@@ -1,193 +1,241 @@
-# Implementation Plan: Complete Compliance Refactoring
+# Implementation Plan: miniRT Complete Compliance Refactoring
 
-**Branch**: `016-compliance-refactoring` | **Date**: 2026-01-14 | **Spec**: [spec.md](./spec.md)  
+**Branch**: `016-compliance-refactoring` | **Date**: 2026-01-14 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/016-compliance-refactoring/spec.md`
+
+**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-This implementation plan provides a comprehensive, risk-mitigated approach to achieving full 42 School compliance for the miniRT project. The refactoring addresses three critical compliance areas:
-
-1. **Norminette Compliance**: Achieving 100% style compliance across 75 source files through incremental refactoring with automated validation
-2. **Forbidden Function Elimination**: Replacing 3 instances of non-allowed functions (memcpy, memset) with custom implementations that maintain identical behavior
-3. **Code Deduplication**: Identifying and consolidating files with 100% identical content using hash-based detection
-
-**Technical Approach**: The plan uses an incremental, phase-based approach with continuous validation after each module. A pixel-diff validation tool with <0.1% threshold ensures no visual regressions, while automated memory checks prevent leak introduction. The refactoring is structured in 11 phases (0-10) with clear dependencies, allowing for parallel work where possible and safe rollback procedures at each validation point.
-
-**Key Risk Mitigation**: Baseline renders captured before any changes, frequent automated validation, git branching for instant rollback, and focus on preserving existing functionality while achieving compliance.
+This implementation plan addresses comprehensive compliance refactoring of the miniRT project to meet 42 School evaluation requirements. The primary goals are: (1) achieve 100% norminette 3.3.50 compliance across 75 source files, (2) eliminate all 3 forbidden function usages (memcpy, memset), and (3) remove duplicate source files. The technical approach employs automated incremental refactoring with pixel-diff validation (<0.1% threshold) and memory leak detection to ensure functional preservation throughout the process.
 
 ## Technical Context
 
-**Language/Version**: C (C99 standard), GCC 7.5+/Clang 10+  
-**Primary Dependencies**: MinilibX (graphics), libm (math library), norminette 3.3.50 (style checker), valgrind/leaks (memory validation)  
-**Storage**: N/A (refactoring existing code, no new data storage)  
-**Testing**: Custom test suite (38 scene files), pixel-diff validation tool (<0.1% threshold), valgrind memory leak detection  
-**Target Platform**: Linux (Ubuntu 20.04+) and macOS (10.14+) with X11/AppKit support  
-**Project Type**: Single graphics application (miniRT ray tracer)  
-**Performance Goals**: Maintain current render times (refactoring should not degrade performance), compilation time increase <20% from baseline  
+**Language/Version**: C99 (ISO/IEC 9899:1999 standard)  
+**Primary Dependencies**: MinilibX (42 School graphics library), libm (math library), X11/Xext (Linux), AppKit (macOS)  
+**Storage**: Scene files (.rt format), PPM image files (baseline validation)  
+**Testing**: Valgrind (Linux) / leaks (macOS) for memory validation, norminette 3.3.50 for style checks, custom pixel-diff tool for regression testing  
+**Target Platform**: Linux (Ubuntu 20.04+) and macOS (10.14+) with 42 School toolchain  
+**Project Type**: Single desktop application (ray tracer)  
+**Performance Goals**: Render times <5s for simple scenes, <30s for complex scenes (not primary focus - compliance is priority)  
 **Constraints**: 
-- Zero tolerance for norminette violations (automatic evaluation failure)
-- Zero tolerance for forbidden function usage (evaluation penalty)
-- Visual output must remain identical (<0.1% pixel difference)
-- Zero memory leaks tolerated (verified by valgrind)
-- Must maintain all existing functionality (no breaking changes)
-
-**Scale/Scope**: 
-- 75 source files (.c) requiring compliance checks
-- ~300+ functions requiring validation
-- 3 known forbidden function violations to fix
-- 38 test scenes for regression validation
-- 11 implementation phases (Phase 0-10)
-- Estimated 8-11 days completion time
+- Zero norminette violations (automatic evaluation failure otherwise)
+- Zero forbidden function usages (automatic evaluation failure)
+- Zero memory leaks (evaluation penalty)
+- <0.1% pixel difference after refactoring (preserve visual quality)
+- Compilation time increase <20% from baseline
+**Scale/Scope**: 75 source files, ~300 functions, 38 test scenes, estimated 8-11 days effort
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-**Status**: ✅ PASSED - No violations detected
+**Constitution Compliance Status**: ✅ PASS
 
-### Project Structure Standards (Principle I)
-- ✅ Scripts properly organized: CI scripts in `.github/scripts/`, user scripts at root
-- ✅ Documentation hierarchy clear: Active docs in `docs/`, spec in `specs/`
-- ✅ No scattered backup files or deprecated content at root level
-- ✅ Build artifacts managed via `.gitignore`
+**42 School Constraints Check** (Principle VII):
+- ✅ All functions used MUST be from allowed list (libc, math, mlx_*, libft, get_next_line)
+  - Status: Currently 3 violations (memcpy x2, memset x1) - will be fixed with custom ft_memcpy/ft_memset in Phase 4
+  - Custom implementations use only allowed functions (basic loops, pointer arithmetic)
+- ✅ pthread functions MUST NOT be used
+  - Status: COMPLIANT - No pthread usage detected in codebase
+- ✅ fork/pipe/multiprocessing MUST NOT be used  
+  - Status: COMPLIANT - No process management functions used
+- ✅ External parallelization libraries (SIMD, OpenMP, etc.) MUST NOT be used
+  - Status: COMPLIANT - Only BVH algorithmic optimization used (allowed)
+- ✅ Optimizations MUST use only allowed techniques (algorithmic, caching, math, memory layout)
+  - Status: COMPLIANT - Current optimizations: BVH spatial partitioning (algorithmic), precomputed normals (caching), cache-friendly data structures (memory layout)
 
-### Code Quality Automation (Principle II)
-- ✅ Quality gates defined: norminette + build + memory leak check
-- ✅ CI enforcement planned: Failed checks will block merges
-- ✅ Automated reporting: norminette and valgrind provide clear error messages
-- ✅ No manual exceptions: All checks automated
+**Other Constitution Principles**:
+- ✅ Project Structure Standards (Principle I): Specs in `specs/016-compliance-refactoring/`, tracking in `tracking/`, baselines in `tests/baselines/`
+- ✅ Code Quality Automation (Principle II): norminette + build + memory checks automated
+- ✅ Documentation Standards: Korean docs in `docs/`, English specs in `specs/`, bilingual synchronization maintained
+- ✅ Workflow System (Principle IV): Feature branch `016-compliance-refactoring`, incremental commits, validation gates
 
-### Documentation and Wiki Synchronization (Principle III)
-- ✅ Wiki synchronization not applicable for refactoring (no user-facing changes)
-- ✅ Documentation updates planned in Phase 10
-- ✅ Source docs in `specs/` directory maintained as source of truth
-
-### Workflow System (Principle IV)
-- ✅ Development workflow defined: norminette + build + test per commit
-- ✅ PR workflow clear: All checks must pass before merge
-- ✅ Release workflow: Not applicable (internal refactoring)
-- ✅ Automation principles followed: No manual gates, clear failure messages
-
-### Tools and Environment Standards (Principle V)
-- ✅ Platform support maintained: Linux and macOS compatibility preserved
-- ✅ Dependency management: MinilibX, norminette, valgrind clearly documented
-- ✅ Test infrastructure: 38 scene files systematically organized in `scenes/`
-- ✅ Build artifacts: Logs in `logs/`, builds in `build/`, all gitignored
-
-### Bilingual Specification Management (Principle VI)
-- ✅ English spec located at `specs/016-compliance-refactoring/spec.md`
-- ✅ Korean translation location: `docs/specs/016-compliance-refactoring/` (if applicable)
-- ✅ Synchronization planned: Both versions will be updated in Phase 10
-- ✅ Release consistency: Both languages will be included in final documentation
-
-### 42 School Function Constraints (Principle VII) - CRITICAL
-- ✅ Allowed functions verified: Using only open, close, read, write, printf, malloc, free, math.h, mlx_*
-- ✅ pthread MUST NOT be used: Project does not use pthread (verified)
-- ✅ fork/pipe MUST NOT be used: Project does not use multiprocessing (verified)
-- ✅ External parallelization libraries MUST NOT be used: No SIMD, OpenMP, or TBB (verified)
-- ✅ Optimizations within constraints: BVH spatial partitioning, caching, math optimizations only
-- ⚠️ **VIOLATIONS TO BE FIXED**: 3 instances of forbidden functions (2x memcpy, 1x memset) - addressed in Phases 3-4
-
-**Re-evaluation After Phase 1 Design**: All principles remain compliant. No additional violations introduced by design decisions.
-
-**Justification for Proceeding**: The only violations (forbidden functions) are explicitly targeted for remediation in this refactoring. All other constitution principles are satisfied.
+**Pre-Phase 0 Gate**: ✅ PASS - All constitution checks satisfied or have clear remediation plan
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/016-compliance-refactoring/
-├── spec.md                          # Feature specification (input)
-├── plan.md                          # This file (implementation plan)
-├── research.md                      # Phase 0 output (technical research)
-├── data-model.md                    # Phase 1 output (compliance metadata model)
-├── quickstart.md                    # Phase 1 output (developer onboarding)
-├── contracts/                       # Phase 1 output (refactoring contracts)
-│   └── refactoring-contracts.md     # Behavior specifications and interfaces
-└── tracking/                        # Runtime tracking (generated during execution)
-    ├── file_compliance.json         # Per-file compliance state
-    ├── function_compliance.json     # Per-function metadata
-    ├── duplicates.json              # Duplicate file groups
-    ├── forbidden_usage.json         # Forbidden function instances
-    ├── validation_results.json      # Pixel-diff and memory validation
-    └── phase_state.json             # Phase progress tracking
+specs/[###-feature]/
+├── plan.md              # This file (/speckit.plan command output)
+├── research.md          # Phase 0 output (/speckit.plan command)
+├── data-model.md        # Phase 1 output (/speckit.plan command)
+├── quickstart.md        # Phase 1 output (/speckit.plan command)
+├── contracts/           # Phase 1 output (/speckit.plan command)
+└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
 
 ```text
-miniRT/
-├── src/                             # Source files requiring refactoring
-│   ├── bvh_vis/                     # BVH visualization (contains memcpy violations)
-│   ├── hud/                         # Heads-up display
-│   ├── keyguide/                    # Keyboard guide
-│   ├── lighting/                    # Lighting calculations
-│   ├── main.c                       # Main entry point (contains memset violation)
-│   ├── math/                        # Math utilities
-│   ├── parser/                      # Scene file parser
-│   ├── ray/                         # Ray tracing logic
-│   ├── render/                      # Rendering engine
-│   ├── spatial/                     # Spatial acceleration (BVH)
-│   ├── utils/                       # Utility functions
-│   │   └── memory.c                 # NEW: Custom memory utilities (ft_memcpy, ft_memset)
-│   └── window/                      # Window management
-│
-├── includes/                        # Header files
-│   ├── minirt.h                     # Main header
-│   ├── utils.h                      # NEW: Utility function declarations
-│   └── [other headers]              # Module-specific headers
-│
-├── tests/                           # Testing infrastructure
-│   ├── baselines/                   # NEW: Baseline renders for pixel-diff
-│   │   ├── *.ppm                    # Rendered images (38 files)
-│   │   └── metadata.json            # Baseline generation metadata
-│   └── current/                     # NEW: Current renders for comparison
-│
-├── scenes/                          # Test scene files (38 .rt files)
-│   ├── mandatory/                   # Required features
-│   ├── edge_cases/                  # Boundary conditions
-│   ├── error_cases/                 # Invalid inputs
-│   └── bonus/                       # Additional features
-│
-├── scripts/                         # Validation automation
-│   ├── pixel_diff.sh                # NEW: Pixel-diff validation tool
-│   └── memory_check.sh              # NEW: Memory leak validation
-│
-├── build/                           # Build artifacts (gitignored)
-├── logs/                            # Build and test logs (gitignored)
-└── Makefile                         # Build system (may need updates)
+# miniRT project structure (refactoring maintains existing structure)
+src/
+├── bvh/                    # BVH acceleration structure
+├── bvh_vis/                # BVH visualization (contains 2 memcpy violations)
+├── camera/                 # Camera and viewport
+├── color/                  # Color operations
+├── error/                  # Error handling
+├── hit/                    # Ray-object intersection
+├── light/                  # Lighting calculations
+├── main.c                  # Entry point (contains 1 memset violation)
+├── material/               # Material properties
+├── object/                 # Object definitions (sphere, plane, cylinder)
+├── parser/                 # Scene file parsing
+├── ray/                    # Ray tracing core
+├── render/                 # Rendering pipeline
+├── utils/                  # Utilities (will add memory.c for ft_memcpy/ft_memset)
+├── vector/                 # Vector mathematics
+└── window/                 # MinilibX window management
+
+includes/
+├── miniRT.h                # Main header
+├── structures.h            # Data structures
+├── utils.h                 # Utility function prototypes (will be created/updated)
+└── [other module headers]
+
+tests/
+├── baselines/              # Baseline renders for pixel-diff validation
+│   ├── *.ppm              # Rendered scene images
+│   └── metadata.json      # Baseline generation metadata
+└── current/               # Current renders for comparison
+
+scenes/
+├── mandatory/             # Required feature test scenes
+├── edge_cases/            # Boundary condition tests
+├── error_cases/           # Invalid input tests
+└── bonus/                 # Additional feature tests (if applicable)
+
+specs/016-compliance-refactoring/
+├── spec.md                # Feature specification
+├── plan.md                # This file
+├── research.md            # Phase 0 research output
+├── data-model.md          # Phase 1 data model
+├── quickstart.md          # Phase 1 developer guide
+├── contracts/             # Phase 1 API contracts
+└── tracking/              # Refactoring metadata (JSON files)
 ```
 
-**Structure Decision**: 
-
-This refactoring follows the **single project structure** as miniRT is a standalone graphics application. The existing modular organization (bvh_vis/, lighting/, parser/, etc.) is preserved and enhanced through:
-
-1. **New Utility Module** (`src/utils/memory.c`): Centralized location for custom memory functions (ft_memcpy, ft_memset) replacing forbidden functions. This module is reusable across all other modules.
-
-2. **Testing Infrastructure** (`tests/baselines/`, `tests/current/`): New directories for automated pixel-diff validation, ensuring refactored code produces identical visual output.
-
-3. **Validation Scripts** (`scripts/pixel_diff.sh`, `scripts/memory_check.sh`): Automation tools for regression detection and memory leak validation.
-
-4. **Tracking System** (`specs/016-compliance-refactoring/tracking/`): Temporary JSON files for progress monitoring during refactoring, discarded after completion.
-
-The structure maintains clear separation between:
-- **Production code** (src/, includes/): Subject to refactoring
-- **Testing infrastructure** (tests/, scripts/): Validation tools
-- **Documentation** (specs/): Planning and contracts
-- **Build artifacts** (build/, logs/): Transient files
-
-No changes to the fundamental architecture—all modifications are surgical improvements to existing modules for compliance, not feature additions.
+**Structure Decision**: This is a single desktop application project. The existing modular structure (organized by component: bvh, camera, parser, etc.) is well-suited for incremental refactoring. Each module can be validated independently. New additions: `src/utils/memory.c` for custom memory utilities, `tests/baselines/` for regression testing, `specs/016-compliance-refactoring/tracking/` for refactoring metadata.
 
 ## Complexity Tracking
 
-**No constitution violations requiring justification.**
+> **Not Applicable** - No constitution violations exist that require justification.
 
-This refactoring project maintains simplicity by:
-- Using existing single-project structure (no additional projects)
-- Adding minimal new code (only custom memory utilities)
-- Preserving all existing module boundaries
-- Not introducing new architectural patterns
-- Following 42 School constraints (no threading, no external libraries)
+This refactoring project complies with all constitution principles:
+- Uses only allowed functions (custom implementations for forbidden ones)
+- No additional projects/repositories needed
+- No architecture patterns that violate simplicity principles
+- Follows established 42 School constraints and project structure standards
 
-The refactoring focuses on compliance adjustments to existing code rather than architectural changes, keeping complexity minimal and maintainability high.
+All identified violations (3 forbidden function usages) will be resolved through compliant custom implementations (ft_memcpy, ft_memset) as documented in research.md and contracts/refactoring-contracts.md.
+
+---
+
+## Phase Completion Summary
+
+### ✅ Phase 0: Research & Analysis (COMPLETED)
+
+**Status**: Complete  
+**Output**: `research.md`  
+**Date**: 2026-01-14
+
+**Key Achievements**:
+- Resolved all technical unknowns from specification
+- Established norminette compliance strategy (incremental refactoring)
+- Designed custom memory utilities (ft_memcpy, ft_memset) for forbidden function replacement
+- Defined hash-based duplicate detection approach (100% match only)
+- Created automated validation framework (pixel-diff <0.1% + memory checks)
+- Identified risk mitigation strategies and rollback procedures
+- Mapped 10-phase implementation workflow with dependency graph
+
+**Artifacts Generated**:
+- `specs/016-compliance-refactoring/research.md` (630 lines)
+- Implementation patterns for norminette violations
+- Custom memory utility specifications
+- Validation tool designs
+
+---
+
+### ✅ Phase 1: Design & Contracts (COMPLETED)
+
+**Status**: Complete  
+**Output**: `data-model.md`, `quickstart.md`, `contracts/refactoring-contracts.md`  
+**Date**: 2026-01-14
+
+**Key Achievements**:
+- Defined 6 core entities for tracking refactoring state
+- Created comprehensive data model for compliance metadata
+- Generated developer quickstart guide with 10-phase workflow
+- Documented API contracts for custom memory utilities
+- Updated GitHub Copilot agent context with C99 and MinilibX information
+- Validated constitution compliance (all gates passed)
+
+**Artifacts Generated**:
+- `specs/016-compliance-refactoring/data-model.md` (334 lines)
+- `specs/016-compliance-refactoring/quickstart.md` (745 lines)
+- `specs/016-compliance-refactoring/contracts/refactoring-contracts.md` (exists)
+- `.github/agents/copilot-instructions.md` (updated)
+
+**Data Model Entities**:
+1. Source File Metadata (t_file_compliance)
+2. Function Metadata (t_function_compliance)
+3. Duplicate File Group (t_duplicate_group)
+4. Forbidden Function Usage (t_forbidden_usage)
+5. Validation Result (t_validation_result)
+6. Refactoring Phase State (t_phase_state)
+
+**Constitution Re-check**: ✅ PASS
+- No new violations introduced during design phase
+- Custom memory utilities comply with allowed functions (basic loops only)
+- All optimizations remain within allowed techniques
+- Project structure follows established standards
+
+---
+
+## Next Steps (Phase 2)
+
+**Command**: `/speckit.tasks` or equivalent task generation workflow
+
+This planning phase (Phases 0-1) is now complete. The next phase involves:
+
+1. **Task Breakdown**: Generate `tasks.md` from implementation plan
+2. **Implementation**: Execute Phases 0-10 as documented in quickstart.md
+3. **Validation**: Run quality gates after each phase
+4. **Documentation**: Update docs/ with final results
+
+**Ready for Implementation**: ✅ YES
+
+All prerequisites satisfied:
+- ✅ Technical context defined
+- ✅ Constitution compliance verified
+- ✅ Research completed (all unknowns resolved)
+- ✅ Data model designed
+- ✅ API contracts specified
+- ✅ Developer guide created
+- ✅ Agent context updated
+
+**Branch**: `016-compliance-refactoring` (ready to begin implementation work)
+
+---
+
+## Quick Reference
+
+| Document | Purpose | Status |
+|----------|---------|--------|
+| `spec.md` | Feature specification (user stories, requirements) | ✅ Complete |
+| `plan.md` | Implementation plan (this file) | ✅ Complete |
+| `research.md` | Phase 0: Technical research and decisions | ✅ Complete |
+| `data-model.md` | Phase 1: Entity definitions and relationships | ✅ Complete |
+| `quickstart.md` | Phase 1: Developer onboarding guide | ✅ Complete |
+| `contracts/refactoring-contracts.md` | Phase 1: API contracts and specifications | ✅ Complete |
+| `tasks.md` | Phase 2: Executable task breakdown | ⏳ Not Started |
+
+**Estimated Timeline**: 8-11 days for full implementation (Phases 0-10)  
+**Start Date**: TBD (after task generation)  
+**Team**: Individual developer (42 School project)
+
+---
+
+*End of Implementation Plan*
