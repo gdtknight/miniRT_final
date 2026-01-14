@@ -87,11 +87,11 @@ As a developer maintaining the miniRT codebase, I need to identify and remove du
 
 **Acceptance Scenarios**:
 
-1. **Given** all source files in the project, **When** I generate content hashes (MD5/SHA256), **Then** no two different filenames have identical hashes
-2. **Given** identified duplicate files, **When** I consolidate them into a single canonical version, **Then** the build completes successfully with all tests passing
+1. **Given** all source files in the project, **When** I generate content hashes (MD5/SHA256), **Then** no two different filenames have identical hashes (100% byte-for-byte match)
+2. **Given** identified duplicate files with identical hashes, **When** I consolidate them into a single canonical version, **Then** the build completes successfully with all tests passing
 3. **Given** removed duplicate files, **When** I check the git history, **Then** commit messages document which files were removed and which canonical version was retained
 4. **Given** the consolidated codebase, **When** I search for references to old duplicate filenames, **Then** all references point to the canonical version
-5. **Given** similar but not identical files, **When** I analyze their differences, **Then** I either merge them (if differences are trivial) or document why they must remain separate
+5. **Given** files with similar but not identical content, **When** they fail the byte-for-byte hash comparison, **Then** they are left as separate files (not considered duplicates for this refactoring)
 
 ---
 
@@ -123,6 +123,7 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **Platform-specific differences**: How does the code handle differences between Linux (X11) and macOS (AppKit) implementations of MinilibX?
 - **Norminette corner cases**: How are long function signatures split across lines? Are all variable declarations at function start? Are all functions properly prototyped?
 - **Duplicate file edge cases**: How do we handle files that are 90% similar but have minor differences? What if duplicate files have different modification dates? What if one version has bug fixes the other doesn't?
+  - **Clarified**: Only files with 100% byte-for-byte identical content (verified by hash) are considered duplicates. Similar files remain separate. If identical duplicates have different timestamps, the most appropriate canonical version is chosen based on naming convention and module location.
 
 ## Requirements *(mandatory)*
 
@@ -137,6 +138,7 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **FR-006**: System MUST use only functions from the allowed functions list specified in miniRT.pdf
 - **FR-007**: System MUST NOT use forbidden functions including but not limited to: memset, memcpy, memmove, strcpy, strcat, strncpy, strncat
 - **FR-008**: All custom replacement functions for banned functions MUST maintain identical behavior to replaced functions
+- **FR-008a**: Custom utility functions (custom_memcpy, custom_memset) MUST be implemented in a dedicated utilities module to replace forbidden function calls
 
 #### Build System Requirements
 - **FR-009**: Makefile MUST include standard targets: all, clean, fclean, re, bonus
@@ -175,12 +177,18 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **FR-034**: Source code MUST be organized in logical modules with clear separation of concerns
 - **FR-035**: Each function MUST have a single, well-defined responsibility
 - **FR-036**: Long functions currently exceeding 25 lines MUST be split into helper functions
-- **FR-037**: All helper functions MUST be static when not needed in other files
+- **FR-037**: All helper functions MUST be static when not needed in other files (default: static, promote to non-static only when needed by multiple files)
 - **FR-038**: All prototypes MUST be declared in appropriate header files before use
 
+#### Validation and Testing Requirements
+- **FR-043**: System MUST pass automated pixel-diff validation comparing rendered output before and after refactoring with <0.1% pixel difference threshold
+- **FR-044**: Automated validation MUST include memory checks to verify no memory leaks or increased memory usage
+- **FR-045**: Pixel-diff tool MUST generate baseline renders from all test scenes before refactoring begins
+- **FR-046**: Pixel-diff validation MUST be run after each significant refactoring phase to detect regressions early
+
 #### Code Deduplication Requirements
-- **FR-039**: System MUST identify and remove duplicate source files (files with identical or substantially similar content but different names)
-- **FR-040**: System MUST consolidate redundant implementations of the same functionality into a single, well-named source file
+- **FR-039**: System MUST identify and remove duplicate source files (files with 100% identical content verified by MD5/SHA256 hash comparison)
+- **FR-040**: System MUST consolidate exact byte-for-byte duplicate implementations into a single, well-named source file
 - **FR-041**: System MUST update all references (includes, Makefile, build system) when removing duplicate files
 - **FR-042**: Removed duplicate files MUST be documented in commit messages with references to the canonical version retained
 
@@ -204,7 +212,7 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 - **SC-002**: Zero uses of forbidden functions (memset, memcpy, memmove, etc.) across entire codebase (currently 3 violations)
 - **SC-003**: Build process completes successfully with -Wall -Wextra -Werror flags producing zero warnings
 - **SC-004**: Program execution produces zero memory leaks when tested with Valgrind/leaks on all provided test scenes
-- **SC-005**: All 40 test scenes render correctly with identical visual output before and after refactoring
+- **SC-005**: All 40 test scenes render correctly with pixel-difference <0.1% compared to baseline (validated using automated pixel-diff tool) before and after refactoring
 - **SC-006**: Makefile passes all standard target tests (make, make re, make clean, make fclean) without errors
 - **SC-007**: 100% of mandatory features from miniRT.pdf are demonstrable and functional
 - **SC-008**: 100% of evaluation checklist items from miniRT_eval.pdf can be successfully verified
@@ -254,7 +262,7 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 ### Validation Approach
 - **Assumption 18**: Automated norminette checks provide definitive pass/fail criteria for style compliance
 - **Assumption 19**: Manual code review simulating peer evaluation will catch edge cases not covered by automated tools
-- **Assumption 20**: Regression testing with all 40 scenes will be sufficient to verify functional preservation
+- **Assumption 20**: Regression testing with all 40 scenes using automated pixel-diff tool (<0.1% difference threshold) and memory checks will be sufficient to verify functional preservation
 - **Assumption 21**: Memory leak detection with valgrind/leaks on representative scenes will be sufficient for memory safety verification
 
 ## Dependencies *(optional)*
@@ -281,35 +289,52 @@ As a 42 School student preparing for evaluation, I need all items from miniRT_ev
 ## Implementation Notes *(optional)*
 
 ### Priority Order for Implementation
-1. **Phase 1 - Duplicate File Detection**: Generate file hashes and identify duplicate source files
-2. **Phase 2 - Duplicate File Consolidation**: Remove duplicates, update references, verify build
-3. **Phase 3 - Forbidden Functions Audit**: Identify all uses of forbidden functions (current: 3 instances)
-4. **Phase 4 - Function Replacement**: Replace memcpy, memset with compliant alternatives
-5. **Phase 5 - Norminette First Pass**: Run norminette on all files, generate violation report
-6. **Phase 6 - Function Splitting**: Split functions exceeding 25 lines into helper functions
-7. **Phase 7 - Parameter Reduction**: Refactor functions with >4 parameters using structures or simplified interfaces
-8. **Phase 8 - Style Fixes**: Fix remaining style issues (variable declarations, formatting, etc.)
-9. **Phase 9 - Verification**: Run full test suite, memory checks, and final norminette validation
-8. **Phase 8 - Documentation Update**: Update all affected documentation
+1. **Phase 0 - Baseline Capture**: Generate baseline renders and memory profiles for all 40 test scenes using automated pixel-diff tool
+2. **Phase 1 - Duplicate File Detection**: Generate file hashes and identify duplicate source files
+3. **Phase 2 - Duplicate File Consolidation**: Remove duplicates, update references, verify build
+4. **Phase 3 - Forbidden Functions Audit**: Identify all uses of forbidden functions (current: 3 instances)
+5. **Phase 4 - Function Replacement**: Replace memcpy, memset with compliant alternatives
+6. **Phase 5 - Norminette First Pass**: Run norminette on all files, generate violation report
+7. **Phase 6 - Function Splitting**: Split functions exceeding 25 lines into helper functions
+8. **Phase 7 - Parameter Reduction**: Refactor functions with >4 parameters using structures or simplified interfaces
+9. **Phase 8 - Style Fixes**: Fix remaining style issues (variable declarations, formatting, etc.)
+10. **Phase 9 - Verification**: Run full test suite, automated pixel-diff validation (<0.1% threshold), memory checks, and final norminette validation
+11. **Phase 10 - Documentation Update**: Update all affected documentation
 
 ### Common Refactoring Patterns
 - **Long Functions**: Extract logic into static helper functions with clear names
 - **Multiple Parameters**: Group related parameters into configuration structures
 - **Forbidden Functions**: 
-  - memcpy → manual loop copying or ft_memcpy if libft is allowed
-  - memset → manual loop initialization
+  - memcpy → custom_memcpy (manual loop copying implemented in dedicated utilities module)
+  - memset → custom_memset (manual loop initialization implemented in dedicated utilities module)
   - Replace only if not in allowed list
 - **Variable Declarations**: Move all declarations to function start, initialize during declaration where possible
 
 ### Risk Mitigation
 - **Risk**: Breaking existing functionality during refactoring
-  - **Mitigation**: Run test suite after each major change
+  - **Mitigation**: Run test suite after each major change, use automated pixel-diff tool to verify renders match baseline (<0.1% threshold)
 - **Risk**: Introducing memory leaks during refactoring
   - **Mitigation**: Run valgrind/leaks after each module refactoring
 - **Risk**: Missing subtle norminette violations
   - **Mitigation**: Run norminette frequently, use automated pre-commit hooks
 - **Risk**: Performance degradation from function splitting
   - **Mitigation**: Benchmark key rendering operations before/after changes
+
+### Debugging Strategy
+- **No temporary logging/debug infrastructure** will be added during refactoring
+- Use external debuggers (gdb, lldb) and compiler flags (-g, -fsanitize=address) for validation
+- Rely on existing test suite and automated pixel-diff tool (<0.1% difference threshold) for visual comparison of rendered scenes
+- Use compiler warnings (-Wall -Wextra -Werror) as primary real-time feedback mechanism
+
+## Clarifications
+
+### Session 2026-01-14
+
+- Q: What is the definition of "duplicate" files - should we use 100% identical content only (exact byte-for-byte duplicates using MD5/SHA256 hash comparison), or include "substantially similar" files (e.g., >90% code similarity with minor differences like variable names, comments, or minor logic variations)? → A: Use 100% identical content only (exact byte-for-byte duplicates using MD5/SHA256 hash comparison)
+- Q: How should the 3 instances of forbidden functions (memcpy in bvh_vis_prefix.c, memset in main.c) be replaced to ensure compliance while maintaining code quality and behavior? → A: Create custom utility functions (custom_memcpy, custom_memset) and place them in a dedicated utilities module
+- Q: When splitting long functions into helpers to meet the 25-line limit, should helpers be static or non-static by default? → A: Use static helper functions as default, promote to non-static only when needed by multiple files
+- Q: Should temporary logging/debug infrastructure be added during refactoring to track changes and validate behavior, or rely solely on external debuggers and compiler flags? → A: No additional logging/debug infrastructure during refactoring. Use external debuggers and compiler flags only.
+- Q: How should we validate that refactored code produces identical visual output to ensure no regressions in rendering behavior? → A: Automated pixel-diff tool comparing before/after renders with <0.1% difference threshold plus memory checks
 
 ## Related Documentation
 
