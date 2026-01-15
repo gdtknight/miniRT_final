@@ -16,6 +16,7 @@
 # include "minirt.h"
 # include "mlx.h"
 # include "pixel_timing.h"
+# include "render_debounce.h"
 
 /* Window resolution constants - MacBook M1 13-inch native resolution */
 # define WINDOW_WIDTH 1440
@@ -85,6 +86,7 @@ typedef struct s_render
 	t_hud_state			hud;
 	t_keyguide_state	keyguide;
 	t_pixel_timing		pixel_timing;
+	t_debounce_state	debounce;
 }	t_render;
 
 /* Initialize MLX window and set up event handlers */

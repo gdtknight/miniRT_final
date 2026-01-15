@@ -37,6 +37,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-15
 - C99 (42 School project - strict standard compliance) + MiniLibX (42 graphics library), libft (custom C library), math.h (015-bvh-viz-improvements)
 - C99 (ISO/IEC 9899:1999 standard) + MinilibX (42 School graphics library), libm (math library), X11/Xext (Linux), AppKit (macOS) (016-compliance-refactoring)
 - Scene files (.rt format), PPM image files (baseline validation) (016-compliance-refactoring)
+- C (C99 standard, 42 School norminette compliant) + MiniLibX (graphics), libft (utilities), math.h (018-debounced-rendering)
+- N/A (in-memory state management only) (018-debounced-rendering)
 
 - C (C99 or later with -std=c99 or compatible) + MinilibX (X11/XQuartz graphics library), libm (math library), optional libft (001-raytracer)
 
@@ -56,9 +58,9 @@ tests/
 C (C99 or later with -std=c99 or compatible): Follow standard conventions
 
 ## Recent Changes
+- 018-debounced-rendering: Added C (C99 standard, 42 School norminette compliant) + MiniLibX (graphics), libft (utilities), math.h
 - 016-compliance-refactoring: Added C99 (ISO/IEC 9899:1999 standard) + MinilibX (42 School graphics library), libm (math library), X11/Xext (Linux), AppKit (macOS)
 - 016-compliance-refactoring: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
-- 015-bvh-viz-improvements: Added C99 (42 School project - strict standard compliance) + MiniLibX (42 graphics library), libft (custom C library), math.h
 
 
 <!-- MANUAL ADDITIONS START -->

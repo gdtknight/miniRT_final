@@ -81,6 +81,8 @@ SRCS		= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/render/render_state.c \
 			  $(SRC_DIR)/render/render_quality.c \
 			  $(SRC_DIR)/render/render_progressive.c \
+			  $(SRC_DIR)/render/render_debounce.c \
+			  $(SRC_DIR)/render/render_debounce_timer.c \
 			  $(SRC_DIR)/render/trace.c \
 			  $(SRC_DIR)/spatial/aabb.c \
 			  $(SRC_DIR)/spatial/aabb_basic.c \

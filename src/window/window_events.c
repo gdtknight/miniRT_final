@@ -87,12 +87,8 @@ int	handle_key_release(int keycode, void *param)
 	t_render	*render;
 
 	render = (t_render *)param;
-	if (is_movement_key(keycode))
-	{
-		render->low_quality = 0;
-		render->dirty = 1;
-	}
-	else if (keycode == KEY_SHIFT_L || keycode == KEY_SHIFT_R)
+	if (keycode == KEY_SHIFT_L || keycode == KEY_SHIFT_R)
 		render->shift_pressed = 0;
+	(void)is_movement_key;
 	return (0);
 }

@@ -37,16 +37,25 @@ int	render_loop(void *param)
 	t_render	*render;
 
 	render = (t_render *)param;
+	debounce_update(&render->debounce, render);
 	if (render->dirty)
 	{
 		metrics_start_frame(&render->scene->render_state.metrics);
 		render_scene_to_buffer(render->scene, render);
-		metrics_end_frame(&render->scene->render_state.metrics);
-		mlx_put_image_to_window(
-			render->mlx,
-			render->win,
-			render->img, 0, 0);
-		render->dirty = 0;
+		if (render->debounce.cancel_requested)
+		{
+			debounce_cancel(&render->debounce);
+			render->dirty = 1;
+		}
+		else
+		{
+			metrics_end_frame(&render->scene->render_state.metrics);
+			mlx_put_image_to_window(
+				render->mlx,
+				render->win,
+				render->img, 0, 0);
+			render->dirty = 0;
+		}
 	}
 	if (render->hud.visible && render->hud.dirty)
 	{

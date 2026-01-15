@@ -30,21 +30,19 @@ void	handle_camera_keys(t_render *render, int keycode)
 		|| keycode == KEY_D || keycode == KEY_Q || keycode == KEY_Z)
 	{
 		handle_camera_move(render, keycode);
-		render->low_quality = 1;
-		render->dirty = 1;
+		debounce_on_input(&render->debounce, render);
 		hud_mark_dirty(render);
 	}
 	else if (keycode == KEY_E || keycode == KEY_C)
 	{
 		handle_camera_pitch(render, keycode);
-		render->low_quality = 1;
-		render->dirty = 1;
+		debounce_on_input(&render->debounce, render);
 		hud_mark_dirty(render);
 	}
 	else if (keycode == KEY_S)
 	{
 		handle_camera_reset(render);
-		render->dirty = 1;
+		debounce_on_input(&render->debounce, render);
 		hud_mark_dirty(render);
 	}
 }
@@ -64,8 +62,7 @@ void	handle_transform_keys(t_render *render, int keycode)
 		|| keycode == KEY_G || keycode == KEY_V || keycode == KEY_B)
 	{
 		handle_object_move(render, keycode);
-		render->low_quality = 1;
-		render->dirty = 1;
+		debounce_on_input(&render->debounce, render);
 		hud_mark_dirty(render);
 	}
 	else if (keycode == KEY_INSERT || keycode == KEY_HOME
@@ -73,8 +70,7 @@ void	handle_transform_keys(t_render *render, int keycode)
 		|| keycode == KEY_END || keycode == KEY_PGDN)
 	{
 		handle_light_move(render, keycode);
-		render->low_quality = 1;
-		render->dirty = 1;
+		debounce_on_input(&render->debounce, render);
 		hud_mark_dirty(render);
 	}
 }
