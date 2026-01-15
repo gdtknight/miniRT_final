@@ -35,13 +35,17 @@
 int	render_loop(void *param)
 {
 	t_render	*render;
+	int			rendered;
 
 	render = (t_render *)param;
+	rendered = 0;
 	debounce_update(&render->debounce, render);
 	if (render->dirty)
 	{
+		render->is_rendering = 1;
 		metrics_start_frame(&render->scene->render_state.metrics);
 		render_scene_to_buffer(render->scene, render);
+		render->is_rendering = 0;
 		if (render->debounce.cancel_requested)
 		{
 			debounce_cancel(&render->debounce);
@@ -55,9 +59,10 @@ int	render_loop(void *param)
 				render->win,
 				render->img, 0, 0);
 			render->dirty = 0;
+			rendered = 1;
 		}
 	}
-	if (render->hud.visible && render->hud.dirty)
+	if (render->hud.visible && (render->hud.dirty || rendered))
 	{
 		hud_render(render);
 		keyguide_render(render);

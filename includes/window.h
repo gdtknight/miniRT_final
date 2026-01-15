@@ -81,6 +81,7 @@ typedef struct s_render
 	t_scene				*scene;
 	t_selection			selection;
 	int					dirty;
+	int					is_rendering;
 	int					low_quality;
 	int					shift_pressed;
 	t_hud_state			hud;

@@ -29,7 +29,7 @@ void	debounce_init(t_debounce_state *state)
 /*
 ** debounce_on_input - Handle keyboard input event
 ** Transitions state machine based on current state and starts/resets timer
-** Only cancels render if actually in progress (render->dirty == 1)
+** Only cancels render if actually in progress
 */
 void	debounce_on_input(t_debounce_state *state, t_render *render)
 {
@@ -45,7 +45,7 @@ void	debounce_on_input(t_debounce_state *state, t_render *render)
 	else if (state->state == DEBOUNCE_PREVIEW
 		|| state->state == DEBOUNCE_FINAL)
 	{
-		if (render->dirty)
+		if (render->is_rendering)
 			state->cancel_requested = 1;
 		state->state = DEBOUNCE_ACTIVE;
 		debounce_timer_start(&state->timer);

@@ -32,6 +32,7 @@ static void	init_render_state(t_render *render, t_scene *scene)
 	render->selection.type = OBJ_NONE;
 	render->selection.index = 0;
 	render->dirty = 1;
+	render->is_rendering = 0;
 	render->low_quality = 0;
 	render->shift_pressed = 0;
 	pixel_timing_init(&render->pixel_timing);
