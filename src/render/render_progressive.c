@@ -6,11 +6,11 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:15:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:15:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:15:36 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render/render_progressive.h"
+#include "render_progressive.h"
 #include "window.h"
 
 void	progressive_init(t_progressive_state *prog, int width, int height,

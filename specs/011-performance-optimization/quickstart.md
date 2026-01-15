@@ -1,6 +1,6 @@
 # Quickstart: Complex Scene Performance Optimization
 
-**Feature**: 001-performance-optimization  
+**Feature**: 011-performance-optimization  
 **Goal**: Get BVH acceleration and performance metrics running in 30 minutes  
 **Prerequisites**: Working miniRT raytracer with basic scene rendering
 
@@ -21,7 +21,7 @@ Test BVH acceleration on existing code **without modifications**:
 
 ```bash
 # 1. Ensure you're on the feature branch
-git checkout 001-performance-optimization
+git checkout 011-performance-optimization
 
 # 2. Build with optimization feature
 make clean && make

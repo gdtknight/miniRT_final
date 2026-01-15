@@ -6,13 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/12 20:30:58 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:14:54 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
-#include "window/window_internal.h"
+#include "window_internal.h"
 
 /*
 ** Check if key is a movement or transformation key.

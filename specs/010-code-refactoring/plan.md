@@ -1,7 +1,7 @@
 # Implementation Plan: Code Refactoring for Calculation Optimization
 
-**Branch**: `011-code-refactoring` | **Date**: 2026-01-01 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/011-code-refactoring/spec.md`
+**Branch**: `010-code-refactoring` | **Date**: 2026-01-01 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/010-code-refactoring/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -51,8 +51,8 @@ This feature focuses on identifying and eliminating redundant calculations, dupl
 - ✅ Existing build system and test infrastructure unchanged
 
 **Bilingual Specification Management** (Principle VI):
-- ✅ English spec created in specs/011-code-refactoring/
-- ⚠️ Korean translation NEEDS to be created in docs/specs/011-code-refactoring/
+- ✅ English spec created in specs/010-code-refactoring/
+- ⚠️ Korean translation NEEDS to be created in docs/specs/010-code-refactoring/
 
 **42 School Constraints Check** (Principle VII):
 - ✅ All functions used MUST be from allowed list (libc, math, mlx_*, libft, get_next_line)
@@ -73,7 +73,7 @@ This feature focuses on identifying and eliminating redundant calculations, dupl
 
 **Project Structure Standards** (Principle I):
 - ✅ VERIFIED: No structural changes to CI, scripts, or documentation hierarchy
-- ✅ All design artifacts placed in specs/011-code-refactoring/ as required
+- ✅ All design artifacts placed in specs/010-code-refactoring/ as required
 
 **Code Quality Automation** (Principle II):
 - ✅ VERIFIED: Design includes norminette compliance requirements
@@ -94,7 +94,7 @@ This feature focuses on identifying and eliminating redundant calculations, dupl
 - ✅ VERIFIED: Existing test infrastructure sufficient
 
 **Bilingual Specification Management** (Principle VI):
-- ⚠️ STILL PENDING: Korean translation in docs/specs/011-code-refactoring/
+- ⚠️ STILL PENDING: Korean translation in docs/specs/010-code-refactoring/
 - ✅ English spec complete with all required sections
 
 **42 School Constraints Check** (Principle VII):
@@ -108,7 +108,7 @@ This feature focuses on identifying and eliminating redundant calculations, dupl
 - ✅ VERIFIED: No external libraries or parallelization
 
 **POST-DESIGN GATE STATUS**: ✅ PASS with documentation note
-- **Action Required**: Create Korean translation of spec.md in docs/specs/011-code-refactoring/
+- **Action Required**: Create Korean translation of spec.md in docs/specs/010-code-refactoring/
 - **Implementation Ready**: All design artifacts complete and constitution-compliant
 
 ## Project Structure

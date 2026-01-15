@@ -6,14 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 15:15:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/12 15:15:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:15:45 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bvh_vis.h"
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include <stdio.h>
 
 t_vis_config	bvh_vis_default_config(void)
 {

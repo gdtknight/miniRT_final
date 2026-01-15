@@ -1,6 +1,6 @@
 # API Contract: Precomputed Geometry Properties
 
-**Feature**: 011-code-refactoring  
+**Feature**: 010-code-refactoring  
 **Module**: Scene Parsing / Object Structures  
 **Files**: `includes/objects.h`, `src/parser/parse_objects.c`  
 **Date**: 2026-01-01

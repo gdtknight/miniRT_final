@@ -1,6 +1,6 @@
 # Feature Specification: BVH Tree Visualization Improvements
 
-**Feature Branch**: `001-bvh-viz-improvements`  
+**Feature Branch**: `015-bvh-viz-improvements`  
 **Created**: 2026-01-12  
 **Status**: Draft  
 **Input**: User description: "Create a feature specification for improving BVH Tree Visualization with two main enhancements: 1. Consistent Object Identification: Align the object type and number format displayed in the HUD with the information shown in BVH leaf nodes. 2. Debounced Rendering for Keyboard Input: Implement a debounce mechanism that waits 1 second before rendering after keyboard input, resetting the timer if another input occurs within that 1 second."

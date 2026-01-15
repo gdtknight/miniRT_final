@@ -56,7 +56,7 @@ git clone https://github.com/YOUR_USERNAME/miniRT.git
 cd miniRT
 
 # Switch to workflow improvements branch
-git checkout 001-workflow-improvements
+git checkout 004-workflow-improvements
 
 # Build the project
 make

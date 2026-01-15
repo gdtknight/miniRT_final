@@ -4,7 +4,7 @@ description: "Task list for Advanced Rendering Performance Optimization feature"
 
 # Tasks: Advanced Rendering Performance Optimization
 
-**Input**: Design documents from `/specs/001-rendering-optimization/`
+**Input**: Design documents from `/specs/002-rendering-optimization/`
 **Prerequisites**: spec.md (user stories with priorities P1-P4)
 
 **Tests**: Tests are NOT explicitly requested in the specification. Focus on implementation with manual verification using test scenes.

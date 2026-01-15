@@ -1,7 +1,7 @@
 # Tasks: Scene Information HUD
 
-**Feature Branch**: `001-scene-info-hud`  
-**Input**: Design documents from `/home/yoshin/work/miniRT/specs/001-scene-info-hud/`  
+**Feature Branch**: `003-scene-info-hud`  
+**Input**: Design documents from `/home/yoshin/work/miniRT/specs/003-scene-info-hud/`  
 **Prerequisites**: plan.md ✅, spec.md ✅, data-model.md ✅, contracts/hud_api.h ✅, quickstart.md ✅
 
 **Project Type**: Single C project (miniRT)  
@@ -22,7 +22,7 @@
 **Purpose**: Create HUD module structure and integrate with existing build system
 
 - [ ] T001 Create HUD module directory structure: `src/hud/` and update `includes/hud.h`
-- [ ] T002 Copy API contract header from `specs/001-scene-info-hud/contracts/hud_api.h` to `includes/hud.h`
+- [ ] T002 Copy API contract header from `specs/003-scene-info-hud/contracts/hud_api.h` to `includes/hud.h`
 - [ ] T003 Update `Makefile` to include HUD source files in compilation
 - [ ] T004 Update `includes/window.h` to add `t_hud_state` and `shift_pressed` fields to `t_render` structure
 
@@ -186,12 +186,12 @@
 
 - [ ] T069 [P] Create additional test scenes in `tests/manual/hud_test_scenes/`: edge_cases.rt (0 objects), single_object.rt, max_objects.rt (100 objects)
 - [ ] T070 [P] Update project README.md: Add HUD feature description and keyboard shortcuts
-- [ ] T071 [P] Create Korean translation at `docs/specs/001-scene-info-hud/spec.md` (use translation tool if available)
+- [ ] T071 [P] Create Korean translation at `docs/specs/003-scene-info-hud/spec.md` (use translation tool if available)
 - [ ] T072 Comprehensive memory leak test: Run valgrind with toggle, navigation, pagination operations
 - [ ] T073 Performance validation: Measure HUD render time across all test scenes, verify ≤2ms for all cases
 - [ ] T074 Code review cleanup: Check all functions ≤25 lines, proper naming, comments where needed
 - [ ] T075 Run full norminette check: Verify all HUD module files pass 42 Norm
-- [ ] T076 Validate quickstart.md: Follow all examples in `specs/001-scene-info-hud/quickstart.md`, verify instructions work
+- [ ] T076 Validate quickstart.md: Follow all examples in `specs/003-scene-info-hud/quickstart.md`, verify instructions work
 - [ ] T077 Final integration test: Load 5 different RT scenes, test all HUD features (display, pagination, selection, toggle)
 
 **Checkpoint**: Feature complete, validated, documented, ready for merge

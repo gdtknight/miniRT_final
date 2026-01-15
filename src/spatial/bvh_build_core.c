@@ -6,12 +6,12 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:45:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/12 20:32:14 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:15:19 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "spatial.h"
-#include "spatial/bvh_internal.h"
+#include "bvh_internal.h"
 #include <stdlib.h>
 
 t_bvh_node	*create_leaf_node(t_object_ref *objects, int count, void *scene)

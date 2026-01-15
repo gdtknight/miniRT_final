@@ -6,13 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/12 20:31:27 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:14:24 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
-#include "window/window_internal.h"
+#include "window_internal.h"
 #include "hud.h"
 
 /*

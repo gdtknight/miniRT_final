@@ -1,7 +1,7 @@
 # Implementation Plan: Scene Information HUD
 
-**Branch**: `001-scene-info-hud` | **Date**: 2025-12-19 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-scene-info-hud/spec.md`
+**Branch**: `003-scene-info-hud` | **Date**: 2025-12-19 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/003-scene-info-hud/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -44,14 +44,14 @@ Implement a HUD (Heads-Up Display) system that displays parsed RT file informati
 ### Principle III: Documentation and Wiki Synchronization ✅
 - **Status**: PASS
 - **Verification**:
-  - English spec exists at `specs/001-scene-info-hud/spec.md`
-  - Korean translation will be added to `docs/specs/001-scene-info-hud/`
+  - English spec exists at `specs/003-scene-info-hud/spec.md`
+  - Korean translation will be added to `docs/specs/003-scene-info-hud/`
   - Will follow bilingual documentation requirements
 
 ### Principle IV: Workflow System ✅
 - **Status**: PASS
 - **Verification**:
-  - Using feature branch `001-scene-info-hud`
+  - Using feature branch `003-scene-info-hud`
   - Following spec → plan → implementation workflow
   - All quality gates applicable (norminette, build, manual test)
 
@@ -66,8 +66,8 @@ Implement a HUD (Heads-Up Display) system that displays parsed RT file informati
 ### Principle VI: Bilingual Specification Management ✅
 - **Status**: PASS
 - **Verification**:
-  - English spec completed at `specs/001-scene-info-hud/spec.md`
-  - Korean translation will be created at `docs/specs/001-scene-info-hud/spec.md`
+  - English spec completed at `specs/003-scene-info-hud/spec.md`
+  - Korean translation will be created at `docs/specs/003-scene-info-hud/spec.md`
   - Both will be synchronized in the same commit
 
 **Overall Gate Status**: ✅ PASS - All constitution principles satisfied. No violations requiring justification.
@@ -77,7 +77,7 @@ Implement a HUD (Heads-Up Display) system that displays parsed RT file informati
 ### Documentation (this feature)
 
 ```text
-specs/001-scene-info-hud/
+specs/003-scene-info-hud/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
@@ -190,7 +190,7 @@ tests/
 ### Principle III: Documentation and Wiki Synchronization ✅
 **Status**: PASS (unchanged)
 - All design documents created in English
-- Korean placeholder created at `docs/specs/001-scene-info-hud/spec.md`
+- Korean placeholder created at `docs/specs/003-scene-info-hud/spec.md`
 - Ready for wiki sync on release
 
 ### Principle IV: Workflow System ✅
@@ -238,7 +238,7 @@ The `/speckit.tasks` command will:
 
 ## Summary
 
-**Branch**: `001-scene-info-hud`  
+**Branch**: `003-scene-info-hud`  
 **Implementation Plan Status**: ✅ COMPLETE (Phases 0-1)
 
 **Deliverables**:

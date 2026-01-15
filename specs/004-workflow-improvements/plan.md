@@ -1,7 +1,7 @@
 # Implementation Plan: Workflow Improvements and Project Structure Reorganization
 
-**Branch**: `001-workflow-improvements` | **Date**: 2025-12-18 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-workflow-improvements/spec.md`
+**Branch**: `004-workflow-improvements` | **Date**: 2025-12-18 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/004-workflow-improvements/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -98,7 +98,7 @@ Technical approach: Bash scripting for automation, GitHub Actions for CI/CD, val
 ### Documentation (this feature)
 
 ```text
-specs/001-workflow-improvements/
+specs/004-workflow-improvements/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
@@ -332,6 +332,6 @@ All design work complete. Next steps:
 ---
 
 **Plan Status**: ✅ COMPLETE (Phase 0 & 1)  
-**Next Command**: `speckit.tasks specs/001-workflow-improvements`  
-**Branch**: `001-workflow-improvements`  
+**Next Command**: `speckit.tasks specs/004-workflow-improvements`  
+**Branch**: `004-workflow-improvements`  
 **Implementation Ready**: YES

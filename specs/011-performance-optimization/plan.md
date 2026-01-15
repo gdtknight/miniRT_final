@@ -1,7 +1,7 @@
 # Implementation Plan: Complex Scene Performance Optimization
 
-**Branch**: `001-performance-optimization` | **Date**: 2026-01-01 | **Spec**: [spec.md](spec.md)
-**Input**: Feature specification from `/specs/001-performance-optimization/spec.md`
+**Branch**: `011-performance-optimization` | **Date**: 2026-01-01 | **Spec**: [spec.md](spec.md)
+**Input**: Feature specification from `/specs/011-performance-optimization/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -46,7 +46,7 @@ Implement BVH (Bounding Volume Hierarchy) acceleration structure to optimize ray
 - ✅ Implementation will update docs/ with Korean documentation
 - ✅ Wiki will be auto-synchronized on release
 - ✅ Code comments in English (Doxygen style)
-- ✅ Feature specification already in specs/001-performance-optimization/
+- ✅ Feature specification already in specs/011-performance-optimization/
 
 **42 School Constraints Check** (Principle VII):
 - ✅ Only allowed functions used: malloc, free, math.h functions, mlx_* functions, libft
@@ -133,8 +133,8 @@ No constitution violations - this section intentionally left empty as all constr
 ## Workflow Execution Summary
 
 **Completed**: 2026-01-01  
-**Command**: `/speckit.plan` for feature 001-performance-optimization  
-**Branch**: `001-performance-optimization`
+**Command**: `/speckit.plan` for feature 011-performance-optimization  
+**Branch**: `011-performance-optimization`
 
 ### Phase 0: Research ✅ COMPLETE
 

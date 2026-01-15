@@ -281,7 +281,7 @@ cat logs/miniRT.log | grep HUD
 
 ### Public Functions
 
-See `specs/001-scene-info-hud/contracts/hud_api.h` for full API documentation.
+See `specs/003-scene-info-hud/contracts/hud_api.h` for full API documentation.
 
 **Initialization**:
 ```c
@@ -306,10 +306,10 @@ void hud_page_up(t_render *render);
 
 ## Further Reading
 
-- **Full Specification**: See `specs/001-scene-info-hud/spec.md`
-- **Implementation Plan**: See `specs/001-scene-info-hud/plan.md`
-- **Data Model**: See `specs/001-scene-info-hud/data-model.md`
-- **API Contract**: See `specs/001-scene-info-hud/contracts/hud_api.h`
+- **Full Specification**: See `specs/003-scene-info-hud/spec.md`
+- **Implementation Plan**: See `specs/003-scene-info-hud/plan.md`
+- **Data Model**: See `specs/003-scene-info-hud/data-model.md`
+- **API Contract**: See `specs/003-scene-info-hud/contracts/hud_api.h`
 
 ## Support
 

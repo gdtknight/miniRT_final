@@ -1,6 +1,6 @@
 # Tasks: Workflow Improvements and Project Structure Reorganization
 
-**Input**: Design documents from `/specs/001-workflow-improvements/`
+**Input**: Design documents from `/specs/004-workflow-improvements/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
 
 **Tests**: Not requested in specification - focusing on implementation and validation tasks
@@ -503,5 +503,5 @@ After completing all tasks, verify:
 ---
 
 **Generated**: 2025-12-18  
-**Branch**: `001-workflow-improvements`  
+**Branch**: `004-workflow-improvements`  
 **Ready for Implementation**: YES ✅

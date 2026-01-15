@@ -6,13 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:40:00 by yoshin            #+#    #+#             */
-/*   Updated: 2025/01/04 18:40:00 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 15:32:41 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "window.h"
-#include "window/window_internal.h"
+#include "window_internal.h"
 #include "hud.h"
 #include "keyguide.h"
 #include "metrics.h"
@@ -42,7 +42,10 @@ int	render_loop(void *param)
 		metrics_start_frame(&render->scene->render_state.metrics);
 		render_scene_to_buffer(render->scene, render);
 		metrics_end_frame(&render->scene->render_state.metrics);
-		mlx_put_image_to_window(render->mlx, render->win, render->img, 0, 0);
+		mlx_put_image_to_window(
+			render->mlx,
+			render->win,
+			render->img, 0, 0);
 		render->dirty = 0;
 	}
 	if (render->hud.visible && render->hud.dirty)

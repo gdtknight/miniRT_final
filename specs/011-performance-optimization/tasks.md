@@ -1,7 +1,7 @@
 # Tasks: Complex Scene Performance Optimization
 
-**Feature**: 001-performance-optimization  
-**Input**: Design documents from `/specs/001-performance-optimization/`  
+**Feature**: 011-performance-optimization  
+**Input**: Design documents from `/specs/011-performance-optimization/`  
 **Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅, contracts/ ✅, quickstart.md ✅
 
 **Tests**: Not requested in feature specification - implementation-focused feature
@@ -368,10 +368,10 @@ Before marking feature complete, verify:
 
 ## Reference Documents
 
-- **Plan**: specs/001-performance-optimization/plan.md
-- **Specification**: specs/001-performance-optimization/spec.md
-- **Research**: specs/001-performance-optimization/research.md
-- **Data Model**: specs/001-performance-optimization/data-model.md
-- **BVH API**: specs/001-performance-optimization/contracts/bvh_api.md
-- **Metrics API**: specs/001-performance-optimization/contracts/metrics_api.md
-- **Quickstart**: specs/001-performance-optimization/quickstart.md
+- **Plan**: specs/011-performance-optimization/plan.md
+- **Specification**: specs/011-performance-optimization/spec.md
+- **Research**: specs/011-performance-optimization/research.md
+- **Data Model**: specs/011-performance-optimization/data-model.md
+- **BVH API**: specs/011-performance-optimization/contracts/bvh_api.md
+- **Metrics API**: specs/011-performance-optimization/contracts/metrics_api.md
+- **Quickstart**: specs/011-performance-optimization/quickstart.md

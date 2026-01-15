@@ -1,6 +1,6 @@
 # Data Model: Complex Scene Performance Optimization
 
-**Feature**: 001-performance-optimization  
+**Feature**: 011-performance-optimization  
 **Date**: 2026-01-01  
 **Purpose**: Define data structures for BVH acceleration, performance metrics, and optimized intersection tests
 

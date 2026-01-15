@@ -1,6 +1,6 @@
 # Quickstart Guide: Code Refactoring Implementation
 
-**Feature**: 011-code-refactoring  
+**Feature**: 010-code-refactoring  
 **For**: Developers implementing calculation optimization refactoring  
 **Date**: 2026-01-01
 
@@ -37,8 +37,8 @@ norminette src/ includes/
 
 ✅ **Create feature branch**:
 ```bash
-git checkout -b 011-code-refactoring
-git push -u origin 011-code-refactoring
+git checkout -b 010-code-refactoring
+git push -u origin 010-code-refactoring
 ```
 
 ---
@@ -631,7 +631,7 @@ make clean && make
 # Note the FPS displayed in HUD: e.g., "25.3 FPS"
 
 # 3. Checkout feature branch
-git checkout 011-code-refactoring
+git checkout 010-code-refactoring
 
 # 4. Run same benchmark
 ./miniRT scenes/benchmark.rt
@@ -666,8 +666,8 @@ After completing this implementation:
 
 1. **Create Pull Request**:
    ```bash
-   git push origin 011-code-refactoring
-   # Create PR on GitHub from 011-code-refactoring to main
+   git push origin 010-code-refactoring
+   # Create PR on GitHub from 010-code-refactoring to main
    ```
 
 2. **Request Code Review**:
@@ -686,7 +686,7 @@ After completing this implementation:
    # or via command line:
    git checkout main
    git pull origin main
-   git merge --no-ff 011-code-refactoring
+   git merge --no-ff 010-code-refactoring
    git push origin main
    ```
 

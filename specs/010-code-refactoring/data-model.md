@@ -1,6 +1,6 @@
 # Data Model: Code Refactoring for Calculation Optimization
 
-**Feature**: 011-code-refactoring  
+**Feature**: 010-code-refactoring  
 **Date**: 2026-01-01  
 **Status**: Complete
 

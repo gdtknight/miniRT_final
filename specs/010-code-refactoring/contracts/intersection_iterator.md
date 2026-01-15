@@ -1,6 +1,6 @@
 # API Contract: Generic Intersection Iterator
 
-**Feature**: 011-code-refactoring  
+**Feature**: 010-code-refactoring  
 **Module**: Ray Tracing / Intersection Testing  
 **File**: `src/render/trace.c`  
 **Date**: 2026-01-01

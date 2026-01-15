@@ -1,6 +1,6 @@
 # Research: Complex Scene Performance Optimization
 
-**Feature**: 001-performance-optimization  
+**Feature**: 011-performance-optimization  
 **Date**: 2026-01-01  
 **Purpose**: Resolve technical unknowns and establish implementation patterns for BVH acceleration
 

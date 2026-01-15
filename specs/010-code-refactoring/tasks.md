@@ -5,7 +5,7 @@ description: "Task list for Code Refactoring for Calculation Optimization"
 
 # Tasks: Code Refactoring for Calculation Optimization
 
-**Input**: Design documents from `/specs/011-code-refactoring/`
+**Input**: Design documents from `/specs/010-code-refactoring/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
 
 **Tests**: Tests are NOT explicitly requested in the feature specification. This is a refactoring task focused on performance optimization and code maintainability. Validation will be done through existing test infrastructure and manual scene rendering.
@@ -29,7 +29,7 @@ description: "Task list for Code Refactoring for Calculation Optimization"
 
 **Purpose**: Establish baseline performance metrics and ensure clean starting state
 
-- [X] T001 Create feature branch 011-code-refactoring and push to remote
+- [X] T001 Create feature branch 010-code-refactoring and push to remote
 - [X] T002 Run full build with make clean && make and document baseline compilation
 - [X] T003 Run norminette on all target files and confirm zero violations at baseline
 - [ ] T004 Run valgrind on test scenes and confirm zero memory leaks at baseline
@@ -194,7 +194,7 @@ description: "Task list for Code Refactoring for Calculation Optimization"
 - [ ] T079 Count final lines of code and calculate reduction from baseline
 - [ ] T080 Calculate code duplication reduction percentage (count duplicate code blocks)
 - [ ] T081 Run quickstart.md validation steps per guide
-- [ ] T082 Update Korean documentation in docs/specs/011-code-refactoring/ if needed
+- [ ] T082 Update Korean documentation in docs/specs/010-code-refactoring/ if needed
 - [ ] T083 Create pull request with summary of performance improvements and metrics
 - [ ] T084 Add PR description with before/after FPS comparison and LOC reduction
 

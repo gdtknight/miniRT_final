@@ -6,12 +6,12 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:30:00 by yoshin            #+#    #+#             */
-/*   Updated: 2026/01/12 20:32:35 by yoshin           ###   ########.fr       */
+/*   Updated: 2026/01/15 14:15:26 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render_state.h"
-#include "render/render_quality.h"
+#include "render_quality.h"
 #include <stdlib.h>
 
 /**
@@ -34,7 +34,7 @@ void	render_state_init(t_render_state *state)
 	metrics_init(&state->metrics);
 	state->bvh = NULL;
 	state->adaptive_enabled = 0;
-	state->bvh_enabled = 0;
+	state->bvh_enabled = 1;
 	state->show_info = 1;
 }
 

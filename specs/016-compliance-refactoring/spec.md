@@ -1,6 +1,6 @@
 # Feature Specification: miniRT Complete Compliance Refactoring
 
-**Feature Branch**: `001-compliance-refactoring`  
+**Feature Branch**: `016-compliance-refactoring`  
 **Created**: 2026-01-14  
 **Status**: Draft  
 **Input**: User description: "miniRT 프로젝트 전체 리팩토링 및 규정 준수"
